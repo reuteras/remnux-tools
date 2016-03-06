@@ -36,13 +36,28 @@ if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
     cd /tmp
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb || true
-    sudo apt-get -f install
+    sudo apt-get -f -y install 
     rm -f google-chrome-stable_current_amd64.deb
 fi
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
 if ! grep phi-rho/security /etc/apt/sources.list > /dev/null ; then
-    sudo add-apt-repository ppa:pi-rho/security
+    sudo add-apt-repository -y ppa:pi-rho/security
     sudo apt-get update && sudo apt-get -y dist-upgrade
+fi
+
+# Clean up
+if [[ -e ~/examples.desktop ]]; then
+    rm -f ~/examples.desktop
+fi
+
+# Info manual config
+if [[ ! -e ~/.config/.manual_conf ]]; then
+    echo "Remember to change the following things:"
+    echo "1. Change desktop resolution to be able to do the other steps."
+    echo "2. Security & Privacy -> Search -> Turn of online search results."
+    echo "3. -> Diagnotstics -> Turn of error reports."
+    echo "4. Change Desktop Background :)"
+    touch ~/.config/.manual_conf
 fi
 
