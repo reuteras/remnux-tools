@@ -44,6 +44,7 @@ fi
 if ! grep phi-rho/security /etc/apt/sources.list > /dev/null ; then
     sudo add-apt-repository -y ppa:pi-rho/security
     sudo apt-get update && sudo apt-get -y dist-upgrade
+    sudo apt-get install html2text nasm && sudo apt-get autoremove -y
 fi
 
 # Clean up
@@ -59,5 +60,11 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "3. -> Diagnotstics -> Turn of error reports."
     echo "4. Change Desktop Background :)"
     touch ~/.config/.manual_conf
+fi
+
+if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+    mkdir ~/Documents/Remnux_SIFT
+    mv ~/Desktop/REMnux* ~/Documents/Remnux_SIFT/
+    mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
 fi
 
