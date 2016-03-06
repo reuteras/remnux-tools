@@ -16,8 +16,15 @@ if [ ! -d ~/src ]; then
 fi    
 
 if [ ! -d ~/cases ]; then
-    mkdir ~/cases
-fi    
+    mkdir -p ~/cases/docker
+fi
+
+for dir in pescanner radare2 mastiff thug v8 viper; do
+    if [ ! -d ~/cases/docker/$dir ]; then
+        mkdir ~/cases/docker/$dir
+        chmod 777 ~/cases/docker/$dir
+    fi
+done
 
 # Install Remnux
 if [[ ! -e ~/.config/.remnux ]]; then
@@ -36,6 +43,9 @@ if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
     cd /tmp
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb || true
+    if ! grep "arch=amd64" /etc/apt/sources.list.d/google-chrome.list > /dev/null ; then 
+        sudo sed -i "s/deb http/deb [arch=amd64] http/" /etc/apt/sources.list.d/google-chrome.list
+    fi
     sudo apt-get -f -y install 
     rm -f google-chrome-stable_current_amd64.deb
 fi
@@ -51,6 +61,12 @@ fi
 if [[ -e ~/examples.desktop ]]; then
     rm -f ~/examples.desktop
 fi
+if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+    mkdir ~/Documents/Remnux_SIFT
+    mv ~/Desktop/REMnux* ~/Documents/Remnux_SIFT/
+    mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
+    rm -f ~/Desktop/cases
+fi
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
@@ -59,12 +75,13 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "2. Security & Privacy -> Search -> Turn of online search results."
     echo "3. -> Diagnotstics -> Turn of error reports."
     echo "4. Change Desktop Background :)"
+    echo "Run make in ~/remnux-tools for .bashrc etc."
     touch ~/.config/.manual_conf
 fi
 
-if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
-    mkdir ~/Documents/Remnux_SIFT
-    mv ~/Desktop/REMnux* ~/Documents/Remnux_SIFT/
-    mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
-fi
+# Add scripts from different sources
+# http://phishme.com/powerpoint-and-custom-actions/
+[ ! -e ~/src/bin/psparser.py ] && wget -O ~/src/bin/psparser.py \
+    https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
+    chmod +x ~/src/bin/psparser.py
 
