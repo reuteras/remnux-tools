@@ -12,3 +12,11 @@ If you run *make* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are ins
 Some scripts from other repositories are installed:
 * [psparser.py](https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py) - [example use](http://phishme.com/powerpoint-and-custom-actions/)
 
+## Install
+
+    ./bin/setup.sh
+
+## Update
+
+    ./bin/update.sh
+
