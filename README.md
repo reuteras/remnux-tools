@@ -15,6 +15,9 @@ Some scripts from other repositories are installed:
 
 ## Install
 
+    sudo apt-get install -y git
+    git clone https://github.com/reuteras/remnux-tools.git
+    cd remnux-tools
     ./bin/setup.sh
 
 ## Update
