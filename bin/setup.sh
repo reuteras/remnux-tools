@@ -62,6 +62,7 @@ if [[ -e ~/examples.desktop ]]; then
     rm -f ~/examples.desktop
 fi
 if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+    echo "Clean Desktop."
     mkdir ~/Documents/Remnux_SIFT
     mv ~/Desktop/REMnux* ~/Documents/Remnux_SIFT/
     mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
@@ -70,11 +71,11 @@ fi
 
 # Add scripts from different sources
 # http://phishme.com/powerpoint-and-custom-actions/
-[ ! -e ~/src/bin/psparser.py ] && wget -O ~/src/bin/psparser.py \
+[ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
     https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
     chmod +x ~/src/bin/psparser.py
 # https://zeltser.com/convert-shellcode-to-assembly/
-[ ! -e ~/src/bin/shellcode2exe.py ] && wget -O ~/src/bin/shellcode2exe.py \
+[ ! -e ~/src/bin/shellcode2exe.py ] && wget -q -O ~/src/bin/shellcode2exe.py \
     https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
     chmod +x ~/src/bin/shellcode2exe.py
 
