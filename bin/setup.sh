@@ -68,6 +68,16 @@ if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
     rm -f ~/Desktop/cases
 fi
 
+# Add scripts from different sources
+# http://phishme.com/powerpoint-and-custom-actions/
+[ ! -e ~/src/bin/psparser.py ] && wget -O ~/src/bin/psparser.py \
+    https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
+    chmod +x ~/src/bin/psparser.py
+# https://zeltser.com/convert-shellcode-to-assembly/
+[ ! -e ~/src/bin/shellcode2exe.py ] && wget -O ~/src/bin/shellcode2exe.py \
+    https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
+    chmod +x ~/src/bin/shellcode2exe.py
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "Remember to change the following things:"
@@ -79,12 +89,3 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     touch ~/.config/.manual_conf
 fi
 
-# Add scripts from different sources
-# http://phishme.com/powerpoint-and-custom-actions/
-[ ! -e ~/src/bin/psparser.py ] && wget -O ~/src/bin/psparser.py \
-    https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
-    chmod +x ~/src/bin/psparser.py
-# https://zeltser.com/convert-shellcode-to-assembly/
-[ ! -e ~/src/bin/shellcode2exe.py ] && wget -O ~/src/bin/shellcode2exe.py \
-    https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
-    chmod +x ~/src/bin/shellcode2exe.py
