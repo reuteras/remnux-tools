@@ -43,10 +43,10 @@ if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
     cd /tmp
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb || true
+    sudo apt-get -f -y install 
     if ! grep "arch=amd64" /etc/apt/sources.list.d/google-chrome.list > /dev/null ; then 
         sudo sed -i "s/deb http/deb [arch=amd64] http/" /etc/apt/sources.list.d/google-chrome.list
     fi
-    sudo apt-get -f -y install 
     rm -f google-chrome-stable_current_amd64.deb
 fi
 
