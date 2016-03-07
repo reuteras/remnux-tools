@@ -84,4 +84,7 @@ fi
 [ ! -e ~/src/bin/psparser.py ] && wget -O ~/src/bin/psparser.py \
     https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
     chmod +x ~/src/bin/psparser.py
-
+# https://zeltser.com/convert-shellcode-to-assembly/
+[ ! -e ~/src/bin/shellcode2exe.py ] && wget -O ~/src/bin/shellcode2exe.py \
+    https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
+    chmod +x ~/src/bin/shellcode2exe.py
