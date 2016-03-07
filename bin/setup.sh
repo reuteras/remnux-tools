@@ -51,7 +51,7 @@ if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
 fi
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
-if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
+if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
     sudo add-apt-repository -y ppa:pi-rho/security
     sudo apt-get update && sudo apt-get -y dist-upgrade
     sudo apt-get install html2text nasm && sudo apt-get autoremove -y
