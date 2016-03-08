@@ -78,6 +78,10 @@ fi
 [ ! -e ~/src/bin/shellcode2exe.py ] && wget -q -O ~/src/bin/shellcode2exe.py \
     https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
     chmod +x ~/src/bin/shellcode2exe.py
+# https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
+[ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
+    https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
+    chmod +x ~/src/bin/vt.py
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
