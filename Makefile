@@ -1,7 +1,7 @@
 .PHONY: clean dotfiles install update
 
 all:
-	echo "Select one of the targets clean, dotfiles, install or update."
+	@echo "Select one of the targets clean, dotfiles, install or update."
 
 clean:
 	./bin/clean.sh
