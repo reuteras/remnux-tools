@@ -14,5 +14,6 @@ install:
 	./bin/setup.sh
 
 update:
+	git pull
 	./bin/update.sh
 
