@@ -28,3 +28,12 @@ Some scripts from other repositories are installed:
 
     ./bin/clean.sh      # or make clean
 
+## TODO
+
+Thinking about adding the following:
+
+* http://www.tekdefense.com/automater/
+* https://github.com/sysforensics/VirusTotal
+* https://github.com/Dutchy-/volatility-plugins
+* https://testssl.sh/
+
