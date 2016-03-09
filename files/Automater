@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Automater must be run from it's install directory."
+cd ~/src/git/TekDefense-Automater/

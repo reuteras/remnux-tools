@@ -103,6 +103,9 @@ fi
     git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
     ~/src/git/TekDefense-Automater && \
     info-message "Checked out Automater,"
+[ ! -e ~/src/bin/Automater ] && \
+    cp ~/remnux-tools/files/Automater ~/src/bin/Automater && \
+    chmod 755 ~/src/bin/Automater
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
