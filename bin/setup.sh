@@ -2,6 +2,10 @@
 
 set -e
 
+[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
+
+fix-apt-google
+
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
@@ -13,7 +17,7 @@ sudo apt-get -y -qq install open-vm-tools-desktop fuse
 
 if [ ! -d ~/src ]; then
     mkdir -p ~/src/bin
-fi    
+fi
 
 if [ ! -d ~/src/git ]; then
     mkdir -p ~/src/git
@@ -47,10 +51,8 @@ if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
     cd /tmp
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb || true
-    sudo apt-get -f -y install 
-    if ! grep "arch=amd64" /etc/apt/sources.list.d/google-chrome.list > /dev/null ; then 
-        sudo sed -i "s/deb http/deb [arch=amd64] http/" /etc/apt/sources.list.d/google-chrome.list
-    fi
+    sudo apt-get -f -y install
+    fix-apt-google
     rm -f google-chrome-stable_current_amd64.deb
 fi
 
@@ -77,34 +79,40 @@ fi
 # http://phishme.com/powerpoint-and-custom-actions/
 [ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
     https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
-    chmod +x ~/src/bin/psparser.py
+    chmod +x ~/src/bin/psparser.py && \
+    info-message "Installed psparser.py"
 # https://zeltser.com/convert-shellcode-to-assembly/
 [ ! -e ~/src/bin/shellcode2exe.py ] && wget -q -O ~/src/bin/shellcode2exe.py \
     https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
-    chmod +x ~/src/bin/shellcode2exe.py
+    chmod +x ~/src/bin/shellcode2exe.py && \
+    info-message "Installed shellcode2exe.py"
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
     https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
-    chmod +x ~/src/bin/vt.py
+    chmod +x ~/src/bin/vt.py && \
+    info-message "Installed vt.py"
 # https://testssl.sh/
 [ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
     https://testssl.sh/testssl.sh && \
-    chmod +x ~/src/bin/testssl.sh
-
+    chmod +x ~/src/bin/testssl.sh && \
+    info-message "Installed testssl.sh"
 
 # Add git repos
 # http://www.tekdefense.com/automater/
 [ ! -d ~/src/git/TekDefense-Automater ] && \
-    git clone https://github.com/1aN0rmus/TekDefense-Automater.git
+    git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git && \
+    info-message "Checked out Automater,"
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
+    echo "##################################################################"
     echo "Remember to change the following things:"
     echo "1. Change desktop resolution to be able to do the other steps."
     echo "2. Security & Privacy -> Search -> Turn of online search results."
     echo "3. -> Diagnotstics -> Turn of error reports."
     echo "4. Change Desktop Background :)"
     echo "Run make in ~/remnux-tools for .bashrc etc."
+    echo "##################################################################"
     touch ~/.config/.manual_conf
 fi
 
