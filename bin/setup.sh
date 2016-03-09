@@ -100,7 +100,8 @@ fi
 # Add git repos
 # http://www.tekdefense.com/automater/
 [ ! -d ~/src/git/TekDefense-Automater ] && \
-    git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git && \
+    git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
+    ~/src/git/TekDefense-Automater && \
     info-message "Checked out Automater,"
 
 # Info manual config
