@@ -15,6 +15,10 @@ if [ ! -d ~/src ]; then
     mkdir -p ~/src/bin
 fi    
 
+if [ ! -d ~/src/git ]; then
+    mkdir -p ~/src/git
+fi
+
 if [ ! -d ~/cases ]; then
     mkdir -p ~/cases/docker
 fi
@@ -82,6 +86,16 @@ fi
 [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
     https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
     chmod +x ~/src/bin/vt.py
+# https://testssl.sh/
+[ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
+    https://testssl.sh/testssl.sh && \
+    chmod +x ~/src/bin/testssl.sh
+
+
+# Add git repos
+# http://www.tekdefense.com/automater/
+[ ! -d ~/src/git/TekDefense-Automater ] && \
+    git clone https://github.com/1aN0rmus/TekDefense-Automater.git
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
