@@ -104,6 +104,14 @@ fi
     ~/src/git/TekDefense-Automater && \
     info-message "Checked out Automater,"
 
+# https://github.com/keydet89/RegRipper2.8
+[ ! -d ~/src/git/RegRipper2.8 ] && \
+    git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
+    ~/src/git/RegRipper2.8 && \
+    info-message "Checked out RegRipper2.8," && \
+    cp ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
+    chmod 755 ~/src/bin/regripper2.8
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"
