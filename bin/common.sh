@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function enable-new-didie() {
+function enable-new-didier() {
     if [[ -d ~/src/git/DidierStevensSuite ]]; then
         chmod 755 ~/src/git/DidierStevensSuite/cut-bytes.py
         chmod 755 ~/src/git/DidierStevensSuite/decoder_*

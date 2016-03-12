@@ -105,5 +105,5 @@ function shared(){
    fi
 }
 
-export PATH=$PATH:$HOME/bin:$HOME/src/bin
+export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/git/DidierStevensSuite:$PATH
 
