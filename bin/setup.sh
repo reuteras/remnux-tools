@@ -116,9 +116,9 @@ fi
 
 # Fix problem with pip - https://github.com/pypa/pip/issues/1093
 [ ! -e /usr/local/bin/pip ] && \
-    sudo apt-get remove --auto-remove python-pip && \
+    sudo apt-get remove -yqq --auto-remove python-pip && \
     wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
-    sudo -H python get-pip.py && \
+    sudo -H python /tmp/get-pip.py && \
     sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
     sudo rm /tmp/get-pip.py && \
     sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
