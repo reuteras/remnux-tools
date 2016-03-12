@@ -112,6 +112,13 @@ fi
     cp ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
     chmod 755 ~/src/bin/regripper2.8
 
+# https://github.com/DidierStevens/DidierStevensSuite
+[ ! -d ~/src/git/DidierStevensSuite ] && \
+    git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
+    -/src/git/DidierStevensSuite && \
+    info-message "Checked out DidierStevensSuite." && \
+    enable-new-didier
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"
