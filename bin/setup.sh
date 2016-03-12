@@ -90,32 +90,32 @@ fi
 [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
     https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
     chmod +x ~/src/bin/vt.py && \
-    info-message "Installed vt.py"
+    info-message "Installed vt.py."
 # https://testssl.sh/
 [ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
     https://testssl.sh/testssl.sh && \
     chmod +x ~/src/bin/testssl.sh && \
-    info-message "Installed testssl.sh"
+    info-message "Installed testssl.sh."
 
 # Add git repos
 # http://www.tekdefense.com/automater/
 [ ! -d ~/src/git/TekDefense-Automater ] && \
     git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
     ~/src/git/TekDefense-Automater && \
-    info-message "Checked out Automater,"
+    info-message "Checked out Automater."
 
 # https://github.com/keydet89/RegRipper2.8
 [ ! -d ~/src/git/RegRipper2.8 ] && \
     git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
     ~/src/git/RegRipper2.8 && \
-    info-message "Checked out RegRipper2.8," && \
+    info-message "Checked out RegRipper2.8." && \
     cp ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
     chmod 755 ~/src/bin/regripper2.8
 
 # https://github.com/DidierStevens/DidierStevensSuite
 [ ! -d ~/src/git/DidierStevensSuite ] && \
     git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
-    -/src/git/DidierStevensSuite && \
+    ~/src/git/DidierStevensSuite && \
     info-message "Checked out DidierStevensSuite." && \
     enable-new-didier
 
