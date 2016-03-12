@@ -121,7 +121,8 @@ fi
     sudo -H python get-pip.py && \
     sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
     sudo rm /tmp/get-pip.py && \
-    sudo -H pip install pyopenssl ndg-httpsclient pyasn1
+    sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
+    info-message "Install pip from pypa.io."
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
