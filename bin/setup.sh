@@ -81,11 +81,6 @@ fi
     https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
     chmod +x ~/src/bin/psparser.py && \
     info-message "Installed psparser.py"
-# https://zeltser.com/convert-shellcode-to-assembly/
-[ ! -e ~/src/bin/shellcode2exe.py ] && wget -q -O ~/src/bin/shellcode2exe.py \
-    https://raw.githubusercontent.com/MarioVilas/shellcode_tools/master/shellcode2exe.py && \
-    chmod +x ~/src/bin/shellcode2exe.py && \
-    info-message "Installed shellcode2exe.py"
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
     https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
@@ -118,6 +113,15 @@ fi
     ~/src/git/DidierStevensSuite && \
     info-message "Checked out DidierStevensSuite." && \
     enable-new-didier
+
+# Fix problem with pip - https://github.com/pypa/pip/issues/1093
+[ ! -e /usr/local/bin/pip ] && \
+    sudo apt-get remove --auto-remove python-pip && \
+    wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
+    sudo -H python get-pip.py && \
+    sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
+    sudo rm /tmp/get-pip.py && \
+    sudo -H pip install pyopenssl ndg-httpsclient pyasn1
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
