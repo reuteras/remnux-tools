@@ -35,4 +35,5 @@ Thinking about adding the following:
 
 * https://github.com/sysforensics/VirusTotal
 * https://github.com/Dutchy-/volatility-plugins
-
+* https://github.com/fireeye/flare-floss
+* https://github.com/tribalchicken/volatility-bitlocker
