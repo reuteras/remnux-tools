@@ -1,2 +1,3 @@
 # Add information and remove # for that line.
+#SHODAN_API_KEY=<key>
 #VIRUSTOTAL_API_KEY=<key>
