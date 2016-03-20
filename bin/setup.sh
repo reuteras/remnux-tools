@@ -99,6 +99,12 @@ fi
     ~/src/git/TekDefense-Automater && \
     info-message "Checked out Automater."
 
+# https://n0where.net/malware-analysis-damm/
+[ ! -d ~/src/git/DAMM ] && \
+    git clone --quiet https://github.com/504ensicsLabs/DAMM \
+    ~/src/git/DAMM && \
+    info-message "Checked out DAMM."
+
 # https://github.com/keydet89/RegRipper2.8
 [ ! -d ~/src/git/RegRipper2.8 ] && \
     git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
