@@ -9,4 +9,5 @@ alias docker-remnux-viper-cmd="sudo docker run --rm -it -v ~/cases/docker/viper:
 alias Automater="cd ~/src/git/TekDefense-Automater/"
 alias jdeserialize="java -jar ~/remnux-tools/lib/jdeserialize-1.2.jar -noclasses"
 alias private="/usr/bin/curl http://icanhazip.com"
+alias rekall=". ~/src/pip/rekall/bin/activate && rekall"
 alias zerodisk="dd if=/dev/zero of=zero; sync; rm -f zero"

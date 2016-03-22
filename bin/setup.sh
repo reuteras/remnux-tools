@@ -10,7 +10,7 @@ sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
 sudo apt-get -y -qq install ctags curl git vim vim-doc vim-scripts \
-    exfat-fuse exfat-utils zip
+    exfat-fuse exfat-utils zip python-virtualenv
 
 # Tools for Vmware
 sudo apt-get -y -qq install open-vm-tools-desktop fuse
@@ -20,6 +20,10 @@ if [ ! -d ~/src ]; then
 fi
 
 if [ ! -d ~/src/git ]; then
+    mkdir -p ~/src/git
+fi
+
+if [ ! -d ~/src/pip ]; then
     mkdir -p ~/src/git
 fi
 
@@ -123,6 +127,12 @@ fi
     sudo rm /tmp/get-pip.py && \
     sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
     info-message "Install pip from pypa.io."
+
+# Checkout Rekall to fix problem with python-dateutil being newer.
+[ ! -d ~/src/pip/rekall ] && virtualenv ~/src/pip/rekall && \
+    echo -n "Start installation of rekall." && \
+    . ~/src/pip/rekall/bin/activate && pip install rekall > /dev/null && \
+    echo " Done."
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
