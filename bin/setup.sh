@@ -138,7 +138,7 @@ fi
 [ ! -d ~/src/pip/rekall ] && virtualenv ~/src/pip/rekall && \
     echo -n "Start installation of rekall." && \
     . ~/src/pip/rekall/bin/activate && \
-    pip install rekall rekall-webgui > /dev/null && \
+    pip install rekall rekall-gui > /dev/null && \
     echo " Done."
 
 # Info manual config
