@@ -24,6 +24,6 @@ function fix-apt-google() {
 }
 
 function info-message() {
-    echo "**** INFO: $@"
+    echo "**** INFO: $*"
 }
 

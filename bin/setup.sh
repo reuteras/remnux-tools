@@ -2,6 +2,7 @@
 
 set -e
 
+# shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
 fix-apt-google
@@ -137,6 +138,7 @@ fi
 # Checkout Rekall to fix problem with python-dateutil being newer.
 [ ! -d ~/src/pip/rekall ] && virtualenv ~/src/pip/rekall && \
     echo -n "Start installation of rekall." && \
+    # shellcheck source=/dev/null \
     . ~/src/pip/rekall/bin/activate && \
     pip install rekall rekall-gui > /dev/null && \
     echo " Done."
