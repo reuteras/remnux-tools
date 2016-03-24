@@ -1,4 +1,4 @@
-.PHONY: clean dotfiles install update
+.PHONY: clean dotfiles install test update
 
 all:
 	@echo "Select one of the targets clean, dotfiles, install or update."
@@ -13,6 +13,9 @@ dotfiles:
 
 install:
 	./bin/setup.sh
+
+test:
+	shellcheck -f checkstyle bin/*.sh > checkstyle.out
 
 update:
 	git pull
