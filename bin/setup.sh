@@ -125,6 +125,11 @@ fi
     info-message "Checked out DidierStevensSuite." && \
     enable-new-didier
 
+# https://github.com/Yara-Rules/rules.git
+[ ! -d ~/src/git/rules ] && \
+    git clone --quiet https://github.com/Yara-Rules/rules.git rules && \
+    info-message "Checked out Yara-Rules."
+
 # Fix problem with pip - https://github.com/pypa/pip/issues/1093
 [ ! -e /usr/local/bin/pip ] && \
     sudo apt-get remove -yqq --auto-remove python-pip && \
@@ -135,6 +140,7 @@ fi
     sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
     info-message "Install pip from pypa.io."
 
+# Python virtualenv
 # Checkout Rekall to fix problem with python-dateutil being newer.
 [ ! -d ~/src/pip/rekall ] && virtualenv ~/src/pip/rekall && \
     echo -n "Start installation of rekall." && \
