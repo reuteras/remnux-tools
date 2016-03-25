@@ -127,7 +127,7 @@ fi
 
 # https://github.com/Yara-Rules/rules.git
 [ ! -d ~/src/git/rules ] && \
-    git clone --quiet https://github.com/Yara-Rules/rules.git rules && \
+    git clone --quiet https://github.com/Yara-Rules/rules.git ~/src/git/rules && \
     info-message "Checked out Yara-Rules."
 
 # Fix problem with pip - https://github.com/pypa/pip/issues/1093
