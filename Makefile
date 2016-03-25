@@ -15,7 +15,7 @@ install:
 	./bin/setup.sh
 
 test:
-	shellcheck -f checkstyle bin/*.sh > checkstyle.out
+	shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
 
 update:
 	git pull
