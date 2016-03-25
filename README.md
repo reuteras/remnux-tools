@@ -38,3 +38,4 @@ Thinking about adding the following:
 * https://github.com/Dutchy-/volatility-plugins
 * https://github.com/fireeye/flare-floss
 * https://github.com/tribalchicken/volatility-bitlocker (https://tribalchicken.com.au/technical/recovering-bitlocker-keys-on-windows-8-1-and-10/)
+* https://github.com/ChrisTruncer/Just-Metadata
