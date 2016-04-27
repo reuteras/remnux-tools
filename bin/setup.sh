@@ -11,7 +11,7 @@ sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
 sudo apt-get -y -qq install ctags curl git vim vim-doc vim-scripts \
-    exfat-fuse exfat-utils zip python-virtualenv
+    exfat-fuse exfat-utils zip python-virtualenv tshark
 
 # Tools for Vmware
 sudo apt-get -y -qq install open-vm-tools-desktop fuse
