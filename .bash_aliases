@@ -1,5 +1,6 @@
 alias docker-remnux-v8='sudo docker run --rm -it -v ~/cases/docker/v8:/home/nonroot/files remnux/v8 bash'
 alias docker-remnux-radare2="sudo docker run --rm -it -v ~/cases/docker/radare2:/home/nonroot/workdir remnux/radare2 bash"
+alias docker-radare-radare2="sudo docker run --rm -it -v ~/cases/docker/radare2:/home/nonroot/workdir radare/radare2 bash"
 alias docker-remnux-pescanner="sudo docker run --rm -it -v ~/cases/docker/pescanner:/home/nonroot/workdir remnux/pescanner bash"
 alias docker-remnux-jsdetox="sudo docker run --rm -p 3000:3000 remnux/jsdetox"
 alias docker-remnux-thug="sudo docker run --rm -it -v ~/cases/docker/thug:/home/thug/logs remnux/thug bash"
