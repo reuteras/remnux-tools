@@ -15,7 +15,7 @@ sudo apt-get update && sudo apt-get -y dist-upgrade
 # Update git repositories
 cd ~/src/git || exit 1
 for repo in *; do
-    (cd "$repo" ; git pull)
+    (cd "$repo"; git fetch --all; git reset --hard origin/master)
 done
 
 # Update pip
