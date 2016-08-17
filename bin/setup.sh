@@ -151,6 +151,11 @@ fi
     pip install rekall rekall-gui > /dev/null && \
     echo " Done."
 
+# Mongodb generates large journal files
+if [[ "1" == $(grep "smallfiles=true" /etc/mongodb.conf > /dev/null) ]]; then
+    sudo sh -c 'echo "smallfiles=true" >> /etc/mongodb.conf'
+fi
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"
