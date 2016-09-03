@@ -130,6 +130,11 @@ fi
     git clone --quiet https://github.com/Yara-Rules/rules.git ~/src/git/rules && \
     info-message "Checked out Yara-Rules."
 
+# https://github.com/decalage2/oletools.git
+[ ! -d ~/src/git/oletools ] && \
+    git clone --quiet https://github.com/decalage2/oletools.git ~/src/git/oletools && \
+    info-message "Checked out oletools."
+
 # Make sure pip is up to date
 sudo -H pip install --upgrade pip
 
