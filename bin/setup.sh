@@ -130,6 +130,9 @@ fi
     git clone --quiet https://github.com/Yara-Rules/rules.git ~/src/git/rules && \
     info-message "Checked out Yara-Rules."
 
+# Make sure pip is up to date
+sudo -H pip install --upgrade pip
+
 # Fix problem with pip - https://github.com/pypa/pip/issues/1093
 [ ! -e /usr/local/bin/pip ] && \
     sudo apt-get remove -yqq --auto-remove python-pip && \
@@ -150,6 +153,9 @@ fi
     . ~/src/pip/rekall/bin/activate && \
     pip install rekall rekall-gui > /dev/null && \
     echo " Done."
+
+# Install pip lib globally
+sudo -H pip install colorclass
 
 # Mongodb generates large journal files
 if [[ "1" == $(grep "smallfiles=true" /etc/mongodb.conf > /dev/null) ]]; then
