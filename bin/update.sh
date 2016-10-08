@@ -6,6 +6,12 @@ sudo /opt/remnux-scripts/update-remnux
 sudo /usr/local/bin/update-sift
 sudo /usr/bin/freshclam
 
+if ! -e /etc/apt/sources.list.d/google-chrome.list ; then
+    if -e /etc/apt/sources.list.d/google-chrome.list.save ; then
+        sudo mv /etc/apt/sources.list.d/google-chrome.list.save /etc/apt/sources.list.d/google-chrome.list
+    fi
+fi
+
 if ! grep "arch=amd64" /etc/apt/sources.list.d/google-chrome.list > /dev/null ; then
     sudo sed -i "s/deb http/deb [arch=amd64] http/" /etc/apt/sources.list.d/google-chrome.list
 fi
