@@ -1,6 +1,6 @@
 # remnux-tools
 
-This script assumes that you have installed a vanilla Ubuntu 14.04 LTS. It then installs the tools from
+This script assumes that you have installed a vanilla Ubuntu 14.04 LTS. I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). It then installs the tools from
 
 * [Remnux](https://remnux.org)
 * [Sift](https://github.com/sans-dfir/sift-bootstrap)
@@ -30,12 +30,3 @@ Some scripts from other repositories are installed:
 
     ./bin/clean.sh      # or make clean
 
-## TODO
-
-Thinking about adding the following:
-
-* https://github.com/sysforensics/VirusTotal
-* https://github.com/Dutchy-/volatility-plugins
-* https://github.com/fireeye/flare-floss
-* https://github.com/tribalchicken/volatility-bitlocker (https://tribalchicken.com.au/technical/recovering-bitlocker-keys-on-windows-8-1-and-10/)
-* https://github.com/ChrisTruncer/Just-Metadata
