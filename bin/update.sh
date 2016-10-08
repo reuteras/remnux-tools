@@ -2,7 +2,7 @@
 
 set -e
 
-sudo /opt/remnux-script/update-remnux
+sudo /opt/remnux-scripts/update-remnux
 sudo /usr/local/bin/update-sift
 sudo /usr/bin/freshclam
 
