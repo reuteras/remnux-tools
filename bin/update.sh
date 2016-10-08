@@ -2,9 +2,9 @@
 
 set -e
 
-sudo update-remnux
-sudo update-sift
-sudo freshclam
+sudo /opt/remnux-script/update-remnux
+sudo /usr/local/bin/update-sift
+sudo /usr/bin/freshclam
 
 if ! grep "arch=amd64" /etc/apt/sources.list.d/google-chrome.list > /dev/null ; then
     sudo sed -i "s/deb http/deb [arch=amd64] http/" /etc/apt/sources.list.d/google-chrome.list
