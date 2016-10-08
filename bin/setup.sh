@@ -25,7 +25,7 @@ if [ ! -d ~/src/git ]; then
 fi
 
 if [ ! -d ~/src/pip ]; then
-    mkdir -p ~/src/git
+    mkdir -p ~/src/pip
 fi
 
 if [ ! -d ~/cases ]; then
@@ -175,7 +175,7 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "2. Security & Privacy -> Search -> Turn of online search results."
     echo "3. -> Diagnotstics -> Turn of error reports."
     echo "4. Change Desktop Background :)"
-    echo "Run make in ~/remnux-tools for .bashrc etc."
+    echo "Run make dotfiles in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
 fi
