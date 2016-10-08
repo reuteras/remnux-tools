@@ -105,5 +105,5 @@ function shared(){
    fi
 }
 
-export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/git/DidierStevensSuite:$PATH
+export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/git/DidierStevensSuite:$PATH:/opt/remnux-scripts
 
