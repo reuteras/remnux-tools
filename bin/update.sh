@@ -8,6 +8,29 @@ sudo /usr/bin/freshclam
 
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
+rm -f ~/src/bin/psparser.py ~/src/bin/vt.py ~/src/bin/testssl.sh ~/src/bin/floss
+
+# http://phishme.com/powerpoint-and-custom-actions/
+[ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
+    https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
+    chmod +x ~/src/bin/psparser.py && \
+    info-message "Updated psparser.py"
+# https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
+[ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
+    https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
+    chmod +x ~/src/bin/vt.py && \
+    info-message "Updated vt.py."
+# https://testssl.sh/
+[ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
+    https://testssl.sh/testssl.sh && \
+    chmod +x ~/src/bin/testssl.sh && \
+    info-message "Updated testssl.sh."
+# Fireeye floss
+[ ! -e ~/src/bin/floss ] && wget -q -O ~/src/bin/floss \
+    https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss && \
+    chmod +x ~/src/bin/floss && \
+    info-message "Updated floss."
+
 # Update git repositories
 cd ~/src/git || exit 1
 for repo in *; do
