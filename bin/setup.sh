@@ -96,6 +96,11 @@ fi
     https://testssl.sh/testssl.sh && \
     chmod +x ~/src/bin/testssl.sh && \
     info-message "Installed testssl.sh."
+# Fireeye floss
+[ ! -e ~/src/bin/floss ] && wget -q -O ~/src/bin/floss \
+    https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss && \
+    chmod +x ~/src/bin/floss && \
+    info-message "Installed floss."
 
 # Add git repos
 # http://www.tekdefense.com/automater/
