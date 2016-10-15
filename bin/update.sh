@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -e
+# shellcheck source=/dev/null
+[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
 # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
 [ -e /etc/apt/sources.list.d/google-chrome.list ] && \
