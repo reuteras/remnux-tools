@@ -2,7 +2,15 @@
 
 set -e
 
+# Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
+[ -e /etc/apt/sources.list.d/google-chrome.list ] && \
+    rm -f /etc/apt/sources.list.d/google-chrome.list*
+
 sudo /opt/remnux-scripts/update-remnux
+
+sudo apt-get remove python-plaso python-pytsk3 mantaray python-dfvfs
+sudo apt-get remove pytsk3
+
 sudo /usr/local/bin/update-sift
 sudo /usr/bin/freshclam
 
