@@ -4,7 +4,7 @@ set -e
 
 # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
 [ -e /etc/apt/sources.list.d/google-chrome.list ] && \
-    rm -f /etc/apt/sources.list.d/google-chrome.list*
+    sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
 
 # Remove old wireshark. Caused errors during update
 dpkg -l wireshark | grep 1.12 && sudo apt-get -y remove wireshark
