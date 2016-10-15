@@ -6,6 +6,9 @@ set -e
 [ -e /etc/apt/sources.list.d/google-chrome.list ] && \
     rm -f /etc/apt/sources.list.d/google-chrome.list*
 
+# Remove old wireshark. Caused errors during update
+dpkg -l wireshark | grep 1.12 && sudo apt-get -y remove wireshark
+
 sudo /opt/remnux-scripts/update-remnux
 
 sudo apt-get remove python-plaso python-pytsk3 mantaray python-dfvfs
