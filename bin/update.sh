@@ -11,8 +11,8 @@ dpkg -l wireshark | grep 1.12 && sudo apt-get -y remove wireshark
 
 sudo /opt/remnux-scripts/update-remnux
 
-sudo apt-get remove python-plaso python-pytsk3 mantaray python-dfvfs
-sudo apt-get remove pytsk3
+sudo apt-get -y remove python-plaso python-pytsk3 mantaray python-dfvfs
+sudo apt-get -y remove pytsk3
 
 sudo /usr/local/bin/update-sift
 sudo /usr/bin/freshclam
