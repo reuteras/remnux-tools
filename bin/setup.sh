@@ -5,7 +5,7 @@ set -e
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
-fix-apt-google
+#fix-apt-google
 
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
