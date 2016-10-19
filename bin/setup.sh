@@ -46,10 +46,10 @@ if [[ ! -e ~/.config/.remnux ]]; then
 fi
 
 # Install Sift
-if [[ ! -e ~/.config/.sift ]]; then
-    wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
-    touch ~/.config/.sift
-fi
+#if [[ ! -e ~/.config/.sift ]]; then
+#    wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
+#    touch ~/.config/.sift
+#fi
 
 # Install Chrome
 if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then

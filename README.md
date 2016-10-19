@@ -3,7 +3,7 @@
 This script assumes that you have installed a vanilla Ubuntu 14.04 LTS. I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). It then installs the tools from
 
 * [Remnux](https://remnux.org)
-* [Sift](https://github.com/sans-dfir/sift-bootstrap)
+* Temporarily removed: [Sift](https://github.com/sans-dfir/sift-bootstrap)
 
 Also some single packages are installed such as vim, open-vm-tools-desktop. Google Chrome is also installed.
 
