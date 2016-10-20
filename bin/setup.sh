@@ -5,8 +5,6 @@ set -e
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
-#fix-apt-google
-
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
@@ -44,12 +42,6 @@ if [[ ! -e ~/.config/.remnux ]]; then
     wget --quiet -O - https://remnux.org/get-remnux.sh | sudo bash
     touch ~/.config/.remnux
 fi
-
-# Install Sift
-#if [[ ! -e ~/.config/.sift ]]; then
-#    wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
-#    touch ~/.config/.sift
-#fi
 
 # Install Chrome
 if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
@@ -165,11 +157,6 @@ sudo -H pip install --upgrade pip
 
 # Install pip lib globally
 sudo -H pip install colorclass
-
-# Mongodb generates large journal files
-if [[ "1" == $(grep "smallfiles=true" /etc/mongodb.conf > /dev/null) ]]; then
-    sudo sh -c 'echo "smallfiles=true" >> /etc/mongodb.conf'
-fi
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
