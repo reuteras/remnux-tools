@@ -1,11 +1,24 @@
 # remnux-tools
 
-This script assumes that you have installed a vanilla Ubuntu 14.04 LTS. I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). It then installs the tools from
+This script installs Remnux on a vanilla Ubuntu 14.04 LTS. I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). Currently I select "Ubuntu desktop" as the only thing to install. The script then installs the [Remnux](https://remnux.org) tools and some other scripts and tools.
 
-* [Remnux](https://remnux.org)
-* Temporarily removed: [Sift](https://github.com/sans-dfir/sift-bootstrap)
+Previously this script also installed the [Sift](https://github.com/sans-dfir/sift-bootstrap) tools. Due to problems lately I've stopped doing that. I might create a separate script for SIFT in the future.
 
-Also some single packages are installed such as vim, open-vm-tools-desktop. Google Chrome is also installed.
+The repository _ppa:pi-rho/security_ is activated and newer versions of many tools are updated from there. Google Chrome is installed.
+
+Standard tools from Ubuntu and in some cases the ppa listed above installed are:
+
+* ctags
+* curl
+* fuse, exfat-fuse and exfat-utils
+* git
+* html2text
+* nasm 
+* open-vm-tools-desktop
+* python-virtualenv
+* tshark
+* vim, vim-doc  and vim-scripts
+* zip
 
 If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are installed. There are a couple of aliases for docker images from Remnux. They use directories under _~/cases/docker/<tool name>_.
 
