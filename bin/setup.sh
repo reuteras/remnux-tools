@@ -158,6 +158,12 @@ sudo -H pip install --upgrade pip
 # Install pip lib globally
 sudo -H pip install colorclass
 
+# Turn off sound on start up
+[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ] && \
+    echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' | \
+        sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null && \
+    sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"
