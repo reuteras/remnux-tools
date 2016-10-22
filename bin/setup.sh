@@ -7,12 +7,8 @@ set -e
 
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
-# General tools
-sudo apt-get -y -qq install ctags curl git vim vim-doc vim-scripts \
-    exfat-fuse exfat-utils zip python-virtualenv tshark
-
-# Tools for Vmware
-sudo apt-get -y -qq install open-vm-tools-desktop fuse
+install-general-tools
+install-vmware-tools
 
 if [ ! -d ~/src ]; then
     mkdir -p ~/src/bin
@@ -43,14 +39,7 @@ if [[ ! -e ~/.config/.remnux ]]; then
     touch ~/.config/.remnux
 fi
 
-# Install Chrome
-if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
-    cd /tmp
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo dpkg -i google-chrome-stable_current_amd64.deb || true
-    sudo apt-get -f -y install
-    rm -f google-chrome-stable_current_amd64.deb
-fi
+install-google-chrome
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
 if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
@@ -159,10 +148,7 @@ sudo -H pip install --upgrade pip
 sudo -H pip install colorclass
 
 # Turn off sound on start up
-[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ] && \
-    echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' | \
-        sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null && \
-    sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+turn-of-sound
 
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
