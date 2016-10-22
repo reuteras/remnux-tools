@@ -2,7 +2,7 @@
 
 This script installs Remnux on a vanilla Ubuntu 14.04 LTS. I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). Currently I select "Ubuntu desktop" as the only thing to install. The script then installs the [Remnux](https://remnux.org) tools and some other scripts and tools.
 
-Previously this script also installed the [Sift](https://github.com/sans-dfir/sift-bootstrap) tools. Due to problems lately I've stopped doing that. I might create a separate script for SIFT in the future.
+Previously this script also installed the [Sift](https://github.com/sans-dfir/sift-bootstrap) tools. Due to problems lately I've stopped doing that. I've added a separate script to install sift in a separate VM.
 
 The repository _ppa:pi-rho/security_ is activated and newer versions of many tools are updated from there. Google Chrome is installed.
 
