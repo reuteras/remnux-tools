@@ -24,10 +24,9 @@ if [[ -e ~/examples.desktop ]]; then
 fi
 if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
     echo "Clean Desktop."
-    mkdir ~/Documents/SIFT
-    mv ~/Desktop/REMnux* ~/Documents/SIFT/
-    mv ~/Desktop/*.pdf ~/Documents/SIFT/
-    ln -s ~/Documents/SIFT SIFT
+    mkdir ~/Documents/SIFT || true
+    mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
+    ln -s ~/Documents/SIFT SIFT || true
 fi
 
 # Turn off sound on start up
