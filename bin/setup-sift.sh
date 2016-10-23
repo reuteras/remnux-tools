@@ -10,10 +10,6 @@ sudo apt-get update && sudo apt-get -y dist-upgrade
 install-general-tools
 install-vmware-tools
 
-if [ ! -d ~/cases ]; then
-    mkdir -p ~/cases/
-fi
-
 # Install SIFT
 if [[ ! -e ~/.config/.sift ]]; then
     wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
@@ -25,6 +21,13 @@ install-google-chrome
 # Clean up
 if [[ -e ~/examples.desktop ]]; then
     rm -f ~/examples.desktop
+fi
+if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+    echo "Clean Desktop."
+    mkdir ~/Documents/SIFT
+    mv ~/Desktop/REMnux* ~/Documents/SIFT/
+    mv ~/Desktop/*.pdf ~/Documents/SIFT/
+    ln -s ~/Documents/SIFT SIFT
 fi
 
 # Turn off sound on start up
