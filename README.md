@@ -41,5 +41,7 @@ Some scripts from other repositories are installed:
 
 ## Clean
 
+This command will clean apt and also write zero to all free space.
+
     ./bin/clean.sh      # or make clean
 
