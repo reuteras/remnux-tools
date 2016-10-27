@@ -136,11 +136,11 @@ sudo -H pip install --upgrade pip
 # Python virtualenv
 # Checkout Rekall to fix problem with python-dateutil being newer.
 [ ! -d ~/src/pip/rekall ] && virtualenv ~/src/pip/rekall && \
+    . ~/src/pip/rekall/bin/activate && \
     echo -n "Update pip and setuptools for rekall." && \
     pip install -U pip setuptools && \
     echo -n "Start installation of rekall." && \
     # shellcheck source=/dev/null \
-    . ~/src/pip/rekall/bin/activate && \
     pip install rekall rekall-gui > /dev/null && \
     echo " Done."
 

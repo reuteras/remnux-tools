@@ -52,6 +52,6 @@ cd ~/src/pip/rekall && . bin/activate && \
     echo "Update pip and setuptools before updating Rekall." && \
     pip install -U pip setuptools && \
     echo -n "Update Rekall" && \
-    pip install -U rekall && \
+    pip install -U rekall rekall-gui && \
     echo " Done."
 
