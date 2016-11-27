@@ -12,3 +12,9 @@ alias jdeserialize="java -jar ~/remnux-tools/lib/jdeserialize-1.2.jar -noclasses
 alias private="/usr/bin/curl http://icanhazip.com"
 alias rekall=". ~/src/pip/rekall/bin/activate && rekall"
 alias zerodisk="dd if=/dev/zero of=zero; sync; rm -f zero"
+# shellcheck disable=SC1004
+alias urlencode='python -c "import sys, urllib as ul; \
+          print ul.quote_plus(sys.argv[1])"'
+# shellcheck disable=SC1004                                                                                                                               
+alias urldecode='python -c "import sys, urllib as ul; \
+          print ul.unquote_plus(sys.argv[1])"'
