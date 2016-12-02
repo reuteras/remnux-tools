@@ -29,13 +29,26 @@ function turn-of-sound() {
 
 # General tools
 function install-general-tools() {
-    sudo apt-get -y -qq install ctags curl git vim vim-doc vim-scripts \
-        exfat-fuse exfat-utils zip python-virtualenv tshark
+    sudo apt-get -y -qq install \
+        bsdgames \
+        ctags \
+        curl \
+        git \
+        exfat-fuse \
+        exfat-utils \
+        python-virtualenv \
+        tshark \
+        vim \
+        vim-doc \
+        vim-scripts \
+        zip
 }
 
 # Tools for Vmware
 function install-vmware-tools() {
-    sudo apt-get -y -qq install open-vm-tools-desktop fuse
+    sudo apt-get -y -qq install \
+        fuse \
+        open-vm-tools-desktop
 }
 
 # Install Google Chrome
