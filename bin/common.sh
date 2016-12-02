@@ -41,6 +41,7 @@ function install-general-tools() {
         vim \
         vim-doc \
         vim-scripts \
+        wswedish \
         zip
 }
 
