@@ -37,10 +37,12 @@ function install-general-tools() {
         exfat-fuse \
         exfat-utils \
         python-virtualenv \
+        sharutils \
         tshark \
         vim \
         vim-doc \
         vim-scripts \
+        whois \
         wswedish \
         zip
 }
