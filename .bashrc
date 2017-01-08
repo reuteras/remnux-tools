@@ -82,16 +82,19 @@ alias ll='ls -l'
 alias la='ls -A'
 
 if [ -f ~/.bash_aliases ]; then
+    # shellcheck source=/dev/null
     . ~/.bash_aliases
 fi
 
-# enable programmable completion features 
+# enable programmable completion features
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        # shellcheck source=/dev/null
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        # shellcheck source=/dev/null
+        . /etc/bash_completion
+    fi
 fi
 
 function shared(){
@@ -101,9 +104,11 @@ function shared(){
         if [ ! -d ~/shared ]; then
             mkdir ~/shared
         fi
-        sudo mount -t vmhgfs .host:/$MOUNTP $HOME/shared
+        sudo mount -t vmhgfs .host:/"$MOUNTP" "$HOME"/shared
    fi
 }
 
 export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/git/DidierStevensSuite:$PATH:/opt/remnux-scripts
-
+export PROJECT_HOME="$HOME"/src/git
+# shellcheck source=/dev/null
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh

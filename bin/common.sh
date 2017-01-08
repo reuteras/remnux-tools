@@ -42,6 +42,7 @@ function install-general-tools() {
         vim \
         vim-doc \
         vim-scripts \
+        virtualenvwrapper \
         whois \
         wswedish \
         zip
