@@ -5,7 +5,7 @@ set -e
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
-sudo apt-get update && sudo apt-get -y dist-upgrade
+sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
 
 install-general-tools
 install-vmware-tools
@@ -43,9 +43,9 @@ install-google-chrome
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
 if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
-    sudo add-apt-repository -y ppa:pi-rho/security
-    sudo apt-get update && sudo apt-get -y dist-upgrade
-    sudo apt-get install html2text nasm && sudo apt-get autoremove -y
+    sudo add-apt-repository -qq -y ppa:pi-rho/security
+    sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
+    sudo apt-get -qq -y install html2text nasm && sudo apt-get autoremove -qq -y
 fi
 
 # Clean up
