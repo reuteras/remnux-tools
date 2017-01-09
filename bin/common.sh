@@ -73,7 +73,7 @@ function install-google-chrome() {
 # Install Volatility
 # First argument should be target path to check out volatility.
 function install-volatility() {
-    if [ $# -eq 1 ]; then
+    if [ $# -eq 0 ]; then
         echo "One argument expected for install-volatility()"
         exit 1
     fi
