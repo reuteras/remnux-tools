@@ -31,11 +31,15 @@ function turn-of-sound() {
 function install-general-tools() {
     sudo apt-get -y -qq install \
         bsdgames \
+        build-essential \
         ctags \
         curl \
         git \
         exfat-fuse \
         exfat-utils \
+        libffi-dev \
+        libssl-dev \
+        python-dev \
         python-virtualenv \
         sharutils \
         tshark \
