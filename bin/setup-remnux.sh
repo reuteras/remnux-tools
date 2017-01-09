@@ -89,7 +89,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 # Fix
 # shellcheck disable=SC2102
-sudo -H pip install urllib3[secure]
+sudo -H pip install --upgrade urllib3[secure]
 
 # Make sure pip is up to date
 sudo -H pip install --upgrade pip
