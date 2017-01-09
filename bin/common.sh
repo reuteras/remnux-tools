@@ -1,17 +1,17 @@
 #!/bin/bash
 
 function enable-new-didier() {
-    if [[ -d ~/src/git/DidierStevensSuite ]]; then
-        chmod 755 ~/src/git/DidierStevensSuite/cut-bytes.py
-        chmod 755 ~/src/git/DidierStevensSuite/decoder_*
-        chmod 755 ~/src/git/DidierStevensSuite/emldump.py
-        chmod 755 ~/src/git/DidierStevensSuite/hex-to-bin.py
-        chmod 755 ~/src/git/DidierStevensSuite/oledump.py
-        chmod 755 ~/src/git/DidierStevensSuite/pdf-parser.py
-        chmod 755 ~/src/git/DidierStevensSuite/pdfid.py
-        chmod 755 ~/src/git/DidierStevensSuite/plugin_*
-        chmod 755 ~/src/git/DidierStevensSuite/re-search.py
-        chmod 755 ~/src/git/DidierStevensSuite/translate.py
+    if [[ -d ~/src/python/didierstevenssuite ]]; then
+        chmod 755 ~/src/python/didierstevenssuite/cut-bytes.py
+        chmod 755 ~/src/python/didierstevenssuite/decoder_*
+        chmod 755 ~/src/python/didierstevenssuite/emldump.py
+        chmod 755 ~/src/python/didierstevenssuite/hex-to-bin.py
+        chmod 755 ~/src/python/didierstevenssuite/oledump.py
+        chmod 755 ~/src/python/didierstevenssuite/pdf-parser.py
+        chmod 755 ~/src/python/didierstevenssuite/pdfid.py
+        chmod 755 ~/src/python/didierstevenssuite/plugin_*
+        chmod 755 ~/src/python/didierstevenssuite/re-search.py
+        chmod 755 ~/src/python/didierstevenssuite/translate.py
     fi
 }
 
@@ -65,3 +65,28 @@ function install-google-chrome() {
         rm -f google-chrome-stable_current_amd64.deb
     fi
 }
+
+# Install Volatility
+# First argument should be target path to check out volatility.
+function install-volatility() {
+    if [ $# -eq 1 ]; then
+        echo "One argument expected for install-volatility()"
+        exit 1
+    fi
+    if [ -d "$1" ]; then
+        echo "$1 already exists!"
+        exit 1
+    fi
+    git clone --quiet https://github.com/volatilityfoundation/volatility \
+        "$1" && \
+    cd "$1" && \
+    pip install \
+        PIL \
+        distorm3 \
+        openpyxl \
+        pycrypto \
+        ujson \
+        yara-python && \
+        python setup.py install
+}
+

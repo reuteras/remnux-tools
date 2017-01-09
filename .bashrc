@@ -108,7 +108,7 @@ function shared(){
    fi
 }
 
-export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/git/DidierStevensSuite:$PATH:/opt/remnux-scripts
-export PROJECT_HOME="$HOME"/src/git
+export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/python/didierstevenssuite:$PATH:/opt/remnux-scripts
+export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh

@@ -18,8 +18,8 @@ if [ ! -d ~/src/git ]; then
     mkdir -p ~/src/git
 fi
 
-if [ ! -d ~/src/pip ]; then
-    mkdir -p ~/src/pip
+if [ ! -d ~/src/python ]; then
+    mkdir -p ~/src/python
 fi
 
 if [ ! -d ~/cases ]; then
@@ -60,7 +60,7 @@ if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
     rm -f ~/Desktop/cases
 fi
 
-# Add scripts from different sources
+# Add single file scripts from different sources
 # http://phishme.com/powerpoint-and-custom-actions/
 [ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
     https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
@@ -82,19 +82,89 @@ fi
     chmod +x ~/src/bin/floss && \
     info-message "Installed floss."
 
+# Use virtualenvwrapper for python tools
+export PROJECT_HOME="$HOME"/src/python
+# shellcheck source=/dev/null
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+
+# Make sure pip is up to date
+sudo -H pip install --upgrade pip
+
+# Install pip lib globally
+sudo -H pip install colorclass
+
 # Add git repos
 # http://www.tekdefense.com/automater/
-[ ! -d ~/src/git/TekDefense-Automater ] && \
+[ ! -d ~/src/python/automater ] && \
     git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
-    ~/src/git/TekDefense-Automater && \
+        ~/src/python/automater && \
+    cd ~/src/python/automater && \
+    mkvirtualenv automater && \
+    setvirtualenvproject && \
+    deactivate && \
     info-message "Checked out Automater."
 
 # https://n0where.net/malware-analysis-damm/
-[ ! -d ~/src/git/DAMM ] && \
+# Also install a seperate version of the latest volatility in this env.
+[ ! -d ~/src/python/damm ] && \
+    mkdir -p ~/src/python/damm && \
     git clone --quiet https://github.com/504ensicsLabs/DAMM \
-    ~/src/git/DAMM && \
+        ~/src/python/damm/damm && \
+    cd ~/src/python/damm/damm && \
+    mkvirtualenv damm && \
+    setvirtualenvproject && \
+    install-volatility ~/src/python/damm/volatility && \
+    deactivate && \
     info-message "Checked out DAMM."
 
+# Keep a seperate environment for volatility (to be able to upgrade separatly
+[ ! -d ~/src/python/volatility ] && \
+    mkdir -p ~/src/python/volatility && \
+    mkvirtualenv volatility && \
+    install-volatility ~/src/python/volatility/volatility && \
+    cd ~/src/python/volatility/volatility && \
+    deactivate && \
+    info-message "Checked out Volatility."
+
+
+# https://github.com/DidierStevens/DidierStevensSuite
+[ ! -d ~/src/python/didierstevenssuite ] && \
+    git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
+    ~/src/python/didierstevenssuite && \
+    mkvirtualenv didierstevenssuite && \
+    setvirtualenvproject && \
+    deactivate && \
+    enable-new-didier && \
+    info-message "Checked out DidierStevensSuite."
+
+# https://github.com/decalage2/oletools.git
+[ ! -d ~/.virtualenvs/oletools ] && \
+    mkvirtualenv oletools && \
+    pip install oletools && \
+    info-message "Installed oletools."
+
+# Fix problem with pip - https://github.com/pypa/pip/issues/1093
+#[ ! -e /usr/local/bin/pip ] && \
+#    sudo apt-get remove -yqq --auto-remove python-pip && \
+#    wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
+#    sudo -H python /tmp/get-pip.py && \
+#    sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
+#    sudo rm /tmp/get-pip.py && \
+#    sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
+#    info-message "Install pip from pypa.io."
+
+# Python virtualenv
+# Checkout Rekall to fix problem with python-dateutil being newer.
+[ ! -d ~/.virtualenvs/rekall ] && \
+    mkvirtualenv rekall && \
+    echo -n "Update pip and setuptools for rekall." && \
+    pip install -U pip setuptools && \
+    echo -n "Start installation of rekall." && \
+    pip install rekall rekall-gui > /dev/null && \
+    deactivate && \
+    echo " Done."
+
+# Other tools
 # https://github.com/keydet89/RegRipper2.8
 [ ! -d ~/src/git/RegRipper2.8 ] && \
     git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
@@ -103,49 +173,10 @@ fi
     cp ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
     chmod 755 ~/src/bin/regripper2.8
 
-# https://github.com/DidierStevens/DidierStevensSuite
-[ ! -d ~/src/git/DidierStevensSuite ] && \
-    git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
-    ~/src/git/DidierStevensSuite && \
-    info-message "Checked out DidierStevensSuite." && \
-    enable-new-didier
-
 # https://github.com/Yara-Rules/rules.git
 [ ! -d ~/src/git/rules ] && \
     git clone --quiet https://github.com/Yara-Rules/rules.git ~/src/git/rules && \
     info-message "Checked out Yara-Rules."
-
-# https://github.com/decalage2/oletools.git
-[ ! -d ~/src/git/oletools ] && \
-    git clone --quiet https://github.com/decalage2/oletools.git ~/src/git/oletools && \
-    info-message "Checked out oletools."
-
-# Make sure pip is up to date
-sudo -H pip install --upgrade pip
-
-# Fix problem with pip - https://github.com/pypa/pip/issues/1093
-[ ! -e /usr/local/bin/pip ] && \
-    sudo apt-get remove -yqq --auto-remove python-pip && \
-    wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
-    sudo -H python /tmp/get-pip.py && \
-    sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
-    sudo rm /tmp/get-pip.py && \
-    sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
-    info-message "Install pip from pypa.io."
-
-# Python virtualenv
-# Checkout Rekall to fix problem with python-dateutil being newer.
-[ ! -d ~/src/pip/rekall ] && virtualenv ~/src/pip/rekall && \
-    . ~/src/pip/rekall/bin/activate && \
-    echo -n "Update pip and setuptools for rekall." && \
-    pip install -U pip setuptools && \
-    echo -n "Start installation of rekall." && \
-    # shellcheck source=/dev/null \
-    pip install rekall rekall-gui > /dev/null && \
-    echo " Done."
-
-# Install pip lib globally
-sudo -H pip install colorclass
 
 # Turn off sound on start up
 turn-of-sound
@@ -158,8 +189,7 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "2. Security & Privacy -> Search -> Turn of online search results."
     echo "3. -> Diagnotstics -> Turn of error reports."
     echo "4. Change Desktop Background :)"
-    echo "Run make dotfiles in ~/remnux-tools for .bashrc etc."
+    echo "5. Run make dotfiles in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
 fi
-
