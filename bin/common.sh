@@ -38,6 +38,7 @@ function install-general-tools() {
         exfat-fuse \
         exfat-utils \
         libffi-dev \
+        libimage-exiftool-perl \
         libssl-dev \
         python-dev \
         python-virtualenv \
@@ -85,7 +86,7 @@ function install-volatility() {
         "$1" && \
     cd "$1" && \
     pip install \
-        PIL \
+        Pillow \
         distorm3 \
         openpyxl \
         pycrypto \

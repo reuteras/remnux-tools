@@ -1,14 +1,20 @@
 #!/bin/bash
 
 set -e
+LOG=/tmp/remnux-tools.log
+
+info-message "Starting installation of remnux-tools."
 
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
+info-message "Updating Ubuntu."
 sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
 
-install-general-tools
-install-vmware-tools
+info-message "Installing general tools."
+install-general-tools > $LOG
+info-message "Installing tools for VMware."
+install-vmware-tools >> $LOG
 
 if [ ! -d ~/src ]; then
     mkdir -p ~/src/bin
@@ -22,14 +28,14 @@ if [ ! -d ~/src/python ]; then
     mkdir -p ~/src/python
 fi
 
-if [ ! -d ~/cases ]; then
-    mkdir -p ~/cases/docker
+if [ ! -d ~/docker ]; then
+    mkdir -p ~/docker
 fi
 
 for dir in pescanner radare2 mastiff thug v8 viper; do
-    if [ ! -d ~/cases/docker/$dir ]; then
-        mkdir ~/cases/docker/$dir
-        chmod 777 ~/cases/docker/$dir
+    if [ ! -d ~/docker/$dir ]; then
+        mkdir ~/docker/$dir
+        chmod 777 ~/docker/$dir
     fi
 done
 
@@ -87,10 +93,6 @@ export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-# Fix
-# shellcheck disable=SC2102
-sudo -H pip install --upgrade urllib3[secure]
-
 # Make sure pip is up to date
 sudo -H pip install --upgrade pip
 
@@ -110,6 +112,7 @@ sudo -H pip install colorclass
 
 # https://n0where.net/malware-analysis-damm/
 # Also install a seperate version of the latest volatility in this env.
+# shellcheck disable=SC2102
 [ ! -d ~/src/python/damm ] && \
     mkdir -p ~/src/python/damm && \
     git clone --quiet https://github.com/504ensicsLabs/DAMM \
@@ -117,19 +120,39 @@ sudo -H pip install colorclass
     cd ~/src/python/damm/damm && \
     mkvirtualenv damm && \
     setvirtualenvproject && \
+    pip install --upgrade pip && \
+    pip install --upgrade urllib3[secure] && \
     install-volatility ~/src/python/damm/volatility && \
     deactivate && \
     info-message "Checked out DAMM."
 
-# Keep a seperate environment for volatility (to be able to upgrade separatly
+# Install Volutility
+# shellcheck disable=SC2102
+[ ! -d ~/src/python/volatility ] && \
+    mkdir -p ~/src/python/volutility && \
+    mkvirtualenv volutility && \
+    echo "Start MongoDB with docker-mongodb" > ~/src/python/volutility/README && \
+    pip install --upgrade pip && \
+    pip install --upgrade urllib3[secure] && \
+    install-volatility ~/src/python/volutility/volatility && \
+    git clone https://github.com/kevthehermit/VolUtility \
+        ~/src/python/volutility/volutility && \
+    cd ~/src/python/volutility/volutility && \
+    pip install -r requirements.txt && \
+    pip install virustotal-api yara-python && \
+    deactivate && \
+    info-message "Installed Volutility."
+
+# Keep a seperate environment for volatility (to be able to upgrade separatly)
+# shellcheck disable=SC2102
 [ ! -d ~/src/python/volatility ] && \
     mkdir -p ~/src/python/volatility && \
     mkvirtualenv volatility && \
+    pip install --upgrade pip && \
+    pip install --upgrade urllib3[secure] && \
     install-volatility ~/src/python/volatility/volatility && \
-    cd ~/src/python/volatility/volatility && \
     deactivate && \
     info-message "Checked out Volatility."
-
 
 # https://github.com/DidierStevens/DidierStevensSuite
 [ ! -d ~/src/python/didierstevenssuite ] && \
@@ -142,8 +165,11 @@ sudo -H pip install colorclass
     info-message "Checked out DidierStevensSuite."
 
 # https://github.com/decalage2/oletools.git
+# shellcheck disable=SC2102
 [ ! -d ~/.virtualenvs/oletools ] && \
     mkvirtualenv oletools && \
+    pip install --upgrade pip && \
+    pip install --upgrade urllib3[secure] && \
     pip install oletools && \
     info-message "Installed oletools."
 
@@ -172,7 +198,7 @@ sudo -H pip install colorclass
 # https://github.com/keydet89/RegRipper2.8
 [ ! -d ~/src/git/RegRipper2.8 ] && \
     git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
-    ~/src/git/RegRipper2.8 && \
+        ~/src/git/RegRipper2.8 && \
     info-message "Checked out RegRipper2.8." && \
     cp ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
     chmod 755 ~/src/bin/regripper2.8
