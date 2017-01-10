@@ -95,3 +95,25 @@ function install-volatility() {
         python setup.py install
 }
 
+# This repo contians newer versions of Wireshark etc. Update again after adding
+function install-pi-rho-security(){
+    if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
+        sudo add-apt-repository -y ppa:pi-rho/security
+        sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
+        sudo apt-get -qq -y install html2text nasm && sudo apt-get autoremove -qq -y
+    fi
+}
+
+# Cleanup function
+function cleanup(){
+   if [[ -e ~/examples.desktop ]]; then
+        rm -f ~/examples.desktop
+    fi
+    if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+        echo "Clean Desktop."
+        mkdir ~/Documents/Remnux_SIFT
+        mv ~/Desktop/REMnux* ~/Documents/Remnux_SIFT/
+        mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
+        rm -f ~/Desktop/cases
+    fi
+}
