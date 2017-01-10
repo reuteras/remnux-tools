@@ -4,10 +4,13 @@ set -e
 LOG=/tmp/remnux-tools.log
 touch $LOG
 
+# Make a fake sudo to get password before output
+sudo touch $LOG
+
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 info-message "Starting installation of remnux-tools."
-
+info-message "Details logged to $LOG."
 info-message "Updating Ubuntu."
 info-message "Running apt-get update."
 # shellcheck disable=SC2024
@@ -192,6 +195,12 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
     git clone --quiet https://github.com/Yara-Rules/rules.git \
         ~/src/git/rules >> $LOG 2>&1 && \
     info-message "Checked out Yara-Rules."
+
+# https://github.com/reuteras/resources
+[ ! -d ~/src/git/resources ] && \
+    git clone --quiet https://github.com/reuteras/resources.git \
+        ~/src/git/resources >> $LOG 2>&1 && \
+    info-message "Checked out resources."
 
 # https://github.com/radare/radare2
 # shellcheck disable=SC2024
