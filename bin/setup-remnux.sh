@@ -3,10 +3,9 @@
 set -e
 LOG=/tmp/remnux-tools.log
 
-info-message "Starting installation of remnux-tools."
-
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
+info-message "Starting installation of remnux-tools."
 
 info-message "Updating Ubuntu."
 sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
