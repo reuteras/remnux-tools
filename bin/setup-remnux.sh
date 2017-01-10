@@ -105,7 +105,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
         ~/src/python/automater >> $LOG 2>&1 && \
     cd ~/src/python/automater && \
     mkvirtualenv automater >> $LOG 2>&1 && \
-    setvirtualenvproject && \
+    setvirtualenvproject >> $LOG 2>&1 && \
     deactivate && \
     info-message "Checked out Automater."
 
@@ -118,7 +118,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
         ~/src/python/damm/damm >> $LOG 2>&1 && \
     cd ~/src/python/damm/damm && \
     mkvirtualenv damm >> $LOG 2>&1 && \
-    setvirtualenvproject && \
+    setvirtualenvproject >> $LOG 2>&1 && \
     pip install --upgrade pip >> $LOG 2>&1 && \
     pip install --upgrade urllib3[secure] >> $LOG 2>&1 && \
     install-volatility ~/src/python/damm/volatility >> $LOG 2>&1 && \
@@ -179,7 +179,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
     pip install -U pip setuptools >> $LOG 2>&1 && \
     pip install rekall rekall-gui >> $LOG 2>&1 && \
     deactivate && \
-    echo " Done."
+    info-message "Installed rekall."
 
 # Other tools
 # https://github.com/keydet89/RegRipper2.8
@@ -207,9 +207,10 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 [ ! -d ~/src/git/radare2 ] && \
     info-message "Starting installation of radare2." && \
     sudo apt-get remove -y radare2 >> $LOG 2>&1 && \
-    sudo apt-get auto-remove -y >> $LOG 2>&1 && \
+    sudo apt-get autoremove -y >> $LOG 2>&1 && \
     git clone --quiet https://github.com/radare/radare2.git \
         ~/src/git/radare2 >> $LOG 2>&1 && \
+    cd ~/src/git/radare2 && \
     ./sys/install.sh >> $LOG 2>&1 && \
     info-message "Installation of radare2 done."
 
