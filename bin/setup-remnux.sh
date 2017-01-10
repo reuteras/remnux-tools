@@ -9,12 +9,17 @@ touch $LOG
 info-message "Starting installation of remnux-tools."
 
 info-message "Updating Ubuntu."
-sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
+info-message "Running apt-get update."
+# shellcheck disable=SC2024
+sudo apt-get -qq update >> $LOG 2>&1
+info-message "Running apt-get dist-upgrade."
+# shellcheck disable=SC2024
+sudo apt-get -qq -y dist-upgrade >> $LOG 2>&1
 
 info-message "Installing general tools."
-install-general-tools >> $LOG 2&>1
+install-general-tools >> $LOG 2>&1
 info-message "Installing tools for VMware."
-install-vmware-tools >> $LOG 2&>1
+install-vmware-tools >> $LOG 2>&1
 
 info-message "Create directory structure."
 if [ ! -d ~/src ]; then
