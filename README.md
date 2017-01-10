@@ -1,39 +1,46 @@
 # remnux-tools
 
-This script installs Remnux on a vanilla Ubuntu 14.04 LTS. I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). Currently I select "Ubuntu desktop" as the only thing to install. The script then installs the [Remnux](https://remnux.org) tools and some other scripts and tools.
+The setup has changed a lot lately and it is recommended to install from scratch.
 
-Previously this script also installed the [Sift](https://github.com/sans-dfir/sift-bootstrap) tools. Due to problems lately I've stopped doing that. I've added a separate script to install sift in a separate VM.
+There are two major scripts for installs:
 
-The repository _ppa:pi-rho/security_ is activated and newer versions of many tools are updated from there. Google Chrome is installed.
+* setup-remnux.sh - install [Remnux](https://remnux.org)
+* setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap)
 
-Standard tools from Ubuntu and in some cases the ppa listed above installed are:
+Earlier the Remnux and Sift where installed together in one VM. Most of the addons have been moved to the Remnux script. Both scripts starts from a vanilla Ubuntu 14.04 LTS. Personally I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). I've only tested the script with the "Ubuntu desktop" as the only thing to install.
 
-* ctags
-* curl
-* fuse, exfat-fuse and exfat-utils
-* git
-* html2text
-* nasm 
-* open-vm-tools-desktop
-* python-virtualenv
-* tshark
-* vim, vim-doc  and vim-scripts
-* zip
+## setup-remnux.sh
 
-If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are installed. There are a couple of aliases for docker images from Remnux. They use directories under _~/cases/docker/<tool name>_.
+This script install [Remnux](https://remnux.org) and some other tools. Some of the added tools added are now up to date with the regular Remnux install script but is still installed.
 
-Some scripts from other repositories are installed:
-* [psparser.py](https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py) - [example use](http://phishme.com/powerpoint-and-custom-actions/)
-* [https://zeltser.com/convert-shellcode-to-assembly/](https://github.com/MarioVilas/shellcode_tools/blob/master/shellcode2exe.py) - [introduction](https://zeltser.com/convert-shellcode-to-assembly/)
-* [RegRipper2.8](https://github.com/keydet89/RegRipper2.8)
-* [DAMM](https://n0where.net/malware-analysis-damm/)
+The additions are:
+* Ubuntu is updated
+* Some general packages are installed. This includes bsdgames (some useful tools for CTFs), vim, tshark, exfat and more. Also a basic development environment is installed
+* Installs open-vm-tools
+* Create a basic directory structure
+* Run the Remnux install script
+* Install Google Chrome
+* The repository _ppa:pi-rho/security_ is activated and newer versions of many tools are updated from there
+* Install some scripts. psparser.py, vt.py, testssl.sh and floss
+* Install Tekdefense Automater
+* Install DAMM
+* Install Volutility
+* Install Volatility
+* Install Rekall
+* Install DidierStevensSuite
+* Install oletools
+* Install RegRipper2.8
+* Install Yara rules
+* Turn of sound
+
+If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are installed. There are a couple of aliases for docker images from Remnux. They use directories under _~/docker/<tool name>_.
 
 ## Install
 
     sudo apt-get install -y git
     git clone https://github.com/reuteras/remnux-tools.git
     cd remnux-tools
-    ./bin/setup.sh      # or make install
+    ./bin/setup-remux.sh      # or make install
 
 ## Update
 
