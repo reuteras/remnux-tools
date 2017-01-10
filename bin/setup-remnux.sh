@@ -43,7 +43,7 @@ install-google-chrome
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
 if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
-    sudo add-apt-repository -qq -y ppa:pi-rho/security
+    sudo add-apt-repository -y ppa:pi-rho/security
     sudo apt-get -qq update && sudo apt-get -qq -y dist-upgrade
     sudo apt-get -qq -y install html2text nasm && sudo apt-get autoremove -qq -y
 fi
