@@ -187,11 +187,22 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
     cp ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
     chmod 755 ~/src/bin/regripper2.8
 
-# https://github.com/Yara-Rules/rules.git
+# https://github.com/Yara-Rules/rules
 [ ! -d ~/src/git/rules ] && \
     git clone --quiet https://github.com/Yara-Rules/rules.git \
         ~/src/git/rules >> $LOG 2>&1 && \
     info-message "Checked out Yara-Rules."
+
+# https://github.com/radare/radare2
+# shellcheck disable=SC2024
+[ ! -d ~/src/git/radare2 ] && \
+    info-message "Starting installation of radare2." && \
+    sudo apt-get remove -y radare2 >> $LOG 2>&1 && \
+    sudo apt-get auto-remove -y >> $LOG 2>&1 && \
+    git clone --quiet https://github.com/radare/radare2.git \
+        ~/src/git/radare2 >> $LOG 2>&1 && \
+    ./sys/install.sh >> $LOG 2>&1 && \
+    info-message "Installation of radare2 done."
 
 # Turn off sound on start up
 turn-of-sound

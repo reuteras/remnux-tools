@@ -31,6 +31,7 @@ The additions are:
 * Install oletools
 * Install RegRipper2.8
 * Install Yara rules
+* Install latest Radare2
 * Turn of sound
 
 If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are installed. There are a couple of aliases for docker images from Remnux. They use directories under _~/docker/<tool name>_.
