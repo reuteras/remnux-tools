@@ -30,6 +30,7 @@ function turn-of-sound() {
 # General tools
 function install-general-tools() {
     sudo apt-get -y -qq install \
+        ascii \
         bsdgames \
         build-essential \
         ctags \
