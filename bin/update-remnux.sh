@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ -e ~/.config/.sift ]]; then
+    echo "You have installed SIFT! Use update-sift.sh insteed."
+    exit 1
+fi
+
 set -e
 
 LOG=/tmp/remnux-tools.log

@@ -119,17 +119,30 @@ function install-pi-rho-security(){
     fi
 }
 
-# Cleanup function
-function cleanup(){
+# Cleanup functions
+function cleanup-remnux(){
    if [[ -e ~/examples.desktop ]]; then
         rm -f ~/examples.desktop
     fi
     if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
         echo "Clean Desktop."
-        mkdir ~/Documents/Remnux_SIFT
-        mv ~/Desktop/REMnux* ~/Documents/Remnux_SIFT/
-        mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
+        mkdir ~/Documents/Remnux
+        mv ~/Desktop/REMnux* ~/Documents/Remnux/
+        mv ~/Desktop/*.pdf ~/Documents/Remnux/
         rm -f ~/Desktop/cases
+        ln -s /cases ~/Desktop/cases
+    fi
+}
+
+function cleanup-sift(){
+    if [[ -e ~/examples.desktop ]]; then
+        rm -f ~/examples.desktop
+    fi
+    if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+        echo "Clean Desktop."
+        mkdir ~/Documents/SIFT || true
+        mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
+        ln -s ~/Documents/SIFT SIFT || true
     fi
 }
 
@@ -333,8 +346,7 @@ function install-regripper(){
 # Checkout git repo to directory
 function checkout-git-repo(){
     [ ! -d ~/src/git/"$2" ] && \
-        git clone --quiet "$1" \
-            ~/src/git/"$2" >> "$LOG" 2>&1 && \
+        git clone --quiet "$1" ~/src/git/"$2" >> "$LOG" 2>&1 && \
         info-message "Checkout git repo $1"
 }
 
@@ -345,7 +357,7 @@ function install-radare2(){
         info-message "Starting installation of radare2." && \
         sudo apt-get remove -y radare2 >> "$LOG" 2>&1 && \
         sudo apt-get autoremove -y >> "$LOG" 2>&1 && \
-        checkout-git-repo https://github.com/radare/radare2.git ~/src/git/radare2 && \
+        checkout-git-repo https://github.com/radare/radare2.git radare2 && \
         cd ~/src/git/radare2 && \
         ./sys/install.sh >> "$LOG" 2>&1 && \
         info-message "Installated radare2."

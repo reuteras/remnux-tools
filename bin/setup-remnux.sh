@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ -e ~/.config/.sift ]]; then
+    echo "You have already installed SIFT! Install Remnux in separate VM."
+    exit 1
+fi
+
 set -e
 LOG=/tmp/remnux-tools.log
 touch "$LOG"
@@ -9,7 +14,7 @@ sudo touch "$LOG"
 
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
-info-message "Starting installation of remnux-tools."
+info-message "Starting installation of Remnux with remnux-tools."
 info-message "Details logged to $LOG."
 info-message "Updating Ubuntu."
 info-message "Running apt-get update."
@@ -68,7 +73,7 @@ info-message "Enable ppa:pi-rho/security and install updated packages."
 install-pi-rho-security >> "$LOG" 2>&1
 
 info-message "Clean up folders and files."
-cleanup >> "$LOG" 2>&1
+cleanup-remnux >> "$LOG" 2>&1
 
 install-single-file-scripts
 
@@ -128,7 +133,7 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "2. Security & Privacy -> Search -> Turn of online search results."
     echo "3. -> Diagnotstics -> Turn of error reports."
     echo "4. Change Desktop Background :)"
-    echo "5. Run make dotfiles in ~/remnux-tools for .bashrc etc."
+    echo "5. Run 'make dotfiles' in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
 fi
