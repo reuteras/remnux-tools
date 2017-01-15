@@ -12,6 +12,9 @@ sudo touch $LOG
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
 info-message "Start update."
+info-message "Make sure where not in a virtualenv."
+deactivate 2> /dev/null || true
+
 info-message "Remove old versions of Chrome and Wireshark."
 # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
 [ -e /etc/apt/sources.list.d/google-chrome.list ] && \
@@ -36,6 +39,7 @@ sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 rm -f ~/src/bin/psparser.py ~/src/bin/vt.py ~/src/bin/testssl.sh ~/src/bin/floss
 install-single-file-scripts
 
+info-message "Update python colorclass."
 # shellcheck disable=SC2024
 sudo -H pip install --upgrade colorclass >> $LOG 2>&1
 
