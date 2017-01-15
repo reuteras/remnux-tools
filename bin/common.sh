@@ -173,7 +173,7 @@ function install-automater(){
 function update-automater(){
     [ -d ~/src/python/automater ] && \
         workon automater && \
-        git pull && \
+        git pull >> "$LOG" 2>&1 && \
         deactivate && \
         info-message "Updated Automater."
 }
@@ -199,7 +199,7 @@ function install-damm(){
 function update-damm(){
     [ -d ~/src/python/damm ] && \
         workon damm && \
-        git pull && \
+        git pull >> "$LOG" 2>&1 && \
         pip install --upgrade pip >> "$LOG" 2>&1 && \
         update-volatility ~/src/python/damm/volatility && \
         deactivate && \
@@ -255,7 +255,7 @@ function update-volatility-env(){
     [ -d ~/src/python/volatility ] && \
         workon volatility && \
         cd ~/src/python/volatility && \
-        update-volatility  ~/src/python/volatility/volatility && \
+        update-volatility ~/src/python/volatility/volatility && \
         deactivate && \
         info-message "Updated Volatility."
 }
@@ -276,7 +276,7 @@ function update-didierstevenssuite(){
     [ -d ~/src/python/didierstevenssuite ] && \
         workon didierstevenssuite && \
         git fetch --all >> "$LOG" 2>&1 && \
-        git reset --hard origin/master  >> "$LOG" 2>&1 && \
+        git reset --hard origin/master >> "$LOG" 2>&1 && \
         enable-new-didier && \
         deactivate && \
         info-message "Updated DidierStevensSuite."
@@ -295,7 +295,7 @@ function install-oletools(){
 
 function update-oletools(){
     [ -d ~/.virtualenvs/oletools ] && \
-        workon  oletools && \
+        workon oletools && \
         pip install --upgrade pip >> "$LOG" 2>&1 && \
         pip install --upgrade oletools >> "$LOG" 2>&1 && \
         info-message "Updated oletools."
@@ -357,7 +357,7 @@ function update-radare2(){
         sudo apt-get remove -y radare2 >> "$LOG" 2>&1 && \
         sudo apt-get autoremove -y >> "$LOG" 2>&1 && \
         cd ~/src/git/radare2 && \
-        git pull && \
+        git pull >> "$LOG" 2>&1 && \
         ./sys/install.sh >> "$LOG" 2>&1 && \
         info-message "Updated radare2."
 }
