@@ -78,8 +78,7 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "1. Change desktop resolution to be able to do the other steps."
     echo "2. Security & Privacy -> Search -> Turn of online search results."
     echo "3. -> Diagnotstics -> Turn of error reports."
-    echo "4. Change Desktop Background :)"
-    echo "5. Run 'make dotfiles' in ~/remnux-tools for .bashrc etc."
+    echo "4. Run 'make dotfiles' in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
 fi
