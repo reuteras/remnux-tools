@@ -108,7 +108,7 @@ function update-volatility(){
             pycrypto \
             ujson \
             yara-python >> "$LOG" 2>&1 && \
-        pythyon setup.py install >> "$LOG" 2>&1
+        python setup.py install >> "$LOG" 2>&1
 }
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
@@ -125,13 +125,13 @@ function cleanup-remnux(){
    if [[ -e ~/examples.desktop ]]; then
         rm -f ~/examples.desktop
     fi
-    if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+    if [[ -e ~/Desktop/REMnux\ Cheat\ Sheet ]]; then
         echo "Clean Desktop."
         mkdir ~/Documents/Remnux
-        mv ~/Desktop/REMnux* ~/Documents/Remnux/
-        mv ~/Desktop/*.pdf ~/Documents/Remnux/
-        rm -f ~/Desktop/cases
+        mv ~/Desktop/REMnux* ~/Documents/Remnux/ || true
+        mv ~/Desktop/*.pdf ~/Documents/Remnux/ || true
         ln -s /cases ~/Desktop/cases
+        ln -s ~/Documents/Remnux ~/Desktop/Remnux || true
     fi
 }
 
@@ -143,7 +143,7 @@ function cleanup-sift(){
         echo "Clean Desktop."
         mkdir ~/Documents/SIFT || true
         mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
-        ln -s ~/Documents/SIFT SIFT || true
+        ln -s ~/Documents/SIFT ~/Desktop/SIFT || true
     fi
 }
 
