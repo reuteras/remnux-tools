@@ -1,57 +1,67 @@
 #!/bin/bash
 
 set -e
+
+LOG=/tmp/remnux-tools.log
+touch $LOG
+
+# Make a fake sudo to get password before output
+sudo touch $LOG
+
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
+info-message "Start update."
+info-message "Remove old versions of Chrome and Wireshark."
 # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
 [ -e /etc/apt/sources.list.d/google-chrome.list ] && \
     sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
 
 # Remove old wireshark. Caused errors during update
-dpkg -l wireshark | grep 1.12 && sudo apt-get -y remove wireshark
+# shellcheck disable=SC2024
+dpkg -l wireshark | grep 1.12 >> $LOG 2>&1 && sudo apt-get -y -qq remove wireshark >> $LOG 2>&1
 
+info-message "Run update-remnux script."
 sudo /opt/remnux-scripts/update-remnux
 
+info-message "Update clamav database."
 sudo /usr/bin/freshclam
 
-sudo apt-get update && sudo apt-get -y dist-upgrade
+info-message "Update Ubuntu."
+# shellcheck disable=SC2024
+sudo apt-get -qq update >> $LOG 2>&1
+# shellcheck disable=SC2024
+sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 
 rm -f ~/src/bin/psparser.py ~/src/bin/vt.py ~/src/bin/testssl.sh ~/src/bin/floss
+install-single-file-scripts
 
-# http://phishme.com/powerpoint-and-custom-actions/
-[ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
-    https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py && \
-    chmod +x ~/src/bin/psparser.py && \
-    info-message "Updated psparser.py"
-# https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
-[ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
-    https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py && \
-    chmod +x ~/src/bin/vt.py && \
-    info-message "Updated vt.py."
-# https://testssl.sh/
-[ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
-    https://testssl.sh/testssl.sh && \
-    chmod +x ~/src/bin/testssl.sh && \
-    info-message "Updated testssl.sh."
-# Fireeye floss
-[ ! -e ~/src/bin/floss ] && wget -q -O ~/src/bin/floss \
-    https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss && \
-    chmod +x ~/src/bin/floss && \
-    info-message "Updated floss."
+# shellcheck disable=SC2024
+sudo -H pip install --upgrade colorclass >> $LOG 2>&1
+
+# Use virtualenvwrapper for python tools
+export PROJECT_HOME="$HOME"/src/python
+# shellcheck source=/dev/null
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 # Update git repositories
 cd ~/src/git || exit 1
+info-message "Update git repositories."
 for repo in *; do
-    (cd "$repo"; git fetch --all; git reset --hard origin/master)
+    info-message "Updating $repo."
+    (cd "$repo"; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> $LOG 2>&1)
+    if [ "$repo" == "radare2" ]; then
+        info-message "Running update script for $repo."
+        (cd "$repo"; ./sys/install.sh >> $LOG 2>&1)
+    fi
 done
 
-# Update pip
-# shellcheck disable=SC1091
-cd ~/src/pip/rekall && . bin/activate && \
-    echo "Update pip and setuptools before updating Rekall." && \
-    pip install -U pip setuptools && \
-    echo -n "Update Rekall" && \
-    pip install -U rekall rekall-gui && \
-    echo " Done."
-
+# Update python
+update-automater
+update-damm
+update-volutility
+update-volatility-env
+update-didierstevenssuite
+update-oletools
+update-rekall
+update-radare2

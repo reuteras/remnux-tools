@@ -93,7 +93,21 @@ function install-volatility() {
         pycrypto \
         ujson \
         yara-python && \
-        python setup.py install
+    pythyon setup.py install
+}
+
+function update-volatility(){
+    [ -d "$1" ] && \
+        cd "$1" && \
+        git pull >> "$LOG" 2>&1 && \
+        pip install --upgrade \
+            Pillow \
+            distorm3 \
+            openpyxl \
+            pycrypto \
+            ujson \
+            yara-python >> "$LOG" 2>&1 && \
+        pythyon setup.py install >> "$LOG" 2>&1
 }
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
@@ -117,4 +131,233 @@ function cleanup(){
         mv ~/Desktop/*.pdf ~/Documents/Remnux_SIFT/
         rm -f ~/Desktop/cases
     fi
+}
+
+# Install single file scripts
+function install-single-file-scripts(){
+    # http://phishme.com/powerpoint-and-custom-actions/
+    [ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
+        https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py >> "$LOG" 2>&1 && \
+        chmod +x ~/src/bin/psparser.py && \
+        info-message "Installed psparser.py"
+    # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
+    [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
+        https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1 && \
+        chmod +x ~/src/bin/vt.py && \
+        info-message "Installed vt.py."
+    # https://testssl.sh/
+    [ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
+        https://testssl.sh/testssl.sh >> "$LOG" 2>&1 && \
+        chmod +x ~/src/bin/testssl.sh && \
+        info-message "Installed testssl.sh."
+    # Fireeye floss
+    [ ! -e ~/src/bin/floss ] && wget -q -O ~/src/bin/floss \
+        https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss >> "$LOG" 2>&1 && \
+        chmod +x ~/src/bin/floss && \
+        info-message "Installed floss."
+}
+
+# Install automater
+# http://www.tekdefense.com/automater/
+function install-automater(){
+    [ ! -d ~/src/python/automater ] && \
+        git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
+            ~/src/python/automater >> "$LOG" 2>&1 && \
+        cd ~/src/python/automater && \
+        mkvirtualenv automater >> "$LOG" 2>&1 && \
+        setvirtualenvproject >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Checked out Automater."
+}
+
+function update-automater(){
+    [ -d ~/src/python/automater ] && \
+        workon automater && \
+        git pull && \
+        deactivate && \
+        info-message "Updated Automater."
+}
+
+# https://n0where.net/malware-analysis-damm/
+# Also install a seperate version of the latest volatility in this env.
+function install-damm(){
+# shellcheck disable=SC2102
+    [ ! -d ~/src/python/damm ] && \
+        mkdir -p ~/src/python/damm && \
+        git clone --quiet https://github.com/504ensicsLabs/DAMM \
+            ~/src/python/damm/damm >> "$LOG" 2>&1 && \
+        cd ~/src/python/damm/damm && \
+        mkvirtualenv damm >> "$LOG" 2>&1 && \
+        setvirtualenvproject >> "$LOG" 2>&1 && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        pip install --upgrade urllib3[secure] >> "$LOG" 2>&1 && \
+        install-volatility ~/src/python/damm/volatility >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Checked out DAMM."
+}
+
+function update-damm(){
+    [ -d ~/src/python/damm ] && \
+        workon damm && \
+        git pull && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        update-volatility ~/src/python/damm/volatility && \
+        deactivate && \
+        info-message "Updated DAMM."
+}
+
+# Install Volutility
+function install-volutility(){
+    # shellcheck disable=SC2102
+    [ ! -d ~/src/python/volatility ] && \
+        mkdir -p ~/src/python/volutility && \
+        mkvirtualenv volutility >> "$LOG" 2>&1 && \
+        echo "Start MongoDB with docker-mongodb" > ~/src/python/volutility/README && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        pip install --upgrade urllib3[secure] >> "$LOG" 2>&1 && \
+        install-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1 && \
+        git clone https://github.com/kevthehermit/VolUtility \
+            ~/src/python/volutility/volutility >> "$LOG" 2>&1 && \
+        cd ~/src/python/volutility/volutility && \
+        pip install -r requirements.txt >> "$LOG" 2>&1 && \
+        pip install virustotal-api yara-python >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Installed Volutility."
+}
+
+function update-volutility(){
+    [ -d ~/src/python/volatility ] && \
+        workon volutility && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        update-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1 && \
+        cd ~/src/python/volutility/volutility && \
+        git pull >> "$LOG" 2>&1 && \
+        pip install --upgrade -r requirements.txt >> "$LOG" 2>&1 && \
+        pip install --upgrade virustotal-api yara-python >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Updated Volutility."
+}
+
+# Keep a seperate environment for volatility (to be able to upgrade separatly)
+function install-volatility-env(){
+    # shellcheck disable=SC2102
+    [ ! -d ~/src/python/volatility ] && \
+        mkdir -p ~/src/python/volatility && \
+        mkvirtualenv volatility >> "$LOG" 2>&1 && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        pip install --upgrade urllib3[secure] >> "$LOG" 2>&1 && \
+        install-volatility ~/src/python/volatility/volatility >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Checked out Volatility."
+}
+
+function update-volatility-env(){
+    [ -d ~/src/python/volatility ] && \
+        workon volatility && \
+        cd ~/src/python/volatility && \
+        update-volatility  ~/src/python/volatility/volatility && \
+        deactivate && \
+        info-message "Updated Volatility."
+}
+
+# https://github.com/DidierStevens/DidierStevensSuite
+function install-didierstevenssuite(){
+    [ ! -d ~/src/python/didierstevenssuite ] && \
+        git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
+            ~/src/python/didierstevenssuite >> "$LOG" 2>&1 && \
+        mkvirtualenv didierstevenssuite >> "$LOG" 2>&1 && \
+        setvirtualenvproject >> "$LOG" 2>&1 && \
+        enable-new-didier && \
+        deactivate && \
+        info-message "Checked out DidierStevensSuite."
+}
+
+function update-didierstevenssuite(){
+    [ -d ~/src/python/didierstevenssuite ] && \
+        workon didierstevenssuite && \
+        git fetch --all >> "$LOG" 2>&1 && \
+        git reset --hard origin/master  >> "$LOG" 2>&1 && \
+        enable-new-didier && \
+        deactivate && \
+        info-message "Updated DidierStevensSuite."
+}
+
+# https://github.com/decalage2/oletools.git
+function install-oletools(){
+    # shellcheck disable=SC2102
+    [ ! -d ~/.virtualenvs/oletools ] && \
+        mkvirtualenv oletools >> "$LOG" 2>&1 && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        pip install --upgrade urllib3[secure] >> "$LOG" 2>&1 && \
+        pip install oletools >> "$LOG" 2>&1 && \
+        info-message "Installed oletools."
+}
+
+function update-oletools(){
+    [ -d ~/.virtualenvs/oletools ] && \
+        workon  oletools && \
+        pip install --upgrade pip >> "$LOG" 2>&1 && \
+        pip install --upgrade oletools >> "$LOG" 2>&1 && \
+        info-message "Updated oletools."
+}
+
+# Rekall
+function install-rekall(){
+    [ ! -d ~/.virtualenvs/rekall ] && \
+        mkvirtualenv rekall >> "$LOG" 2>&1 && \
+        pip install --upgrade pip setuptools >> "$LOG" 2>&1 && \
+        pip install rekall rekall-gui >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Installed rekall."
+}
+
+function update-rekall(){
+    [ -d ~/.virtualenvs/rekall ] && \
+        workon rekall && \
+        pip install --upgrade pip setuptools >> "$LOG" 2>&1 && \
+        pip install --upgrade rekall rekall-gui >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Updated rekall."
+}
+
+# https://github.com/keydet89/RegRipper2.8
+function install-regripper(){
+    [ ! -d ~/src/git/RegRipper2.8 ] && \
+        git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
+            ~/src/git/RegRipper2.8 >> "$LOG" 2>&1 && \
+        info-message "Checked out RegRipper2.8." && \
+        ln -s ~/remnux-tools/files/regripper2.8 ~/src/bin/regripper2.8 && \
+        chmod 755 ~/remnux-tools/files/regripper2.8
+}
+
+# Checkout git repo to directory
+function checkout-git-repo(){
+    [ ! -d ~/src/git/"$2" ] && \
+        git clone --quiet "$1" \
+            ~/src/git/"$2" >> "$LOG" 2>&1 && \
+        info-message "Checkout git repo $1"
+}
+
+# https://github.com/radare/radare2
+function install-radare2(){
+    # shellcheck disable=SC2024
+    [ ! -d ~/src/git/radare2 ] && \
+        info-message "Starting installation of radare2." && \
+        sudo apt-get remove -y radare2 >> "$LOG" 2>&1 && \
+        sudo apt-get autoremove -y >> "$LOG" 2>&1 && \
+        checkout-git-repo https://github.com/radare/radare2.git ~/src/git/radare2 && \
+        cd ~/src/git/radare2 && \
+        ./sys/install.sh >> "$LOG" 2>&1 && \
+        info-message "Installated radare2."
+}
+
+function update-radare2(){
+    # shellcheck disable=SC2024
+    [ -d ~/src/git/radare2 ] && \
+        sudo apt-get remove -y radare2 >> "$LOG" 2>&1 && \
+        sudo apt-get autoremove -y >> "$LOG" 2>&1 && \
+        cd ~/src/git/radare2 && \
+        git pull && \
+        ./sys/install.sh >> "$LOG" 2>&1 && \
+        info-message "Updated radare2."
 }
