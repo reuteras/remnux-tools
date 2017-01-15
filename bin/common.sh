@@ -40,6 +40,7 @@ function install-general-tools() {
         exfat-utils \
         libffi-dev \
         libimage-exiftool-perl \
+        libncurses5-dev \
         libssl-dev \
         python-dev \
         python-virtualenv \
