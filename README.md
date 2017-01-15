@@ -1,13 +1,17 @@
 # remnux-tools
 
-The setup has changed a lot lately and it is recommended to install from scratch.
+This repository contains my scripts to install [Remnux](https://remnux.org) and [Sift](https://github.com/sans-dfir/sift-bootstrap) with some added tools. I started this repository to be able to quickly install a new VM with the tools I use or would like to use more often. This way it is easy to maintain the same images on many computers.
 
-There are two major scripts for installs:
+The setup has changed a lot in the beginning of 2017 and it is recommended to install from scratch in a new VM.
 
-* setup-remnux.sh - install [Remnux](https://remnux.org)
-* setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap)
+There are now two scripts for installs:
 
-Earlier the Remnux and Sift where installed together in one VM. Most of the addons have been moved to the Remnux script. Both scripts starts from a vanilla Ubuntu 14.04 LTS. Personally I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso). I've only tested the script with the "Ubuntu desktop" as the only thing to install.
+* setup-remnux.sh - install [Remnux](https://remnux.org) and tools.
+* setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap) and tools.
+
+Earlier the Remnux and Sift distributions where installed together in one VM but due to problems with this I've decided to maintain two scripts. Most of the addons have been moved to the Remnux script. But the separation will make it easier to add new tools in both in the future. 
+
+Both scripts starts from a vanilla Ubuntu 14.04 LTS. Personally I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso) and I've only tested with the "Ubuntu desktop" installation option.
 
 ## setup-remnux.sh
 
@@ -32,11 +36,26 @@ The additions are:
 * Install RegRipper2.8
 * Install Yara rules
 * Install latest Radare2
+* Install my resource repository
 * Turn of sound
 
 If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are installed. There are a couple of aliases for docker images from Remnux. They use directories under _~/docker/<tool name>_.
 
-## Common setup
+## setup-sift.sh
+
+This script installs [Sift](https://github.com/sans-dfir/sift-bootstrap)  and some additional tools listed below:
+
+* Ubuntu is updated
+* Some general packages are installed. This includes bsdgames (some useful tools for CTFs), vim, tshark, exfat and more. Also a basic development environment is installed
+* Installs open-vm-tools
+* Create a basic directory structure
+* Run the Remnux install script
+* Install Google Chrome
+* Install Tekdefense Automater
+* Install my resource repository
+* Turn of sound
+
+## Initial setup
 
 First install git and clone the repository. Run all commands as a regular user and use *sudo* when needed.
 
@@ -46,21 +65,21 @@ First install git and clone the repository. Run all commands as a regular user a
 
 ## Install
 
-Choose to install Remnux or SIFT. Don't try to install both in the same VM since it will not work. To install Remnux:
+Choose if you would like to install Remnux or SIFT. Don't try to run both scripts in the same VM since it will not work. To install Remnux with my extra packages listed above:
 
     ./bin/setup-remux.sh      # or make install
 
-Or to install SIFT:
+Or to install SIFT with additions listed above:
 
     ./bin/setup-sift.sh
 
 ## Update
 
-To update Remnux and other tools installed do:
+To update Remnux and tools run:
 
     ./bin/update-remnux.sh     # or make update
 
-To update SIFT run:
+To update SIFT and tools run:
 
     ./bin/update-sift.sh
 
@@ -70,3 +89,6 @@ This command will clean apt and write zeros to free space. Use this command if y
 
     ./bin/clean.sh      # or make clean
 
+If you use VMware remember to run the following command to shrink the image:
+
+    vmware-vdiskmanager -k Virtual\ Disk.vmdk
