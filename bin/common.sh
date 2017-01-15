@@ -93,7 +93,7 @@ function install-volatility() {
         pycrypto \
         ujson \
         yara-python && \
-    pythyon setup.py install
+    python setup.py install
 }
 
 function update-volatility(){
