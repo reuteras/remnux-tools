@@ -36,20 +36,37 @@ The additions are:
 
 If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ and _.bash_aliases_  are installed. There are a couple of aliases for docker images from Remnux. They use directories under _~/docker/<tool name>_.
 
-## Install
+## Common setup
+
+First install git and clone the repository. Run all commands as a regular user and use *sudo* when needed.
 
     sudo apt-get install -y git
     git clone https://github.com/reuteras/remnux-tools.git
     cd remnux-tools
+
+## Install
+
+Choose to install Remnux or SIFT. Don't try to install both in the same VM since it will not work. To install Remnux:
+
     ./bin/setup-remux.sh      # or make install
+
+Or to install SIFT:
+
+    ./bin/setup-sift.sh
 
 ## Update
 
-    ./bin/update.sh     # or make update
+To update Remnux and other tools installed do:
+
+    ./bin/update-remnux.sh     # or make update
+
+To update SIFT run:
+
+    ./bin/update-sift.sh
 
 ## Clean
 
-This command will clean apt and also write zero to all free space.
+This command will clean apt and write zeros to free space. Use this command if you like to shrink your VM size.
 
     ./bin/clean.sh      # or make clean
 
