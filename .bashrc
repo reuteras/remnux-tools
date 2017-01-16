@@ -102,17 +102,6 @@ if ! shopt -oq posix; then
     fi
 fi
 
-function shared(){
-    MOUNTP=$(vmware-hgfsclient)
-
-    if [ !  -z "$MOUNTP" ]; then
-        if [ ! -d ~/shared ]; then
-            mkdir ~/shared
-        fi
-        sudo mount -t vmhgfs .host:/"$MOUNTP" "$HOME"/shared
-   fi
-}
-
 export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/python/didierstevenssuite:$PATH:/opt/remnux-scripts
 export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
