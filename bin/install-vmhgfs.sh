@@ -21,8 +21,9 @@ CURRENT_DIR=$PWD
 info-message "Created TMP_DIR: $TMP_DIR"
 
 info-message "Mount linux.iso"
+[[ ! -d /mnt/cdrom ]] && mkdir -p /mnt/cdrom
 sudo mount --read-only ~/Desktop/linux.iso /mnt/cdrom
-cd $TMP_DIR || exit "Couldn't cd to $TMP_DIR"
+cd "$TMP_DIR" || exit "Couldn't cd to $TMP_DIR"
 info-message "Extract VMwareTools."
 tar zxf /mnt/cdrom/VMwareTools*.tar.gz
 info-message "Umount linux.iso"
@@ -30,12 +31,13 @@ sudo umount /mnt/cdrom
 cd vmware-tools-distrib || exit "Couldn't cd to vmware-tools-distrib."
 
 info-message "Start vmware-install.pl."
+# shellcheck disable=SC2024
 sudo ./vmware-install.pl -d >> "$LOG" 2>&1
 info-message "Installation completed."
 
 info-message "Remove TMP_DIR: $TMP_DIR"
-cd $CURRENT_DIR
-rm -rf $TMP_DIR
+cd "$CURRENT_DIR"
+rm -rf "$TMP_DIR"
 
 if [[ "$(vmware-hgfsclient)" != "" ]]; then
     info-message "Run the following command to mount your share on /cases:"
@@ -43,8 +45,10 @@ if [[ "$(vmware-hgfsclient)" != "" ]]; then
 fi
 
 info-message "Stopping open-vm-tools."
+# shellcheck disable=SC2024
 sudo service open-vm-tools stop >> "$LOG" 2>&1
 info-message "Starting open-vm-tools."
+# shellcheck disable=SC2024
 sudo service open-vm-tools stop >> "$LOG" 2>&1
 info-message "You still might need to reboot to get copy and paste to work."
 info-message "Installation completed."
