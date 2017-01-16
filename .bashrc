@@ -86,6 +86,11 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+if [ -f ~/.remnux-tools_aliases ]; then
+    # shellcheck source=/dev/null
+    . ~/.remnux-tools_aliases
+fi
+
 # enable programmable completion features
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then

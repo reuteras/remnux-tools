@@ -71,6 +71,9 @@ checkout-git-repo https://github.com/reuteras/resources.git resources
 # Turn off sound on start up
 turn-of-sound
 
+# Install aliases
+cp ~/remnux-tools/.sift_aliases ~/.remnux-tools_aliases
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"

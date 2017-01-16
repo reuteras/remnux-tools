@@ -125,6 +125,9 @@ install-radare2
 # Turn off sound on start up
 turn-of-sound
 
+# Install aliases
+cp ~/remnux-tools/.remnux_aliases ~/.remnux-tools_aliases
+
 # Info manual config
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"
