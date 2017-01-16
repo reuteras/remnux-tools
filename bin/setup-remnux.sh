@@ -140,4 +140,6 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "5. Run 'make dotfiles' in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
+else
+    info-message "Update with setup-remnux.sh done."
 fi
