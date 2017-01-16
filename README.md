@@ -92,3 +92,10 @@ This command will clean apt and write zeros to free space. Use this command if y
 If you use VMware remember to run the following command to shrink the image:
 
     vmware-vdiskmanager -k Virtual\ Disk.vmdk
+
+## Extra utilities
+
+There are some extra utilities in the bin directory.
+
+* **api.sh** - configures api keys from config.cfg. Only works for shodan at the moment.
+* **install-vmhgfs.sh** - Install the vmghfs kernel module.
