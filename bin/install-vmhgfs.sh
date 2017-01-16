@@ -21,7 +21,7 @@ CURRENT_DIR=$PWD
 info-message "Created TMP_DIR: $TMP_DIR"
 
 info-message "Mount linux.iso"
-[[ ! -d /mnt/cdrom ]] && mkdir -p /mnt/cdrom
+[[ ! -d /mnt/cdrom ]] && sudo mkdir -p /mnt/cdrom
 sudo mount --read-only ~/Desktop/linux.iso /mnt/cdrom
 cd "$TMP_DIR" || exit "Couldn't cd to $TMP_DIR"
 info-message "Extract VMwareTools."
