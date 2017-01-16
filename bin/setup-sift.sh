@@ -50,6 +50,12 @@ if [[ ! -e ~/.config/.sift ]]; then
     info-message "SITF installation finished."
 fi
 
+if [ ! -e /cases/not-mounted ]; then
+    [[ ! -d /cases ]] && sudo mkdir /cases
+    sudo chown "$USER" /cases
+    touch /cases/not-mounted
+fi
+
 info-message "Install Google Chrome."
 install-google-chrome >> "$LOG" 2>&1
 

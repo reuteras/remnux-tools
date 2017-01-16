@@ -49,6 +49,7 @@ fi
 if [ ! -d /cases ]; then
     sudo mkdir /cases
     sudo chown "$USER" /cases
+    touch /cases/not-mounted
 fi
 
 for dir in pescanner radare2 mastiff thug v8 viper; do
