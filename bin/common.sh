@@ -35,6 +35,7 @@ function install-general-tools() {
         build-essential \
         ctags \
         curl \
+        dos2unix \
         git \
         exfat-fuse \
         exfat-utils \
