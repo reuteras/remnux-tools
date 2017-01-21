@@ -411,7 +411,7 @@ function update-rekall(){
 function install-pcodedmp(){
     if [[ ! -d ~/src/python/pcodedmp ]]; then
         {
-            git clone --quiet https://github.com/bontchev/pcodedmp.git
+            git clone --quiet https://github.com/bontchev/pcodedmp.git \
                 ~/src/python/pcodedmp
             mkvirtualenv pcodedmp
             pip install --upgrade pip setuptools
