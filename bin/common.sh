@@ -223,7 +223,7 @@ function install-automater(){
         git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
             ~/src/python/automater >> "$LOG" 2>&1
         cd ~/src/python/automater || exit "Couldn't cd in install-automater."
-        mkvirtualenv automater >> "$LOG" 2>&1
+        mkvirtualenv automater >> "$LOG" 2>&1 || true
         setvirtualenvproject >> "$LOG" 2>&1
         deactivate
         info-message "Checked out Automater."
@@ -276,7 +276,7 @@ function install-volutility(){
     # shellcheck disable=SC2102
     if [[ ! -d ~/src/python/volatility ]]; then
         mkdir -p ~/src/python/volutility
-        mkvirtualenv volutility >> "$LOG" 2>&1
+        mkvirtualenv volutility >> "$LOG" 2>&1 || true
         echo "Start MongoDB with docker-mongodb" > ~/src/python/volutility/README
         {
             pip install --upgrade pip
