@@ -76,9 +76,13 @@ install-pi-rho-security >> "$LOG" 2>&1
 info-message "Clean up folders and files."
 cleanup-remnux >> "$LOG" 2>&1
 
+echo "install-psparser" >> "$LOG" 2>&1
 install-psparser
+echo "install-vt-py" >> "$LOG" 2>&1
 install-vt-py
+echo "install-testssl" >> "$LOG" 2>&1
 install-testssl
+echo "install-floss" >> "$LOG" 2>&1
 install-floss
 
 # Install pip lib globally
