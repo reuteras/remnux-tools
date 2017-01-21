@@ -408,7 +408,7 @@ function update-rekall(){
     fi
 }
 
-# pcodedmp
+# https://github.com/bontchev/pcodedmp
 function install-pcodedmp(){
     if [[ ! -d ~/src/python/pcodedmp ]]; then
         {
@@ -431,6 +431,36 @@ function update-pcodedmp(){
         git reset --hard origin/master >> "$LOG" 2>&1
         deactivate
         info-message "Updated pcodedmp."
+    fi
+}
+
+# https://github.com/ChrisTruncer/Just-Metadata
+function install-just-metadata(){
+    if [[ ! -d ~/src/python/just-metadata ]]; then
+        {
+            git clone --quiet https://github.com/ChrisTruncer/Just-Metadata.git \
+                ~/src/python/just-metadata
+            mkvirtualenv just-metadata || true
+            pip install --upgrade pip setuptools
+            pip install ipwhois requests shodan netaddr
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Installed just-metadata."
+    fi
+}
+
+function update-just-metadata(){
+    if [[ -d ~/src/python/just-metadata ]]; then
+        workon just-metadata
+        cd ~/src/python/just-metadata || exit "Couldn't cd in update-just-metadata."
+        {
+            git fetch --all
+            git reset --hard origin/master
+            pip install --upgrade pip setuptools
+            pip install --upgrade ipwhois requests shodan netaddr
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Updated just-metadata."
     fi
 }
 

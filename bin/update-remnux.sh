@@ -73,3 +73,5 @@ update-oletools
 update-rekall
 update-radare2
 update-pcodedmp
+update-just-metadata
+info-message "Update done."

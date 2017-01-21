@@ -145,6 +145,10 @@ install-radare2
 echo "install-pcodedmp" >> "$LOG" 2>&1
 install-pcodedmp
 
+# https://github.com/ChrisTruncer/Just-Metadata
+echo "install-just-metadata" >> "$LOG" 2>&1
+install-just-metadata
+
 # Turn off sound on start up
 echo "turn-of-sound" >> "$LOG" 2>&1
 turn-of-sound
