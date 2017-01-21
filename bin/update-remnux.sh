@@ -61,10 +61,6 @@ info-message "Update git repositories."
 for repo in *; do
     info-message "Updating $repo."
     (cd "$repo"; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> $LOG 2>&1)
-    if [ "$repo" == "radare2" ]; then
-        info-message "Running update script for $repo."
-        (cd "$repo"; ./sys/install.sh >> $LOG 2>&1)
-    fi
 done
 
 # Update python
@@ -76,3 +72,4 @@ update-didierstevenssuite
 update-oletools
 update-rekall
 update-radare2
+update-pcodedmp

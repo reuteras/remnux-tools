@@ -321,6 +321,7 @@ function install-didierstevenssuite(){
 function update-didierstevenssuite(){
     [ -d ~/src/python/didierstevenssuite ] && \
         workon didierstevenssuite && \
+        cd ~/src/python/didierstevenssuite && \
         git fetch --all >> "$LOG" 2>&1 && \
         git reset --hard origin/master >> "$LOG" 2>&1 && \
         enable-new-didier && \
@@ -364,6 +365,28 @@ function update-rekall(){
         pip install --upgrade rekall rekall-gui >> "$LOG" 2>&1 && \
         deactivate && \
         info-message "Updated rekall."
+}
+
+# pcodedmp
+function install-pcodedmp(){
+    [ ! -d ~/src/python/pcodedmp ] && \
+        git clone --quiet https://github.com/bontchev/pcodedmp.git
+            ~/src/python/pcodedmp >> "$LOG" 2>&1 && \
+        mkvirtualenv pcodedmp >> "$LOG" 2>&1 && \
+        pip install --upgrade pip setuptools >> "$LOG" 2>&1 && \
+        pip install oletools >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Installed pcodedmp."
+}
+
+function update-pcodedmp(){
+    [ -d ~/src/python/pcodedmp ] && \
+        workon pcodedmp && \
+        cd ~/src/python/pcodedmp && \
+        git fetch --all >> "$LOG" 2>&1 && \
+        git reset --hard origin/master >> "$LOG" 2>&1 && \
+        deactivate && \
+        info-message "Updated pcodedmp."
 }
 
 # https://github.com/keydet89/RegRipper2.8

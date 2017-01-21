@@ -126,6 +126,9 @@ checkout-git-repo https://github.com/reuteras/resources.git resources
 # https://github.com/radare/radare2
 install-radare2
 
+# https://github.com/bontchev/pcodedmp
+install-pcodedmp
+
 # Turn off sound on start up
 turn-of-sound
 
