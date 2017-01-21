@@ -172,7 +172,7 @@ function install-vt-py(){
         info-message "Installed vt.py."
 }
 
-function install-vt-py(){
+function update-vt-py(){
     rm -f ~/src/bin/vt.py
     install-vt-py
 }
@@ -185,7 +185,7 @@ function install-testssl(){
         info-message "Installed testssl.sh."
 }
 
-function install-testssl(){
+function update-testssl(){
     rm -f ~/src/bin/testssl.sh
     install-testssl
 }
@@ -198,7 +198,7 @@ function install-floss(){
         info-message "Installed floss."
 }
 
-function install-floss(){
+function update-floss(){
     rm -f ~/src/bin/floss
     install-floss
 }
