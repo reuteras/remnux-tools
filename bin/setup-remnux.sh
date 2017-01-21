@@ -97,46 +97,60 @@ export PROJECT_HOME="$HOME"/src/python
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 # http://www.tekdefense.com/automater/
+echo "install-automater" >> "$LOG" 2>&1
 install-automater
 
 # https://n0where.net/malware-analysis-damm/
+echo "install-damm" >> "$LOG" 2>&1
 install-damm
 
 # Install Volutility
+echo "install-volutility" >> "$LOG" 2>&1
 install-volutility
 
 # Keep a seperate environment for volatility (to be able to upgrade separatly)
+echo "install-volatility-env" >> "$LOG" 2>&1
 install-volatility-env
 
 # https://github.com/DidierStevens/DidierStevensSuite
+echo "install-didierstevenssuite" >> "$LOG" 2>&1
 install-didierstevenssuite
 
 # https://github.com/decalage2/oletools.git
+echo "install-oletools" >> "$LOG" 2>&1
 install-oletools
 
 # Rekall
+echo "install-rekall" >> "$LOG" 2>&1
 install-rekall
 
 # Other tools
 # https://github.com/keydet89/RegRipper2.8
+echo "install-regripper" >> "$LOG" 2>&1
 install-regripper
 
 # https://github.com/Yara-Rules/rules
+echo "Checkout Yara-Rules" >> "$LOG" 2>&1
 checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules
 
 # https://github.com/reuteras/resources
+echo "Checkout resources" >> "$LOG" 2>&1
 checkout-git-repo https://github.com/reuteras/resources.git resources
 
 # https://github.com/radare/radare2
+echo "install-radare2" >> "$LOG" 2>&1
 install-radare2
 
 # https://github.com/bontchev/pcodedmp
+echo "install-pcodedmp" >> "$LOG" 2>&1
 install-pcodedmp
 
 # Turn off sound on start up
+echo "turn-of-sound" >> "$LOG" 2>&1
 turn-of-sound
 
 # Install aliases
+echo "copy aliases" >> "$LOG" 2>&1
 cp ~/remnux-tools/.remnux_aliases ~/.remnux-tools_aliases
 
 # Info manual config
