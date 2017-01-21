@@ -153,10 +153,12 @@ function cleanup-sift(){
 
 # http://phishme.com/powerpoint-and-custom-actions/
 function install-psparser(){
-    [ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
-        https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py >> "$LOG" 2>&1 && \
-        chmod +x ~/src/bin/psparser.py && \
+    if [ ! -e ~/src/bin/psparser.py ]; then
+        wget -q -O ~/src/bin/psparser.py \
+            https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py >> "$LOG" 2>&1
+        chmod +x ~/src/bin/psparser.py
         info-message "Installed psparser.py"
+    fi
 }
 
 function update-psparser(){
@@ -166,10 +168,12 @@ function update-psparser(){
 
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 function install-vt-py(){
-    [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
-        https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1 && \
-        chmod +x ~/src/bin/vt.py && \
+    if [ ! -e ~/src/bin/vt.py ]; then
+        wget -q -O ~/src/bin/vt.py \
+            https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1
+        chmod +x ~/src/bin/vt.py\
         info-message "Installed vt.py."
+    fi
 }
 
 function update-vt-py(){
@@ -179,10 +183,12 @@ function update-vt-py(){
 
 # https://testssl.sh/
 function install-testssl(){
-    [ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
-        https://testssl.sh/testssl.sh >> "$LOG" 2>&1 && \
-        chmod +x ~/src/bin/testssl.sh && \
+    if [ ! -e ~/src/bin/testssl.sh ]; then 
+        wget -q -O ~/src/bin/testssl.sh \
+            https://testssl.sh/testssl.sh >> "$LOG" 2>&1
+        chmod +x ~/src/bin/testssl.sh
         info-message "Installed testssl.sh."
+    fi
 }
 
 function update-testssl(){
@@ -192,10 +198,12 @@ function update-testssl(){
 
 # Fireeye floss
 function install-floss(){
-    [ ! -e ~/src/bin/floss ] && wget -q -O ~/src/bin/floss \
-        https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss >> "$LOG" 2>&1 && \
-        chmod +x ~/src/bin/floss && \
-        info-message "Installed floss."
+    if [ ! -e ~/src/bin/floss ]; then
+       wget -q -O ~/src/bin/floss \
+        https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss >> "$LOG" 2>&1
+       chmod +x ~/src/bin/floss
+       info-message "Installed floss."
+    fi
 }
 
 function update-floss(){
