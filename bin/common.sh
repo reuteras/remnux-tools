@@ -174,7 +174,8 @@ function update-psparser(){
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 function install-vt-py(){
     if [[ ! -e ~/src/bin/vt.py ]]; then
-        https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1
+        wget -q -O ~/src/bin/vt.py \
+            https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1
         chmod +x ~/src/bin/vt.py
         info-message "Installed vt.py."
     fi
