@@ -62,6 +62,8 @@ install-google-chrome >> "$LOG" 2>&1
 info-message "Clean up folders and files."
 cleanup-sift >> "$LOG" 2>&1
 
+install-floss
+
 info-message "Setup virtualenvwrapper."
 # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/src/python

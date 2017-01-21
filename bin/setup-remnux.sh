@@ -76,7 +76,10 @@ install-pi-rho-security >> "$LOG" 2>&1
 info-message "Clean up folders and files."
 cleanup-remnux >> "$LOG" 2>&1
 
-install-single-file-scripts
+install-psparser
+install-vt-py
+install-testssl
+install-floss
 
 # Install pip lib globally
 # shellcheck disable=SC2024

@@ -41,6 +41,8 @@ sudo apt-get -qq update >> $LOG 2>&1
 # shellcheck disable=SC2024
 sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 
+update-floss
+
 # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null

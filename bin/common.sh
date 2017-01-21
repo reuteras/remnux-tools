@@ -150,27 +150,57 @@ function cleanup-sift(){
 }
 
 # Install single file scripts
-function install-single-file-scripts(){
-    # http://phishme.com/powerpoint-and-custom-actions/
+
+# http://phishme.com/powerpoint-and-custom-actions/
+function install-psparser(){
     [ ! -e ~/src/bin/psparser.py ] && wget -q -O ~/src/bin/psparser.py \
         https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py >> "$LOG" 2>&1 && \
         chmod +x ~/src/bin/psparser.py && \
         info-message "Installed psparser.py"
-    # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
+}
+
+function update-psparser(){
+    rm -f ~/src/bin/psparser.py
+    install-psparser
+}
+
+# https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
+function install-vt-py(){
     [ ! -e ~/src/bin/vt.py ] && wget -q -O ~/src/bin/vt.py \
         https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1 && \
         chmod +x ~/src/bin/vt.py && \
         info-message "Installed vt.py."
-    # https://testssl.sh/
+}
+
+function install-vt-py(){
+    rm -f ~/src/bin/vt.py
+    install-vt-py
+}
+
+# https://testssl.sh/
+function install-testssl(){
     [ ! -e ~/src/bin/testssl.sh ] && wget -q -O ~/src/bin/testssl.sh \
         https://testssl.sh/testssl.sh >> "$LOG" 2>&1 && \
         chmod +x ~/src/bin/testssl.sh && \
         info-message "Installed testssl.sh."
-    # Fireeye floss
+}
+
+function install-testssl(){
+    rm -f ~/src/bin/testssl.sh
+    install-testssl
+}
+
+# Fireeye floss
+function install-floss(){
     [ ! -e ~/src/bin/floss ] && wget -q -O ~/src/bin/floss \
         https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss >> "$LOG" 2>&1 && \
         chmod +x ~/src/bin/floss && \
         info-message "Installed floss."
+}
+
+function install-floss(){
+    rm -f ~/src/bin/floss
+    install-floss
 }
 
 # Install automater

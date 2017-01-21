@@ -41,8 +41,10 @@ sudo apt-get -qq update >> $LOG 2>&1
 # shellcheck disable=SC2024
 sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 
-rm -f ~/src/bin/psparser.py ~/src/bin/vt.py ~/src/bin/testssl.sh ~/src/bin/floss
-install-single-file-scripts
+update-psparser
+update-vt-py
+update-testssl
+update-floss
 
 info-message "Update python colorclass."
 # shellcheck disable=SC2024
