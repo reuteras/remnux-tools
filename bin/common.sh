@@ -248,7 +248,7 @@ function install-damm(){
             ~/src/python/damm/damm >> "$LOG" 2>&1
         cd ~/src/python/damm/damm || exit "Couldn't cd in install-damm."
         {
-            mkvirtualenv damm
+            mkvirtualenv damm || true
             setvirtualenvproject
             pip install --upgrade pip
             pip install --upgrade urllib3[secure]
@@ -314,7 +314,7 @@ function install-volatility-env(){
     if [[ ! -d ~/src/python/volatility ]]; then
         mkdir -p ~/src/python/volatility
         {
-            mkvirtualenv volatility
+            mkvirtualenv volatility || true
             pip install --upgrade pip
             pip install --upgrade urllib3[secure]
             install-volatility ~/src/python/volatility/volatility
@@ -340,7 +340,7 @@ function install-didierstevenssuite(){
         {
             git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
                 ~/src/python/didierstevenssuite
-            mkvirtualenv didierstevenssuite
+            mkvirtualenv didierstevenssuite || true
             setvirtualenvproject
         } >> "$LOG" 2>&1
         enable-new-didier
@@ -366,7 +366,7 @@ function install-oletools(){
     # shellcheck disable=SC2102
     if [[ ! -d ~/.virtualenvs/oletools ]]; then
         {
-            mkvirtualenv oletools
+            mkvirtualenv oletools || true
             pip install --upgrade pip
             pip install --upgrade urllib3[secure]
             pip install oletools
@@ -388,7 +388,7 @@ function update-oletools(){
 function install-rekall(){
     if [[ ! -d ~/.virtualenvs/rekall ]]; then
         {
-            mkvirtualenv rekall
+            mkvirtualenv rekall || true
             pip install --upgrade pip setuptools
             pip install rekall rekall-gui
         } >> "$LOG" 2>&1
@@ -413,7 +413,7 @@ function install-pcodedmp(){
         {
             git clone --quiet https://github.com/bontchev/pcodedmp.git \
                 ~/src/python/pcodedmp
-            mkvirtualenv pcodedmp
+            mkvirtualenv pcodedmp || true
             pip install --upgrade pip setuptools
             pip install oletools
         } >> "$LOG" 2>&1
