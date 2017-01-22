@@ -205,10 +205,15 @@ function cleanup-remnux(){
     if [[ -e ~/Desktop/REMnux\ Cheat\ Sheet ]]; then
         info-message "Clean Desktop."
         [ ! -d ~/Documents/Remnux ] && mkdir ~/Documents/Remnux
-        mv ~/Desktop/REMnux* ~/Documents/Remnux/ || true
-        mv ~/Desktop/*.pdf ~/Documents/Remnux/ || true
-        ln -s /cases ~/Desktop/cases || true
-        ln -s ~/Documents/Remnux ~/Desktop/Remnux || true
+        mv -f ~/Desktop/REMnux\ Docs  ~/Documents/Remnux/ || true
+        mv -f ~/Desktop/REMnux\ Tools\ Sheet  ~/Documents/Remnux/ || true
+        mv -f ~/Desktop/REMnux\ Cheet\ Sheet  ~/Documents/Remnux/ || true
+        if [[ ! -e ~/Desktop/cases ]]; then 
+            ln -s /cases ~/Desktop/cases || true
+        fi
+        if [[ ! -e ~/Desktop/Remnux ]]; then
+            ln -s ~/Documents/Remnux ~/Desktop/Remnux || true
+        fi
     fi
 }
 
