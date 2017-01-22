@@ -99,3 +99,4 @@ There are some extra utilities in the bin directory.
 
 * **api.sh** - configures api keys from config.cfg. Only works for shodan at the moment.
 * **install-vmhgfs.sh** - Install the vmghfs kernel module.
+* **run-one.sh** - Run one function from common. Use **-l** or **--list** for list of functions. 
