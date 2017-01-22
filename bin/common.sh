@@ -226,7 +226,22 @@ function cleanup-sift(){
         info-message "Clean Desktop."
         [ ! -d ~/Documents/SIFT ] && mkdir ~/Documents/SIFT
         mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
-        ln -s ~/Documents/SIFT ~/Desktop/SIFT || true
+        [ ! -e ~/Desktop/SIFT ] && ln -s ~/Documents/SIFT ~/Desktop/SIFT
+    fi
+}
+
+function remove-old(){
+    # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
+    if [[ -e /etc/apt/sources.list.d/google-chrome.list ]]; then
+        info-message "Remove old versions of Chrome."
+        sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
+    fi
+
+    # Remove old wireshark. Caused errors during update
+    # shellcheck disable=SC2024
+    if dpkg -l wireshark | grep 1.12 >> "$LOG" 2>&1 ; then
+        info-message "Remove old versions of wireshark."
+        sudo apt-get -y -qq remove wireshark >> "$LOG" 2>&1
     fi
 }
 

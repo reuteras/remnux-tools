@@ -20,14 +20,7 @@ info-message "Start update."
 info-message "Make sure where not in a virtualenv."
 deactivate 2> /dev/null || true
 
-info-message "Remove old versions of Chrome and Wireshark."
-# Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
-[ -e /etc/apt/sources.list.d/google-chrome.list ] && \
-    sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
-
-# Remove old wireshark. Caused errors during update
-# shellcheck disable=SC2024
-dpkg -l wireshark | grep 1.12 >> $LOG 2>&1 && sudo apt-get -y -qq remove wireshark >> $LOG 2>&1
+remove-old
 
 info-message "Run update-sift script."
 sudo /usr/local/bin/update-sift
@@ -35,13 +28,7 @@ sudo /usr/local/bin/update-sift
 info-message "Update clamav database."
 sudo /usr/bin/freshclam
 
-info-message "Update Ubuntu."
-# shellcheck disable=SC2024
-sudo apt-get -qq update >> $LOG 2>&1
-# shellcheck disable=SC2024
-sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
-
-update-floss
+update-ubuntu
 
 # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/src/python
@@ -53,4 +40,5 @@ update-git-repositories
 
 # Update python
 update-automater
+update-floss
 info-message "update-sift.sh done."

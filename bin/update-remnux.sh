@@ -35,16 +35,7 @@ sudo /opt/remnux-scripts/update-remnux
 info-message "Update clamav database."
 sudo /usr/bin/freshclam
 
-info-message "Update Ubuntu."
-# shellcheck disable=SC2024
-sudo apt-get -qq update >> $LOG 2>&1
-# shellcheck disable=SC2024
-sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
-
-update-psparser
-update-vt-py
-update-testssl
-update-floss
+update-ubuntu
 
 info-message "Update python colorclass."
 # shellcheck disable=SC2024
@@ -61,12 +52,16 @@ update-git-repositories
 # Update python
 update-automater
 update-damm
+update-didierstevenssuite
+update-floss
+update-just-metadata
+update-oletools
+update-pcodedmp
+update-psparser
+update-radare2
+update-rekall
+update-testssl
 update-volutility
 update-volatility-env
-update-didierstevenssuite
-update-oletools
-update-rekall
-update-radare2
-update-pcodedmp
-update-just-metadata
+update-vt-py
 info-message "update-remnux.sh done."
