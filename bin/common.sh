@@ -171,6 +171,7 @@ function install-psparser(){
 }
 
 function update-psparser(){
+    info-message "Update psparser."
     rm -f ~/src/bin/psparser.py
     install-psparser
 }
@@ -186,6 +187,7 @@ function install-vt-py(){
 }
 
 function update-vt-py(){
+    info-message "Update vt.py."
     rm -f ~/src/bin/vt.py
     install-vt-py
 }
@@ -201,6 +203,7 @@ function install-testssl(){
 }
 
 function update-testssl(){
+    info-message "Update testssl.sh."
     rm -f ~/src/bin/testssl.sh
     install-testssl
 }
@@ -216,6 +219,7 @@ function install-floss(){
 }
 
 function update-floss(){
+    info-message "Update floss."
     rm -f ~/src/bin/floss
     install-floss
 }
@@ -485,6 +489,17 @@ function checkout-git-repo(){
         git clone --quiet "$1" ~/src/git/"$2" >> "$LOG" 2>&1
         info-message "Checkout git repo $1"
     fi
+}
+
+# Update git repositories
+function update-git-repositories(){
+    cd ~/src/git || exit 1
+    info-message "Update git repositories."
+    for repo in *; do
+        info-message "Updating $repo."
+        (cd "$repo" || exit "Couldn't cd in update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
+    done
+    info-message "Updated git repositories."
 }
 
 # https://github.com/radare/radare2

@@ -41,7 +41,6 @@ sudo apt-get -qq update >> $LOG 2>&1
 # shellcheck disable=SC2024
 sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 
-info-message "Update floss."
 update-floss
 
 # Use virtualenvwrapper for python tools
@@ -50,15 +49,8 @@ export PROJECT_HOME="$HOME"/src/python
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 # Update git repositories
-cd ~/src/git || exit 1
-info-message "Update git repositories."
-for repo in *; do
-    info-message "Updating $repo."
-    (cd "$repo"; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> $LOG 2>&1)
-done
-info-message "Updated git repositories."
+update-git-repositories
 
 # Update python
-info-message "Update automater."
 update-automater
 info-message "update-sift.sh done."
