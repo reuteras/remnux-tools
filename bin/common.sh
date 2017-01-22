@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function enable-new-didier() {
+    echo "enable-new-didier" >> "$LOG" 2>&1
     if [[ -d ~/src/python/didierstevenssuite ]]; then
         chmod 755 ~/src/python/didierstevenssuite/cut-bytes.py
         chmod 755 ~/src/python/didierstevenssuite/decoder_*
@@ -26,14 +27,27 @@ function error-message() {
 # Turn off sound on start up
 function turn-of-sound() {
     if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
+        echo "turn-of-sound" >> "$LOG" 2>&1
         echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' | \
         sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
     fi
 }
 
+function update-ubuntu(){
+    info-message "Updating Ubuntu."
+    info-message "Running apt-get update."
+    # shellcheck disable=SC2024
+    sudo apt-get -qq update >> "$LOG" 2>&1
+    info-message "Running apt-get dist-upgrade."
+    # shellcheck disable=SC2024
+    sudo apt-get -qq -y dist-upgrade >> "$LOG" 2>&1
+}
+
 # General tools
 function install-general-tools() {
+    info-message "Installing general tools."
+    # shellcheck disable=SC2024
     sudo apt-get -y -qq install \
         ascii \
         bsdgames \
@@ -59,24 +73,70 @@ function install-general-tools() {
         virtualenvwrapper \
         whois \
         wswedish \
-        zip
+        zip >> "$LOG" 2>&1
 }
 
 # Tools for Vmware
 function install-vmware-tools() {
+    info-message "Installing tools for VMware."
+    # shellcheck disable=SC2024
     sudo apt-get -y -qq install \
         fuse \
-        open-vm-tools-desktop
+        open-vm-tools-desktop >> "$LOG" 2>&1
 }
 
 # Install Google Chrome
 function install-google-chrome() {
     if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
+        info-message "Installing Google Chrome."
         cd /tmp || exit "Couldn't cd /tmp in install-google-chrome."
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > /dev/null
-        sudo dpkg -i google-chrome-stable_current_amd64.deb || true
-        sudo apt-get -qq -f -y install
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1 
+        # shellcheck disable=SC2024
+        sudo dpkg -i google-chrome-stable_current_amd64.deb  >> "$LOG" 2>&1 || true
+        # shellcheck disable=SC2024
+        sudo apt-get -qq -f -y install >> "$LOG" 2>&1 
         rm -f google-chrome-stable_current_amd64.deb
+    fi
+}
+
+# Create common directories
+function create-common-directories(){
+    info-message "Create basic directory structure."
+    if [ ! -d ~/src ]; then
+        mkdir -p ~/src/bin
+    fi
+
+    if [ ! -d ~/src/git ]; then
+        mkdir -p ~/src/git
+    fi
+
+    if [ ! -d ~/src/python ]; then
+        mkdir -p ~/src/python
+    fi
+}
+
+# Create docker directories. Currently only for REMnux
+function create-docker-directories(){
+    if [ ! -d ~/docker ]; then
+        info-message "Create docker directory structure."
+        mkdir -p ~/docker
+    fi
+
+    for dir in pescanner radare2 mastiff thug v8 viper; do
+        if [ ! -d ~/docker/$dir ]; then
+            mkdir ~/docker/$dir
+            chmod 777 ~/docker/$dir
+        fi
+    done
+}
+
+# Create /cases/not-mounted
+function create-cases-not-mounted(){
+    if [[ ! -e /cases/not-mounted ]]; then
+        info-message "Create /cases/not-mounted."
+        [[ ! -d /cases ]] && sudo mkdir /cases
+        sudo chown "$USER" /cases
+        touch /cases/not-mounted
     fi
 }
 
@@ -91,6 +151,7 @@ function install-volatility() {
         echo "$1 already exists!"
         exit 1
     fi
+    info-message "Install volatility to $1."
     git clone --quiet https://github.com/volatilityfoundation/volatility "$1"
     cd "$1" || exit "Could not cd $1 in install-volatility."
     pip install \
@@ -106,6 +167,7 @@ function install-volatility() {
 function update-volatility(){
     if [[ -d "$1" ]]; then
         cd "$1" || exit "Couldn't cd $1 in update-volatility."
+        info-message "Update volatility in $1."
         {
             git pull
             pip install --upgrade \
@@ -123,35 +185,40 @@ function update-volatility(){
 # This repo contians newer versions of Wireshark etc. Update again after adding
 function install-pi-rho-security(){
     if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
-        sudo add-apt-repository -y ppa:pi-rho/security
-        sudo apt-get -qq update
-        sudo apt-get -qq -y dist-upgrade
-        sudo apt-get -qq -y install html2text nasm
-        sudo apt-get autoremove -qq -y
+        info-message "Enable ppa:pi-rho/security and install updated packages."
+        {
+            sudo add-apt-repository -y ppa:pi-rho/security
+            sudo apt-get -qq update
+            sudo apt-get -qq -y dist-upgrade
+            sudo apt-get -qq -y install html2text nasm
+            sudo apt-get autoremove -qq -y
+        } >> "$LOG" 2>&1
     fi
 }
 
 # Cleanup functions
 function cleanup-remnux(){
-   if [[ -e ~/examples.desktop ]]; then
+    if [[ -e ~/examples.desktop ]]; then
+        info-message "Clean up folders and files."
         rm -f ~/examples.desktop
     fi
     if [[ -e ~/Desktop/REMnux\ Cheat\ Sheet ]]; then
-        echo "Clean Desktop."
+        info-message "Clean Desktop."
         mkdir ~/Documents/Remnux
         mv ~/Desktop/REMnux* ~/Documents/Remnux/ || true
         mv ~/Desktop/*.pdf ~/Documents/Remnux/ || true
-        ln -s /cases ~/Desktop/cases
+        ln -s /cases ~/Desktop/cases || true
         ln -s ~/Documents/Remnux ~/Desktop/Remnux || true
     fi
 }
 
 function cleanup-sift(){
     if [[ -e ~/examples.desktop ]]; then
+        info-message "Clean up folders and files."
         rm -f ~/examples.desktop
     fi
     if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
-        echo "Clean Desktop."
+        info-message "Clean Desktop."
         mkdir ~/Documents/SIFT || true
         mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
         ln -s ~/Documents/SIFT ~/Desktop/SIFT || true
@@ -162,6 +229,7 @@ function cleanup-sift(){
 
 # http://phishme.com/powerpoint-and-custom-actions/
 function install-psparser(){
+    echo "install-psparser" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/psparser.py ]]; then
         wget -q -O ~/src/bin/psparser.py \
             https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py >> "$LOG" 2>&1
@@ -178,6 +246,7 @@ function update-psparser(){
 
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 function install-vt-py(){
+    echo "install-vt-py" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/vt.py ]]; then
         wget -q -O ~/src/bin/vt.py \
             https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1
@@ -194,6 +263,7 @@ function update-vt-py(){
 
 # https://testssl.sh/
 function install-testssl(){
+    echo "install-testssl" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/testssl.sh ]]; then
         wget -q -O ~/src/bin/testssl.sh \
             https://testssl.sh/testssl.sh >> "$LOG" 2>&1
@@ -210,6 +280,7 @@ function update-testssl(){
 
 # Fireeye floss
 function install-floss(){
+    echo "install-floss" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/floss ]]; then
         wget -q -O ~/src/bin/floss \
             https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss >> "$LOG" 2>&1
@@ -224,9 +295,9 @@ function update-floss(){
     install-floss
 }
 
-# Install automater
 # http://www.tekdefense.com/automater/
 function install-automater(){
+    echo "install-automater" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/automater ]]; then
         git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
             ~/src/python/automater >> "$LOG" 2>&1
@@ -250,7 +321,8 @@ function update-automater(){
 # https://n0where.net/malware-analysis-damm/
 # Also install a seperate version of the latest volatility in this env.
 function install-damm(){
-# shellcheck disable=SC2102
+    echo "install-damm" >> "$LOG" 2>&1
+    # shellcheck disable=SC2102
     if [[ ! -d ~/src/python/damm ]]; then
         mkdir -p ~/src/python/damm
         git clone --quiet https://github.com/504ensicsLabs/DAMM \
@@ -281,6 +353,7 @@ function update-damm(){
 
 # Install Volutility
 function install-volutility(){
+    echo "install-volutility" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
     if [[ ! -d ~/src/python/volatility ]]; then
         mkdir -p ~/src/python/volutility
@@ -319,6 +392,7 @@ function update-volutility(){
 
 # Keep a seperate environment for volatility (to be able to upgrade separatly)
 function install-volatility-env(){
+    echo "install-volatility-env" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
     if [[ ! -d ~/src/python/volatility ]]; then
         mkdir -p ~/src/python/volatility
@@ -345,6 +419,7 @@ function update-volatility-env(){
 
 # https://github.com/DidierStevens/DidierStevensSuite
 function install-didierstevenssuite(){
+    echo "install-didierstevenssuite" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/didierstevenssuite ]]; then
         {
             git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
@@ -372,6 +447,7 @@ function update-didierstevenssuite(){
 
 # https://github.com/decalage2/oletools.git
 function install-oletools(){
+    echo "install-oletools" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
     if [[ ! -d ~/.virtualenvs/oletools ]]; then
         {
@@ -395,6 +471,7 @@ function update-oletools(){
 
 # Rekall
 function install-rekall(){
+    echo "install-rekall" >> "$LOG" 2>&1
     if [[ ! -d ~/.virtualenvs/rekall ]]; then
         {
             mkvirtualenv rekall || true
@@ -418,6 +495,7 @@ function update-rekall(){
 
 # https://github.com/bontchev/pcodedmp
 function install-pcodedmp(){
+    echo "install-pcodedmp" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/pcodedmp ]]; then
         {
             git clone --quiet https://github.com/bontchev/pcodedmp.git \
@@ -444,6 +522,7 @@ function update-pcodedmp(){
 
 # https://github.com/ChrisTruncer/Just-Metadata
 function install-just-metadata(){
+    echo "install-just-metadata" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/just-metadata ]]; then
         {
             git clone --quiet https://github.com/ChrisTruncer/Just-Metadata.git \
@@ -474,6 +553,7 @@ function update-just-metadata(){
 
 # https://github.com/keydet89/RegRipper2.8
 function install-regripper(){
+    echo "install-regripper" >> "$LOG" 2>&1
     if [[ ! -d ~/src/git/RegRipper2.8 ]]; then
         git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
             ~/src/git/RegRipper2.8 >> "$LOG" 2>&1
@@ -485,6 +565,7 @@ function install-regripper(){
 
 # Checkout git repo to directory
 function checkout-git-repo(){
+    echo "Checkout $2 to $1" >> "$LOG" 2>&1
     if [[ ! -d ~/src/git/"$2" ]]; then
         git clone --quiet "$1" ~/src/git/"$2" >> "$LOG" 2>&1
         info-message "Checkout git repo $1"
@@ -504,6 +585,7 @@ function update-git-repositories(){
 
 # https://github.com/radare/radare2
 function install-radare2(){
+    echo "install-radare2" >> "$LOG" 2>&1
     # shellcheck disable=SC2024
     if [[ ! -d ~/src/git/radare2 ]]; then
         info-message "Starting installation of radare2."
@@ -526,5 +608,26 @@ function update-radare2(){
         git pull >> "$LOG" 2>&1
         ./sys/install.sh >> "$LOG" 2>&1
         info-message "Updated radare2."
+    fi
+}
+
+# Main install functions
+# REMnux
+function install-remnux(){
+    if [[ ! -e ~/.config/.remnux ]]; then
+        info-message "Start installation of Remnux."
+        wget --quiet -O - https://remnux.org/get-remnux.sh | sudo bash
+        touch ~/.config/.remnux
+        info-message "Remnux installation finished."
+    fi
+}
+
+# SIFT
+function install-sift(){
+    if [[ ! -e ~/.config/.sift ]]; then
+        info-message "Start installation of SIFT."
+        wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
+        touch ~/.config/.sift
+        info-message "SITF installation finished."
     fi
 }

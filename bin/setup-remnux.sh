@@ -14,76 +14,24 @@ sudo touch "$LOG"
 
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
+
 info-message "Starting installation of Remnux with remnux-tools."
 info-message "Details logged to $LOG."
-info-message "Updating Ubuntu."
-info-message "Running apt-get update."
-# shellcheck disable=SC2024
-sudo apt-get -qq update >> "$LOG" 2>&1
-info-message "Running apt-get dist-upgrade."
-# shellcheck disable=SC2024
-sudo apt-get -qq -y dist-upgrade >> "$LOG" 2>&1
 
-info-message "Installing general tools."
-install-general-tools >> "$LOG" 2>&1
-info-message "Installing tools for VMware."
-install-vmware-tools >> "$LOG" 2>&1
+update-ubuntu
 
-info-message "Create directory structure."
-if [ ! -d ~/src ]; then
-    mkdir -p ~/src/bin
-fi
+install-general-tools
+install-vmware-tools
 
-if [ ! -d ~/src/git ]; then
-    mkdir -p ~/src/git
-fi
+install-remnux
+cleanup-remnux
 
-if [ ! -d ~/src/python ]; then
-    mkdir -p ~/src/python
-fi
+create-common-directories
+create-docker-directories
+create-cases-not-mounted
 
-if [ ! -d ~/docker ]; then
-    mkdir -p ~/docker
-fi
-
-if [ ! -d /cases ]; then
-    sudo mkdir /cases
-    sudo chown "$USER" /cases
-    touch /cases/not-mounted
-fi
-
-for dir in pescanner radare2 mastiff thug v8 viper; do
-    if [ ! -d ~/docker/$dir ]; then
-        mkdir ~/docker/$dir
-        chmod 777 ~/docker/$dir
-    fi
-done
-
-# Install Remnux
-if [[ ! -e ~/.config/.remnux ]]; then
-    info-message "Start installation of Remnux."
-    wget --quiet -O - https://remnux.org/get-remnux.sh | sudo bash
-    touch ~/.config/.remnux
-    info-message "Remnux installation finished."
-fi
-
-info-message "Install Google Chrome."
-install-google-chrome >> "$LOG" 2>&1
-
-info-message "Enable ppa:pi-rho/security and install updated packages."
-install-pi-rho-security >> "$LOG" 2>&1
-
-info-message "Clean up folders and files."
-cleanup-remnux >> "$LOG" 2>&1
-
-echo "install-psparser" >> "$LOG" 2>&1
-install-psparser
-echo "install-vt-py" >> "$LOG" 2>&1
-install-vt-py
-echo "install-testssl" >> "$LOG" 2>&1
-install-testssl
-echo "install-floss" >> "$LOG" 2>&1
-install-floss
+install-google-chrome
+install-pi-rho-security
 
 # Install pip lib globally
 # shellcheck disable=SC2024
@@ -96,65 +44,28 @@ export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-# http://www.tekdefense.com/automater/
-echo "install-automater" >> "$LOG" 2>&1
 install-automater
-
-# https://n0where.net/malware-analysis-damm/
-echo "install-damm" >> "$LOG" 2>&1
 install-damm
-
-# Install Volutility
-echo "install-volutility" >> "$LOG" 2>&1
+install-didierstevenssuite
+install-floss
+install-just-metadata
+install-oletools
+install-pcodedmp
+install-psparser
+install-radare2
+install-regripper
+install-rekall
+install-testssl
+install-vt-py
+install-volatility-env
 install-volutility
 
-# Keep a seperate environment for volatility (to be able to upgrade separatly)
-echo "install-volatility-env" >> "$LOG" 2>&1
-install-volatility-env
-
-# https://github.com/DidierStevens/DidierStevensSuite
-echo "install-didierstevenssuite" >> "$LOG" 2>&1
-install-didierstevenssuite
-
-# https://github.com/decalage2/oletools.git
-echo "install-oletools" >> "$LOG" 2>&1
-install-oletools
-
-# Rekall
-echo "install-rekall" >> "$LOG" 2>&1
-install-rekall
-
-# Other tools
-# https://github.com/keydet89/RegRipper2.8
-echo "install-regripper" >> "$LOG" 2>&1
-install-regripper
-
-# https://github.com/Yara-Rules/rules
-echo "Checkout Yara-Rules" >> "$LOG" 2>&1
+checkout-git-repo https://github.com/reuteras/resources.git resources
 checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules
 
-# https://github.com/reuteras/resources
-echo "Checkout resources" >> "$LOG" 2>&1
-checkout-git-repo https://github.com/reuteras/resources.git resources
-
-# https://github.com/radare/radare2
-echo "install-radare2" >> "$LOG" 2>&1
-install-radare2
-
-# https://github.com/bontchev/pcodedmp
-echo "install-pcodedmp" >> "$LOG" 2>&1
-install-pcodedmp
-
-# https://github.com/ChrisTruncer/Just-Metadata
-echo "install-just-metadata" >> "$LOG" 2>&1
-install-just-metadata
-
-# Turn off sound on start up
-echo "turn-of-sound" >> "$LOG" 2>&1
 turn-of-sound
 
 # Install aliases
-echo "copy aliases" >> "$LOG" 2>&1
 cp ~/remnux-tools/.remnux_aliases ~/.remnux-tools_aliases
 
 # Info manual config
