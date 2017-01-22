@@ -41,6 +41,7 @@ sudo apt-get -qq update >> $LOG 2>&1
 # shellcheck disable=SC2024
 sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 
+info-message "Update floss."
 update-floss
 
 # Use virtualenvwrapper for python tools
@@ -54,11 +55,10 @@ info-message "Update git repositories."
 for repo in *; do
     info-message "Updating $repo."
     (cd "$repo"; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> $LOG 2>&1)
-    if [ "$repo" == "radare2" ]; then
-        info-message "Running update script for $repo."
-        (cd "$repo"; ./sys/install.sh >> $LOG 2>&1)
-    fi
 done
+info-message "Updated git repositories."
 
 # Update python
+info-message "Update automater."
 update-automater
+info-message "update-sift.sh done."
