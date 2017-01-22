@@ -41,9 +41,13 @@ sudo apt-get -qq update >> $LOG 2>&1
 # shellcheck disable=SC2024
 sudo apt-get -y -qq dist-upgrade >> $LOG 2>&1
 
+info-message "Update psparser."
 update-psparser
+info-message "Update vt.py."
 update-vt-py
+info-message "Update testssl.sh."
 update-testssl
+info-message "Update floss."
 update-floss
 
 info-message "Update python colorclass."
@@ -62,6 +66,8 @@ for repo in *; do
     info-message "Updating $repo."
     (cd "$repo"; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> $LOG 2>&1)
 done
+info-message "Updated git repositories."
+for repo in *; do
 
 # Update python
 update-automater
@@ -74,4 +80,4 @@ update-rekall
 update-radare2
 update-pcodedmp
 update-just-metadata
-info-message "Update done."
+info-message "update-remnux.sh done."
