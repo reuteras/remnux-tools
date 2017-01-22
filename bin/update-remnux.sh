@@ -67,7 +67,6 @@ for repo in *; do
     (cd "$repo"; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> $LOG 2>&1)
 done
 info-message "Updated git repositories."
-for repo in *; do
 
 # Update python
 update-automater
