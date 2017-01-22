@@ -19,6 +19,10 @@ function info-message() {
     echo "**** INFO: $*"
 }
 
+function error-message() {
+    echo "**** ERROR: $*"
+}
+
 # Turn off sound on start up
 function turn-of-sound() {
     if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
@@ -492,8 +496,9 @@ function install-radare2(){
         sudo apt-get autoremove -y >> "$LOG" 2>&1
         checkout-git-repo https://github.com/radare/radare2.git radare2
         cd ~/src/git/radare2 || exit "Couldn't cd in install-radare2."
-        ./sys/install.sh >> "$LOG" 2>&1
-        info-message "Installated radare2."
+        make clean >> "$LOG" 2>&1 || true
+        ./sys/install.sh >> "$LOG" 2>&1 || error-message "./sys/install.sh failed!"
+        info-message "Installed radare2."
     fi
 }
 
