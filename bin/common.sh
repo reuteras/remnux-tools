@@ -204,7 +204,7 @@ function cleanup-remnux(){
     fi
     if [[ -e ~/Desktop/REMnux\ Cheat\ Sheet ]]; then
         info-message "Clean Desktop."
-        mkdir ~/Documents/Remnux
+        [ ! -d ~/Documents/Remnux ] && mkdir ~/Documents/Remnux
         mv ~/Desktop/REMnux* ~/Documents/Remnux/ || true
         mv ~/Desktop/*.pdf ~/Documents/Remnux/ || true
         ln -s /cases ~/Desktop/cases || true
@@ -219,7 +219,7 @@ function cleanup-sift(){
     fi
     if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
         info-message "Clean Desktop."
-        mkdir ~/Documents/SIFT || true
+        [ ! -d ~/Documents/SIFT ] && mkdir ~/Documents/SIFT
         mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
         ln -s ~/Documents/SIFT ~/Desktop/SIFT || true
     fi
