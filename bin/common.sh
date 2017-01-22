@@ -232,7 +232,7 @@ function install-automater(){
 
 function update-automater(){
     if [[ -d ~/src/python/automater ]]; then
-        workon automater
+        workon automater || true
         git pull >> "$LOG" 2>&1
         deactivate
         info-message "Updated Automater."
@@ -262,7 +262,7 @@ function install-damm(){
 
 function update-damm(){
     if [[ -d ~/src/python/damm ]]; then
-        workon damm
+        workon damm || true
         git pull >> "$LOG" 2>&1
         pip install --upgrade pip >> "$LOG" 2>&1
         update-volatility ~/src/python/damm/volatility
@@ -295,7 +295,7 @@ function install-volutility(){
 
 function update-volutility(){
     if [[ -d ~/src/python/volatility ]]; then
-        workon volutility
+        workon volutility || true
         pip install --upgrade pip >> "$LOG" 2>&1
         update-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1
         cd ~/src/python/volutility/volutility || exit "Couldn't cd in update-volutility."
@@ -327,7 +327,7 @@ function install-volatility-env(){
 
 function update-volatility-env(){
     if [[ -d ~/src/python/volatility ]]; then
-        workon volatility
+        workon volatility || true
         cd ~/src/python/volatility || exit "Couldn't cd in update-volatility-env."
         update-volatility ~/src/python/volatility/volatility
         deactivate
@@ -352,7 +352,7 @@ function install-didierstevenssuite(){
 
 function update-didierstevenssuite(){
     if [[ -d ~/src/python/didierstevenssuite ]]; then
-        workon didierstevenssuite
+        workon didierstevenssuite || true
         cd ~/src/python/didierstevenssuite || exit "Couldn't cd in update-didierstevenssuite."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
@@ -378,7 +378,7 @@ function install-oletools(){
 
 function update-oletools(){
     if [[ -d ~/.virtualenvs/oletools ]]; then
-        workon oletools
+        workon oletools || true
         pip install --upgrade pip >> "$LOG" 2>&1
         pip install --upgrade oletools >> "$LOG" 2>&1
         info-message "Updated oletools."
@@ -400,7 +400,7 @@ function install-rekall(){
 
 function update-rekall(){
     if [[ -d ~/.virtualenvs/rekall ]]; then
-        workon rekall
+        workon rekall || true
         pip install --upgrade pip setuptools >> "$LOG" 2>&1
         pip install --upgrade rekall rekall-gui >> "$LOG" 2>&1
         deactivate
@@ -425,7 +425,7 @@ function install-pcodedmp(){
 
 function update-pcodedmp(){
     if [[ -d ~/src/python/pcodedmp ]]; then
-        workon pcodedmp
+        workon pcodedmp || true
         cd ~/src/python/pcodedmp || exit "Couldn't cd in update-pcodedmp."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
@@ -451,7 +451,7 @@ function install-just-metadata(){
 
 function update-just-metadata(){
     if [[ -d ~/src/python/just-metadata ]]; then
-        workon just-metadata
+        workon just-metadata || true
         cd ~/src/python/just-metadata || exit "Couldn't cd in update-just-metadata."
         {
             git fetch --all
