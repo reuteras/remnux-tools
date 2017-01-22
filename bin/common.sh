@@ -115,7 +115,7 @@ function create-common-directories(){
     fi
 }
 
-# Create docker directories. Currently only for REMnux
+# Create docker directories.
 function create-docker-directories(){
     if [ ! -d ~/docker ]; then
         info-message "Create docker directory structure."
@@ -208,7 +208,7 @@ function cleanup-remnux(){
         mv -f ~/Desktop/REMnux\ Docs  ~/Documents/Remnux/ || true
         mv -f ~/Desktop/REMnux\ Tools\ Sheet  ~/Documents/Remnux/ || true
         mv -f ~/Desktop/REMnux\ Cheet\ Sheet  ~/Documents/Remnux/ || true
-        if [[ ! -e ~/Desktop/cases ]]; then 
+        if [[ ! -e ~/Desktop/cases ]]; then
             ln -s /cases ~/Desktop/cases || true
         fi
         if [[ ! -e ~/Desktop/Remnux ]]; then

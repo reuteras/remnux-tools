@@ -27,6 +27,7 @@ install-sift
 cleanup-sift
 
 create-common-directories
+create-docker-directories
 create-cases-not-mounted
 
 install-google-chrome
@@ -44,7 +45,7 @@ checkout-git-repo https://github.com/reuteras/resources.git resources
 
 turn-of-sound
 
-# Install aliases for sift. This way we can update them without 
+# Install aliases for sift. This way we can update them without
 # affecting .bash_aliases.
 cp ~/remnux-tools/.sift_aliases ~/.remnux-tools_aliases
 
