@@ -375,7 +375,7 @@ function update-damm(){
 function install-volutility(){
     echo "install-volutility" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
-    if [[ ! -d ~/src/python/volatility ]]; then
+    if [[ ! -d ~/src/python/volutility ]]; then
         mkdir -p ~/src/python/volutility
         mkvirtualenv volutility >> "$LOG" 2>&1 || true
         echo "Start MongoDB with docker-mongodb" > ~/src/python/volutility/README
@@ -395,7 +395,7 @@ function install-volutility(){
 }
 
 function update-volutility(){
-    if [[ -d ~/src/python/volatility ]]; then
+    if [[ -d ~/src/python/volutility ]]; then
         workon volutility || true
         pip install --upgrade pip >> "$LOG" 2>&1
         update-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1
