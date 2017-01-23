@@ -21,7 +21,7 @@ function info-message() {
 }
 
 function error-message() {
-    echo "**** ERROR: $*"
+    (>&2 echo "**** ERROR: $*")
 }
 
 # Turn off sound on start up
