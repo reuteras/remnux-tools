@@ -207,7 +207,7 @@ function cleanup-remnux(){
         [ ! -d ~/Documents/Remnux ] && mkdir ~/Documents/Remnux
         [ -e ~/Desktop/REMnux\ Docs ] && mv -f ~/Desktop/REMnux\ Docs  ~/Documents/Remnux/
         [ -e ~/Desktop/REMnux\ Tools\ Sheet ] && mv -f ~/Desktop/REMnux\ Tools\ Sheet  ~/Documents/Remnux/
-        [ -e ~/Desktop/REMnux\ Cheet\ Sheet ] && mv -f ~/Desktop/REMnux\ Cheet\ Sheet  ~/Documents/Remnux/
+        [ -e ~/Desktop/REMnux\ Cheat\ Sheet ] && mv -f ~/Desktop/REMnux\ Cheat\ Sheet  ~/Documents/Remnux/
         if [[ ! -e ~/Desktop/cases ]]; then
             ln -s /cases ~/Desktop/cases || true
         fi
