@@ -7,8 +7,14 @@ touch "$LOG"
 # shellcheck source=/dev/null
 [[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
 
+if [[ -f "$1" ]]; then
+    LINUX_ISO="$1"
+else
+    LINUX_ISO="$HOME/Desktop/linux.iso"
+fi
+
 if [[ ! -f ~/Desktop/linux.iso ]]; then
-    info-message "You have to copy linux.iso from your VMware installation to ~/Desktop/linux.iso."
+    info-message "You have to copy linux.iso from your VMware installation to ~/Desktop/linux.iso or pass the pass as the first argument."
     info-message "On Macos open /Applications and right click on VMware Fusion. You'll find the linux.iso under Contents/Library/isoimages."
     exit 1
 fi
@@ -22,7 +28,7 @@ info-message "Created TMP_DIR: $TMP_DIR"
 
 info-message "Mount linux.iso"
 [[ ! -d /mnt/cdrom ]] && sudo mkdir -p /mnt/cdrom
-sudo mount --read-only ~/Desktop/linux.iso /mnt/cdrom
+sudo mount --read-only "$LINUX_ISO" /mnt/cdrom
 cd "$TMP_DIR" || exit "Couldn't cd to $TMP_DIR"
 info-message "Extract VMwareTools."
 tar zxf /mnt/cdrom/VMwareTools*.tar.gz
