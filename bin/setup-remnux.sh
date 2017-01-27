@@ -23,6 +23,9 @@ update-ubuntu
 install-general-tools
 install-vmware-tools
 
+# https://bugs.launchpad.net/ubuntu/+source/python-pip/+bug/1658844
+fix-python-pip
+
 install-remnux
 cleanup-remnux
 

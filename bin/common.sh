@@ -90,11 +90,11 @@ function install-google-chrome() {
     if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
         info-message "Installing Google Chrome."
         cd /tmp || exit "Couldn't cd /tmp in install-google-chrome."
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1 
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1
         # shellcheck disable=SC2024
         sudo dpkg -i google-chrome-stable_current_amd64.deb  >> "$LOG" 2>&1 || true
         # shellcheck disable=SC2024
-        sudo apt-get -qq -f -y install >> "$LOG" 2>&1 
+        sudo apt-get -qq -f -y install >> "$LOG" 2>&1
         rm -f google-chrome-stable_current_amd64.deb
     fi
 }
@@ -139,6 +139,24 @@ function create-cases-not-mounted(){
         touch /cases/not-mounted
     fi
 }
+
+# Fix problem with pip - https://github.com/pypa/pip/issues/1093
+function fix-python-pip(){
+    if [[ ! -e /usr/local/bin/pip ]]; then
+        {
+            sudo apt-get remove -yqq --auto-remove python-pip
+            wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
+            sudo -H python /tmp/get-pip.py
+            sudo ln -s /usr/local/bin/pip /usr/bin/pip
+            sudo rm /tmp/get-pip.py
+            sudo -H pip install pyopenssl ndg-httpsclient pyasn1
+            # shellcheck disable=SC2102
+            sudo -H pip install --upgrade urllib3[secure]
+        } >> "$LOG" 2>&1
+        info-message "Install pip from pypa.io."
+    fi
+}
+
 
 # Install Volatility
 # First argument should be target path to check out volatility.
