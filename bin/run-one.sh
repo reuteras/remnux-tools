@@ -33,5 +33,8 @@ if [[ $1 == "-h" || $1 == "--help" || $1 == "-l" || $1 == "--list" ]]; then
 fi
 
 info-message "Executing function $1."
+export PROJECT_HOME="$HOME"/src/python
+# shellcheck source=/dev/null
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh > $LOG 2>&1
 "$@"
 info-message "Done."
