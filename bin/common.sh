@@ -157,7 +157,6 @@ function fix-python-pip(){
     fi
 }
 
-
 # Install Volatility
 # First argument should be target path to check out volatility.
 function install-volatility() {
@@ -331,6 +330,35 @@ function update-floss(){
     info-message "Update floss."
     rm -f ~/src/bin/floss
     install-floss
+}
+
+# https://github.com/x0rz/tweets_analyzer
+function install-tweets_analyzer(){
+    echo "install-tweets_analyzer" >> "$LOG" 2>&1
+    if [[ ! -d ~/src/python/tweets_analyzer ]]; then
+        git clone --quiet https://github.com/x0rz/tweets_analyzer.git \
+            ~/src/python/tweets_analyzer >> "$LOG" 2>&1
+        cd ~/src/python/tweets_analyzer || exit "Couldn't cd in install-tweets_analyzer."
+        mkvirtualenv tweets_analyzer >> "$LOG" 2>&1 || true
+        {
+            setvirtualenvproject
+            pip install --upgrade pip
+            # shellcheck disable=SC2102
+            pip install --upgrade urllib3[secure]
+            pip install -r requirements.txt
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Checked out tweets_analyzer."
+    fi
+}
+
+function update-tweets_analyzer(){
+    if [[ -d ~/src/python/tweets_analyzer ]]; then
+        workon tweets_analyzer || true
+        git pull >> "$LOG" 2>&1
+        deactivate
+        info-message "Updated tweets_analyzer."
+    fi
 }
 
 # http://www.tekdefense.com/automater/

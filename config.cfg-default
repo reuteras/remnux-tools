@@ -1,3 +1,7 @@
 # Add information and remove # for that line.
 #SHODAN_API_KEY=<key>
 #VIRUSTOTAL_API_KEY=<key>
+#TWITTER_CONSUMER_KEY=<key>
+#TWITTER_CONSUMER_SECRET=<key>
+#TWITTER_ACCESS_TOKEN=<key>
+#TWITTER_ACCESS_TOKEN_SECRET=<key>
