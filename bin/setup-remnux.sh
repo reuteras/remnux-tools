@@ -68,6 +68,9 @@ checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules
 
 turn-of-sound
 
+# Install APT packages for REMnux
+install-apt-remnux
+
 # Install aliases
 cp ~/remnux-tools/.remnux_aliases ~/.remnux-tools_aliases
 

@@ -45,7 +45,7 @@ function update-ubuntu(){
 }
 
 # General tools
-function install-general-tools() {
+function install-general-tools(){
     info-message "Installing general tools."
     # shellcheck disable=SC2024
     sudo apt-get -y -qq install \
@@ -77,12 +77,20 @@ function install-general-tools() {
 }
 
 # Tools for Vmware
-function install-vmware-tools() {
+function install-vmware-tools(){
     info-message "Installing tools for VMware."
     # shellcheck disable=SC2024
     sudo apt-get -y -qq install \
         fuse \
         open-vm-tools-desktop >> "$LOG" 2>&1
+}
+
+function install-apt-remnux(){
+    info-message "Installing apt-packages for REMnux."
+    # sleuthkit provides hfind(1)
+    # shellcheck disable=SC2024
+    sudo apt-get -y -qq install \
+        sleuthkit >> "$LOG" 2>&1
 }
 
 # Install Google Chrome
