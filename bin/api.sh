@@ -23,6 +23,7 @@ if [[ -e ~/src/python/tweets_analyzer/secrets.py ]]; then
                 echo 'access_token="'"$TWITTER_ACCESS_TOKEN"'"'
                 echo 'access_token_secret="'"$TWITTER_ACCESS_TOKEN_SECRET"'"'
             } > ~/src/python/tweets_analyzer/secrets.py
+            echo "Configured Twitter tokens for tweets_analyzer."
         else
             echo "No configuration for twitter in ~/remnux-tools/config.cfg"
         fi
