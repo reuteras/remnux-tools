@@ -3,7 +3,7 @@ alias zerodisk="dd if=/dev/zero of=zero; sync; rm -f zero"
 # shellcheck disable=SC1004
 alias urlencode='python -c "import sys, urllib as ul; \
           print ul.quote_plus(sys.argv[1])"'
-# shellcheck disable=SC1004                                                                                                                               
+# shellcheck disable=SC1004
 alias urldecode='python -c "import sys, urllib as ul; \
           print ul.unquote_plus(sys.argv[1])"'
 alias cases-mount="sudo mount -t vmhgfs .host:/$(vmware-hgfsclient) /cases"
