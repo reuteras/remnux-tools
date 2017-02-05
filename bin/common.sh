@@ -289,6 +289,27 @@ function update-psparser(){
     install-psparser
 }
 
+# https://github.com/sysforensics/VirusTotal
+function install-VirusTotal(){
+    echo "install-VirusTotal" >> "$LOG" 2>&1
+    if [[ ! -e ~/src/bin/vt_public.py && ! -e ~/src/bin/vt_public_autorun.py ]]; then
+        wget -q -O ~/src/bin/vt_public.py \
+            https://raw.githubusercontent.com/sysforensics/VirusTotal/master/vt_public.py >> "$LOG" 2>&1
+        wget -q -O ~/src/bin/vt_public_autorun.py \
+            https://raw.githubusercontent.com/sysforensics/VirusTotal/master/vt_public_autorun.py >> "$LOG" 2>&1
+        chmod +x ~/src/bin/vt_public.py
+        chmod +x ~/src/bin/vt_public_autorun.py
+        info-message "Installed VirusTotal from sysforensics."
+    fi
+}
+
+function update-VirusTotal(){
+    info-message "Update VirusTotal."
+    rm -f ~/src/bin/vt_public.py
+    rm -f ~/src/bin/vt_public_autorun.py
+    install-VirusTotal
+}
+
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 function install-vt-py(){
     echo "install-vt-py" >> "$LOG" 2>&1
