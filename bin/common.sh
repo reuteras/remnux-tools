@@ -344,7 +344,7 @@ function update-floss(){
 function install-srum-dump(){
     echo "install-srum-dump" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/srum-dump ]]; then
-        git clone --quiet https://github.com/x0rz/tweets_analyzer.git \
+        git clone --quiet https://github.com/MarkBaggett/srum-dump.git \
             ~/src/python/srum-dump >> "$LOG" 2>&1
         cd ~/src/python/srum-dump || exit "Couldn't cd in install-srum-dump."
         mkvirtualenv srum-dump >> "$LOG" 2>&1 || true
