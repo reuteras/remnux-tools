@@ -340,6 +340,39 @@ function update-floss(){
     install-floss
 }
 
+# https://github.com/MarkBaggett/srum-dump
+function install-srum-dump(){
+    echo "install-srum-dump" >> "$LOG" 2>&1
+    if [[ ! -d ~/src/python/srum-dump ]]; then
+        git clone --quiet https://github.com/x0rz/tweets_analyzer.git \
+            ~/src/python/srum-dump >> "$LOG" 2>&1
+        cd ~/src/python/srum-dump || exit "Couldn't cd in install-srum-dump."
+        mkvirtualenv srum-dump >> "$LOG" 2>&1 || true
+        {
+            setvirtualenvproject
+            pip install --upgrade pip
+            # shellcheck disable=SC2102
+            pip install --upgrade urllib3[secure]
+            pip install impacket openpyxl python-registry
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Checked out srum-dump."
+    fi
+}
+
+function update-srum-dump(){
+    if [[ -d ~/src/python/srum-dump ]]; then
+        workon srum-dump || true
+        git pull >> "$LOG" 2>&1
+        pip install --upgrade pip
+        # shellcheck disable=SC2102
+        pip install --upgrade urllib3[secure]
+        pip install --upgrade impacket openpyxl python-registry
+        deactivate
+        info-message "Updated srum-dump."
+    fi
+}
+
 # https://github.com/x0rz/tweets_analyzer
 function install-tweets_analyzer(){
     echo "install-tweets_analyzer" >> "$LOG" 2>&1
