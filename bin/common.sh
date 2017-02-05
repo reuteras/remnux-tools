@@ -141,10 +141,13 @@ function create-docker-directories(){
 # Create /cases/not-mounted
 function create-cases-not-mounted(){
     if [[ ! -e /cases/not-mounted ]]; then
-        info-message "Create /cases/not-mounted."
-        [[ ! -d /cases ]] && sudo mkdir /cases
-        sudo chown "$USER" /cases
-        touch /cases/not-mounted
+        # Check if already mounted
+        if ! mount | grep /cases | grep ^.host > /dev/null ; then 
+            info-message "Create /cases/not-mounted."
+            [[ ! -d /cases ]] && sudo mkdir /cases
+            sudo chown "$USER" /cases
+            touch /cases/not-mounted
+        fi
     fi
 }
 
