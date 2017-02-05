@@ -197,7 +197,8 @@ function update-volatility(){
         cd "$1" || exit "Couldn't cd $1 in update-volatility."
         info-message "Update volatility in $1."
         {
-            git pull
+            git fetch --all
+            git reset --hard origin/master
             pip install --upgrade \
                 Pillow \
                 distorm3 \
@@ -387,7 +388,8 @@ function install-srum-dump(){
 function update-srum-dump(){
     if [[ -d ~/src/python/srum-dump ]]; then
         workon srum-dump || true
-        git pull >> "$LOG" 2>&1
+        git fetch --all >> "$LOG" 2>&1
+        git reset --hard origin/master >> "$LOG" 2>&1
         pip install --upgrade pip
         # shellcheck disable=SC2102
         pip install --upgrade urllib3[secure]
@@ -420,7 +422,8 @@ function install-tweets_analyzer(){
 function update-tweets_analyzer(){
     if [[ -d ~/src/python/tweets_analyzer ]]; then
         workon tweets_analyzer || true
-        git pull >> "$LOG" 2>&1
+        git fetch --all >> "$LOG" 2>&1
+        git reset --hard origin/master >> "$LOG" 2>&1
         deactivate
         info-message "Updated tweets_analyzer."
     fi
@@ -443,7 +446,8 @@ function install-automater(){
 function update-automater(){
     if [[ -d ~/src/python/automater ]]; then
         workon automater || true
-        git pull >> "$LOG" 2>&1
+        git fetch --all >> "$LOG" 2>&1
+        git reset --hard origin/master >> "$LOG" 2>&1
         deactivate
         info-message "Updated Automater."
     fi
@@ -474,8 +478,11 @@ function install-damm(){
 function update-damm(){
     if [[ -d ~/src/python/damm ]]; then
         workon damm || true
-        git pull >> "$LOG" 2>&1
-        pip install --upgrade pip >> "$LOG" 2>&1
+        {
+            git fetch --all
+            git reset --hard origin/master
+            pip install --upgrade pip
+        } >> "$LOG" 2>&1
         update-volatility ~/src/python/damm/volatility
         deactivate
         info-message "Updated DAMM."
@@ -512,7 +519,8 @@ function update-volutility(){
         update-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1
         cd ~/src/python/volutility/volutility || exit "Couldn't cd in update-volutility."
         {
-            git pull
+            git fetch --all
+            git reset --hard origin/master
             pip install --upgrade -r requirements.txt
             pip install --upgrade virustotal-api yara-python
         } >> "$LOG" 2>&1
@@ -736,8 +744,11 @@ function update-radare2(){
         sudo apt-get remove -y radare2 >> "$LOG" 2>&1
         sudo apt-get autoremove -y >> "$LOG" 2>&1
         cd ~/src/git/radare2 || exit "Couldn't cd in update-radare2."
-        git pull >> "$LOG" 2>&1
-        ./sys/install.sh >> "$LOG" 2>&1
+        {
+            git fetch --all
+            git reset --hard origin/master
+            ./sys/install.sh
+        } >> "$LOG" 2>&1
         info-message "Updated radare2."
     fi
 }
