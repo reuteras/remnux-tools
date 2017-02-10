@@ -614,8 +614,8 @@ function install-rekall(){
     if [[ ! -d ~/.virtualenvs/rekall ]]; then
         {
             mkvirtualenv rekall || true
-            pip install --upgrade pip setuptools
-            pip install rekall rekall-gui
+            pip install --upgrade pip setuptools wheel
+            pip install rekall
         } >> "$LOG" 2>&1
         deactivate
         info-message "Installed rekall."
@@ -625,8 +625,8 @@ function install-rekall(){
 function update-rekall(){
     if [[ -d ~/.virtualenvs/rekall ]]; then
         workon rekall || true
-        pip install --upgrade pip setuptools >> "$LOG" 2>&1
-        pip install --upgrade rekall rekall-gui >> "$LOG" 2>&1
+        pip install --upgrade pip setuptools wheel >> "$LOG" 2>&1
+        pip install --upgrade rekall >> "$LOG" 2>&1
         deactivate
         info-message "Updated rekall."
     fi
