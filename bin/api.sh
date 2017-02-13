@@ -9,8 +9,10 @@ fi
 . ~/remnux-tools/config.cfg
 
 if [[ ! -e ~/.shodan/api_key && ! -z "$SHODAN_API_KEY" ]]; then
-    echo -n "Initialize Shodan API (access via command shodan): "
-    shodan init "$SHODAN_API_KEY"
+    if type shodan > /dev/null 2>&1 ; then
+        echo -n "Initialize Shodan API (access via command shodan): "
+        shodan init "$SHODAN_API_KEY"
+    fi
 fi
 
 if [[ -e ~/src/python/tweets_analyzer/secrets.py ]]; then
