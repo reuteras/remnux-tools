@@ -27,6 +27,7 @@ if [[ $1 == "-h" || $1 == "--help" || $1 == "-l" || $1 == "--list" ]]; then
         grep -v install-sift |
         grep -v install-vmware-tools |
         grep -v turn-of-sound|
+        grep -v update-sift |
         awk '{print $2}' |
         cut -f1 -d\( |
         sort

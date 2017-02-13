@@ -23,7 +23,7 @@ deactivate 2> /dev/null || true
 remove-old
 
 info-message "Run update-sift script."
-sudo /usr/local/bin/update-sift
+update-sift
 
 info-message "Update clamav database."
 sudo /usr/bin/freshclam

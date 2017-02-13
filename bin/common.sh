@@ -753,7 +753,7 @@ function update-radare2(){
     fi
 }
 
-# Main install functions
+# Main install and update functions
 # REMnux
 function install-remnux(){
     if [[ ! -e ~/.config/.remnux ]]; then
@@ -771,5 +771,20 @@ function install-sift(){
         wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
         touch ~/.config/.sift
         info-message "SITF installation finished."
+    fi
+}
+
+function update-sift(){
+    START_FRESHCLAM=1
+    # shellcheck disable=SC2024
+    if ! sudo service clamav-freshclam status >> "$LOG" 2>&1 ; then
+        # shellcheck disable=SC2024
+        sudo service clamav-freshclam stop >> "$LOG" 2>&1
+        START_FRESHCLAM=0
+    fi
+    sudo /usr/local/bin/update-sift
+    if [[ $START_FRESHCLAM -eq 0 ]]; then
+        # shellcheck disable=SC2024
+        sudo service clamav-freshclam start >> "$LOG" 2>&1
     fi
 }
