@@ -29,3 +29,23 @@ if [[ -e ~/src/python/tweets_analyzer/secrets.py ]]; then
         fi
     fi
 fi
+
+# Configure GIT
+if [[ ! -z $REMNUX_EDITOR ]]; then
+    if [[ $(git config --global --get core.editor) != "$REMNUX_EDITOR" ]]; then
+        git config --global core.editor "$REMNUX_EDITOR"
+    fi
+fi
+
+if [[ ! -z $REMNUX_EMAIL ]]; then
+    if [[ $(git config --global --get user.email) != "$REMNUX_EMAIL" ]]; then
+        git config --global user.email "$REMNUX_EMAIL"
+    fi
+fi
+
+if [[ ! -z $REMNUX_NAME ]]; then
+    if [[ $(git config --global --get user.name) != "$REMNUX_NAME" ]]; then
+        git config --global user.name "$REMNUX_NAME"
+    fi
+fi
+

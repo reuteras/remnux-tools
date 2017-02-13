@@ -5,3 +5,9 @@
 #TWITTER_CONSUMER_SECRET=<key>
 #TWITTER_ACCESS_TOKEN=<key>
 #TWITTER_ACCESS_TOKEN_SECRET=<key>
+## Used for git
+#REMNUX_EDITOR=vim
+## Used for git
+#REMNUX_EMAIL=user@example.com
+## Used for git
+#REMNUX_NAME="First Last"
