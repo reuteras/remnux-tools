@@ -66,6 +66,7 @@ function install-general-tools(){
         python-virtualenv \
         sharutils \
         sqlite3 \
+        sqlitebrowser \
         tshark \
         vim \
         vim-doc \
