@@ -4,23 +4,33 @@ function enable-new-didier() {
     echo "enable-new-didier" >> "$LOG" 2>&1
     if [[ -d ~/src/python/didierstevenssuite ]]; then
         chmod 755 ~/src/python/didierstevenssuite/
+        chmod 755 ~/src/python/didierstevenssuite/base64dump.py
         chmod 755 ~/src/python/didierstevenssuite/byte-stats.py
+        chmod 755 ~/src/python/didierstevenssuite/cipher-tool.py
         chmod 755 ~/src/python/didierstevenssuite/count.py
         chmod 755 ~/src/python/didierstevenssuite/cut-bytes.py
         chmod 755 ~/src/python/didierstevenssuite/decode*
+        chmod 755 ~/src/python/didierstevenssuite/defuzzer.py
         chmod 755 ~/src/python/didierstevenssuite/emldump.py
+        chmod 755 ~/src/python/didierstevenssuite/extractscripts.py
         chmod 755 ~/src/python/didierstevenssuite/file2vbscript.py
         chmod 755 ~/src/python/didierstevenssuite/find-file-in-file.py
         chmod 755 ~/src/python/didierstevenssuite/hex-to-bin.py
+        chmod 755 ~/src/python/didierstevenssuite/numbers*
         chmod 755 ~/src/python/didierstevenssuite/oledump.py
         chmod 755 ~/src/python/didierstevenssuite/pdf-parser.py
         chmod 755 ~/src/python/didierstevenssuite/pdfid.py
+        chmod 755 ~/src/python/didierstevenssuite/pecheck.py
         chmod 755 ~/src/python/didierstevenssuite/plugin_*
+        chmod 755 ~/src/python/didierstevenssuite/python-per-line.py
         chmod 755 ~/src/python/didierstevenssuite/reextra.py
         chmod 755 ~/src/python/didierstevenssuite/re-search.py
+        chmod 755 ~/src/python/didierstevenssuite/rtfdump.py
+        chmod 755 ~/src/python/didierstevenssuite/sets.py
         chmod 755 ~/src/python/didierstevenssuite/shellcode*
         chmod 755 ~/src/python/didierstevenssuite/split.py
         chmod 755 ~/src/python/didierstevenssuite/translate.py
+        chmod 755 ~/src/python/didierstevenssuite/zipdump.py
     fi
 }
 
