@@ -786,7 +786,21 @@ function install-remnux(){
 function install-sift(){
     if [[ ! -e ~/.config/.sift ]]; then
         info-message "Start installation of SIFT."
-        wget --quiet -O - https://raw.github.com/sans-dfir/sift-bootstrap/master/bootstrap.sh | sudo bash -s -- -i -s -y
+        cd /tmp || true
+        {
+            sudo apt-get remove -y python3-xlsxwriter
+            sudo apt-get autoremove -y
+            wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
+                grep 'browser_' | cut -d\" -f4 | head -1)"
+            wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
+                grep 'browser_' | cut -d\" -f4 | tail -1)"
+        } >> "$LOG" 2>&1
+        # Does not validate gpg at the moment due to problems downloading keys in some networks...
+        chmod +x /tmp/sift-cli-linux
+        mv /tmp/sift-cli-linux /usr/local/bin/sift
+        rm -f /tmp/sift-cli-linux.sha256.asc
+        # shellcheck disable=SC2024
+        sudo /usr/local/bin/sift install >> "$LOG" 2>&1
         touch ~/.config/.sift
         info-message "SITF installation finished."
     fi
@@ -794,13 +808,16 @@ function install-sift(){
 
 function update-sift(){
     START_FRESHCLAM=1
+    info-message "Start SITF upgrade."
     # shellcheck disable=SC2024
     if ! sudo service clamav-freshclam status >> "$LOG" 2>&1 ; then
         # shellcheck disable=SC2024
         sudo service clamav-freshclam stop >> "$LOG" 2>&1
         START_FRESHCLAM=0
     fi
-    sudo /usr/local/bin/update-sift
+    # shellcheck disable=SC2024
+    sudo /usr/local/bin/sift upgrade >> "$LOG" 2>&1
+    info-message "SITF upgrade finished."
     if [[ $START_FRESHCLAM -eq 0 ]]; then
         # shellcheck disable=SC2024
         sudo service clamav-freshclam start >> "$LOG" 2>&1
