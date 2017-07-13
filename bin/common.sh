@@ -66,7 +66,7 @@ function update-ubuntu(){
 function install-general-tools(){
     info-message "Installing general tools."
     # shellcheck disable=SC2024
-    sudo apt-get -y -qq install \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get -y -qq install \
         ascii \
         bsdgames \
         build-essential \
