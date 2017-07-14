@@ -417,7 +417,7 @@ function update-SSMA(){
         git reset --hard origin/master >> "$LOG" 2>&1
         # shellcheck disable=SC1090
         . ~/src/python/SSMA-env/bin/activate
-        pip3 install --upgrade -r requirements_with_ssdeep.txt
+        pip3 install --upgrade -r requirements_with_ssdeep.txt >> "$LOG" 2>&1
         deactivate
         info-message "Updated RecuperaBit."
     fi
