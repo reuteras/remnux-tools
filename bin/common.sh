@@ -797,7 +797,7 @@ function install-sift(){
         } >> "$LOG" 2>&1
         # Does not validate gpg at the moment due to problems downloading keys in some networks...
         chmod +x /tmp/sift-cli-linux
-        mv /tmp/sift-cli-linux /usr/local/bin/sift
+        sudo mv /tmp/sift-cli-linux /usr/local/bin/sift
         rm -f /tmp/sift-cli-linux.sha256.asc
         # shellcheck disable=SC2024
         sudo /usr/local/bin/sift install >> "$LOG" 2>&1
