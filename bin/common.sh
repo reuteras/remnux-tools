@@ -386,6 +386,38 @@ function update-floss(){
     install-floss
 }
 
+# https://github.com/Lazza/RecuperaBit
+function install-RecuperaBit(){
+    echo "install-RecuperaBit" >> "$LOG" 2>&1
+    if [[ ! -d ~/src/python/RecuperaBit ]]; then
+        git clone --quiet https://github.com/Lazza/RecuperaBit.git \
+            ~/src/python/RecuperaBit >> "$LOG" 2>&1
+        cd ~/src/python/RecuperaBit || exit "Couldn't cd in install-RecuperaBit."
+        mkvirtualenv RecuperaBit >> "$LOG" 2>&1 || true
+        {
+            setvirtualenvproject
+            pip install --upgrade pip
+            # shellcheck disable=SC2102
+            pip install --upgrade urllib3[secure]
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Checked out RecuperaBit."
+    fi
+}
+
+function update-RecuperaBit(){
+    if [[ -d ~/src/python/RecuperaBit ]]; then
+        workon RecuperaBit || true
+        git fetch --all >> "$LOG" 2>&1
+        git reset --hard origin/master >> "$LOG" 2>&1
+        pip install --upgrade pip
+        # shellcheck disable=SC2102
+        pip install --upgrade urllib3[secure]
+        deactivate
+        info-message "Updated RecuperaBit."
+    fi
+}
+
 # https://github.com/MarkBaggett/srum-dump
 function install-srum-dump(){
     echo "install-srum-dump" >> "$LOG" 2>&1
@@ -749,6 +781,8 @@ function update-dcp(){
         cd ~/src/git/dcp || echo "Couldn't cd to dcp."
         {
             make clean
+            git fetch --all
+            git reset --hard origin/master
             git pull
             ./bootstrap.sh
             ./configure
