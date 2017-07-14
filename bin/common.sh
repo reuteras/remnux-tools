@@ -273,6 +273,7 @@ function cleanup-sift(){
     if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
         info-message "Clean Desktop."
         [ ! -d ~/Documents/SIFT ] && mkdir -p ~/Documents/SIFT
+        sudo chown malware:malware ~/Desktop
         sudo chown malware:malware  ~/Desktop/*.pdf
         mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
         [ ! -e ~/Desktop/SIFT ] && ln -s ~/Documents/SIFT ~/Desktop/SIFT
