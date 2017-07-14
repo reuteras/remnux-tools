@@ -109,6 +109,7 @@ function install-apt-remnux(){
     # sleuthkit provides hfind(1)
     # shellcheck disable=SC2024
     sudo apt-get -y -qq install \
+        python3-pip \
         sleuthkit >> "$LOG" 2>&1
 }
 
@@ -161,7 +162,7 @@ function create-docker-directories(){
 function create-cases-not-mounted(){
     if [[ ! -e /cases/not-mounted ]]; then
         # Check if already mounted
-        if ! mount | grep /cases | grep ^.host > /dev/null ; then 
+        if ! mount | grep /cases | grep ^.host > /dev/null ; then
             info-message "Create /cases/not-mounted."
             [[ ! -d /cases ]] && sudo mkdir /cases
             sudo chown "$USER" /cases
@@ -386,13 +387,36 @@ function update-floss(){
     install-floss
 }
 
+# https://github.com/secrary/SSMA
+function install-SSMA(){
+    echo "install-SSMA" >> "$LOG" 2>&1
+    if [[ ! -d ~/src/python/SSMA ]]; then
+        git clone --quiet https://github.com/secrary/SSMA.git \
+            ~/src/python/SSMA >> "$LOG" 2>&1
+        # Make virtualenv to install virtualenv...
+        # Bug in old versions of virtualenv forces us to do this.
+        mkvirtualenv venv >> "$LOG" 2>&1 || true
+        pip install virtualenv
+        virtualenv -p python3 ~/src/python/SSMA-env
+        deactivate
+        cd ~/src/python/SSMA || exit "Couldn't cd into install-SSMA."
+        {
+            # shellcheck disable=SC1090
+            . ~/src/python/SSMA-env/bin/activate
+            pip3 install -r requirements_with_ssdeep.txt
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Checked out SSMA."
+    fi
+}
+
 # https://github.com/Lazza/RecuperaBit
 function install-RecuperaBit(){
     echo "install-RecuperaBit" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/RecuperaBit ]]; then
         git clone --quiet https://github.com/Lazza/RecuperaBit.git \
             ~/src/python/RecuperaBit >> "$LOG" 2>&1
-        cd ~/src/python/RecuperaBit || exit "Couldn't cd in install-RecuperaBit."
+        cd ~/src/python/RecuperaBit || exit "Couldn't cd into install-RecuperaBit."
         mkvirtualenv RecuperaBit >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -424,7 +448,7 @@ function install-srum-dump(){
     if [[ ! -d ~/src/python/srum-dump ]]; then
         git clone --quiet https://github.com/MarkBaggett/srum-dump.git \
             ~/src/python/srum-dump >> "$LOG" 2>&1
-        cd ~/src/python/srum-dump || exit "Couldn't cd in install-srum-dump."
+        cd ~/src/python/srum-dump || exit "Couldn't cd into install-srum-dump."
         mkvirtualenv srum-dump >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -458,7 +482,7 @@ function install-tweets_analyzer(){
     if [[ ! -d ~/src/python/tweets_analyzer ]]; then
         git clone --quiet https://github.com/x0rz/tweets_analyzer.git \
             ~/src/python/tweets_analyzer >> "$LOG" 2>&1
-        cd ~/src/python/tweets_analyzer || exit "Couldn't cd in install-tweets_analyzer."
+        cd ~/src/python/tweets_analyzer || exit "Couldn't cd into install-tweets_analyzer."
         mkvirtualenv tweets_analyzer >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -488,7 +512,7 @@ function install-automater(){
     if [[ ! -d ~/src/python/automater ]]; then
         git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
             ~/src/python/automater >> "$LOG" 2>&1
-        cd ~/src/python/automater || exit "Couldn't cd in install-automater."
+        cd ~/src/python/automater || exit "Couldn't cd into install-automater."
         mkvirtualenv automater >> "$LOG" 2>&1 || true
         setvirtualenvproject >> "$LOG" 2>&1
         deactivate
@@ -515,7 +539,7 @@ function install-damm(){
         mkdir -p ~/src/python/damm
         git clone --quiet https://github.com/504ensicsLabs/DAMM \
             ~/src/python/damm/damm >> "$LOG" 2>&1
-        cd ~/src/python/damm/damm || exit "Couldn't cd in install-damm."
+        cd ~/src/python/damm/damm || exit "Couldn't cd into install-damm."
         {
             mkvirtualenv damm || true
             setvirtualenvproject
@@ -557,7 +581,7 @@ function install-volutility(){
             git clone https://github.com/kevthehermit/VolUtility \
                 ~/src/python/volutility/volutility
         } >> "$LOG" 2>&1
-        cd ~/src/python/volutility/volutility || exit "Couldn't cd in install-volutility."
+        cd ~/src/python/volutility/volutility || exit "Couldn't cd into install-volutility."
         pip install -r requirements.txt >> "$LOG" 2>&1
         pip install virustotal-api yara-python >> "$LOG" 2>&1
         deactivate
@@ -570,7 +594,7 @@ function update-volutility(){
         workon volutility || true
         pip install --upgrade pip >> "$LOG" 2>&1
         update-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1
-        cd ~/src/python/volutility/volutility || exit "Couldn't cd in update-volutility."
+        cd ~/src/python/volutility/volutility || exit "Couldn't cd into update-volutility."
         {
             git fetch --all
             git reset --hard origin/master
@@ -602,7 +626,7 @@ function install-volatility-env(){
 function update-volatility-env(){
     if [[ -d ~/src/python/volatility ]]; then
         workon volatility || true
-        cd ~/src/python/volatility || exit "Couldn't cd in update-volatility-env."
+        cd ~/src/python/volatility || exit "Couldn't cd into update-volatility-env."
         update-volatility ~/src/python/volatility/volatility
         deactivate
         info-message "Updated Volatility."
@@ -628,7 +652,7 @@ function install-didierstevenssuite(){
 function update-didierstevenssuite(){
     if [[ -d ~/src/python/didierstevenssuite ]]; then
         workon didierstevenssuite || true
-        cd ~/src/python/didierstevenssuite || exit "Couldn't cd in update-didierstevenssuite."
+        cd ~/src/python/didierstevenssuite || exit "Couldn't cd into update-didierstevenssuite."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
         enable-new-didier
@@ -703,7 +727,7 @@ function install-pcodedmp(){
 function update-pcodedmp(){
     if [[ -d ~/src/python/pcodedmp ]]; then
         workon pcodedmp || true
-        cd ~/src/python/pcodedmp || exit "Couldn't cd in update-pcodedmp."
+        cd ~/src/python/pcodedmp || exit "Couldn't cd into update-pcodedmp."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
         deactivate
@@ -730,7 +754,7 @@ function install-just-metadata(){
 function update-just-metadata(){
     if [[ -d ~/src/python/just-metadata ]]; then
         workon just-metadata || true
-        cd ~/src/python/just-metadata || exit "Couldn't cd in update-just-metadata."
+        cd ~/src/python/just-metadata || exit "Couldn't cd into update-just-metadata."
         {
             git fetch --all
             git reset --hard origin/master
@@ -809,7 +833,7 @@ function update-git-repositories(){
     info-message "Update git repositories."
     for repo in *; do
         info-message "Updating $repo."
-        (cd "$repo" || exit "Couldn't cd in update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
+        (cd "$repo" || exit "Couldn't cd into update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
     done
     info-message "Updated git repositories."
 }
@@ -823,7 +847,7 @@ function install-radare2(){
         sudo apt-get remove -y radare2 >> "$LOG" 2>&1
         sudo apt-get autoremove -y >> "$LOG" 2>&1
         checkout-git-repo https://github.com/radare/radare2.git radare2
-        cd ~/src/git/radare2 || exit "Couldn't cd in install-radare2."
+        cd ~/src/git/radare2 || exit "Couldn't cd into install-radare2."
         make clean >> "$LOG" 2>&1 || true
         ./sys/install.sh >> "$LOG" 2>&1 || error-message "./sys/install.sh failed!"
         info-message "Installed radare2."
@@ -835,7 +859,7 @@ function update-radare2(){
     if [[ -d ~/src/git/radare2 ]]; then
         sudo apt-get remove -y radare2 >> "$LOG" 2>&1
         sudo apt-get autoremove -y >> "$LOG" 2>&1
-        cd ~/src/git/radare2 || exit "Couldn't cd in update-radare2."
+        cd ~/src/git/radare2 || exit "Couldn't cd into update-radare2."
         {
             git fetch --all
             git reset --hard origin/master
