@@ -729,7 +729,7 @@ function install-dcp(){
         git clone --quiet https://github.com/NationalSecurityAgency/DCP.git \
             ~/src/git/dcp >> "$LOG" 2>&1
         # shellcheck disable=SC2024
-        sudo apt-get install gengetopt autoconf libtool libjansson-dev \
+        sudo apt-get install -yqq gengetopt autoconf libtool libjansson-dev \
             libdb-dev >> "$LOG" 2>&1
         cd ~/src/git/dcp || echo "Couldn't cd to dcp."
         {
