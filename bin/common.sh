@@ -410,6 +410,19 @@ function install-SSMA(){
     fi
 }
 
+function update-SSMA(){
+    if [[ -d ~/src/python/SSMA ]]; then
+        cd ~/src/python/SSMA || exit "Couldn't cd into install-SSMA."
+        git fetch --all >> "$LOG" 2>&1
+        git reset --hard origin/master >> "$LOG" 2>&1
+        # shellcheck disable=SC1090
+        . ~/src/python/SSMA-env/bin/activate
+        pip3 install --upgrade -r requirements_with_ssdeep.txt
+        deactivate
+        info-message "Updated RecuperaBit."
+    fi
+}
+
 # https://github.com/Lazza/RecuperaBit
 function install-RecuperaBit(){
     echo "install-RecuperaBit" >> "$LOG" 2>&1

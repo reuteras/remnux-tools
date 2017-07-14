@@ -58,6 +58,7 @@ install-psparser
 install-radare2
 install-regripper
 install-rekall
+install-SSMA
 install-testssl
 install-vt-py
 install-volatility-env
