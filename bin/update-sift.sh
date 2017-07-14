@@ -42,4 +42,5 @@ update-git-repositories
 update-automater
 update-dcp
 update-floss
+update-RecuperaBit
 info-message "update-sift.sh done."

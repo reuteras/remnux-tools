@@ -41,6 +41,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 install-automater
 install-dcp
 install-floss
+install-RecuperaBit
 
 checkout-git-repo https://github.com/reuteras/resources.git resources
 
