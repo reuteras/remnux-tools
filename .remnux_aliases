@@ -19,3 +19,4 @@ alias urldecode='python -c "import sys, urllib as ul; \
           print ul.unquote_plus(sys.argv[1])"'
 alias cases-mount="sudo mount -t vmhgfs .host:/$(vmware-hgfsclient) /cases"
 alias cases-umount="sudo umount /cases"
+alias SSMA=". ~/src/python/SSMA-env/bin/activate"
