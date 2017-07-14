@@ -722,6 +722,44 @@ function install-regripper(){
     fi
 }
 
+# https://github.com/nationalsecurityagency/dcp
+function install-dcp(){
+    echo "install-dcp" >> "$LOG" 2>&1
+    if [[ ! -d ~/src/git/dcp ]]; then
+        git clone --quiet https://github.com/NationalSecurityAgency/DCP.git \
+            ~/src/git/dcp >> "$LOG" 2>&1
+        # shellcheck disable=SC2024
+        sudo apt-get install gengetopt autoconf libtool libjansson-dev \
+            libdb-dev >> "$LOG" 2>&1
+        cd ~/src/git/dcp || echo "Couldn't cd to dcp."
+        {
+            ./bootstrap.sh
+            ./configure
+            make
+            sudo make install
+            make clean
+        } >> "$LOG" 2>&1
+        info-message "Installed DCP."
+    fi
+}
+
+function update-dcp(){
+    echo "update-dcp" >> "$LOG" 2>&1
+    if [[ -d ~/src/git/dcp ]]; then
+        cd ~/src/git/dcp || echo "Couldn't cd to dcp."
+        {
+            make clean
+            git pull
+            ./bootstrap.sh
+            ./configure
+            make
+            sudo make install
+            make clean
+        } >> "$LOG" 2>&1
+        info-message "Updated DCP."
+    fi
+}
+
 # Checkout git repo to directory
 function checkout-git-repo(){
     echo "Checkout $2 to $1" >> "$LOG" 2>&1

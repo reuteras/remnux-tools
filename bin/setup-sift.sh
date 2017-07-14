@@ -39,6 +39,7 @@ export PROJECT_HOME="$HOME"/src/python
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 install-automater
+install-dcp
 install-floss
 
 checkout-git-repo https://github.com/reuteras/resources.git resources

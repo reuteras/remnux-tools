@@ -40,5 +40,6 @@ update-git-repositories
 
 # Update python
 update-automater
+update-dcp
 update-floss
 info-message "update-sift.sh done."
