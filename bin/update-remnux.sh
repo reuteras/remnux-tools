@@ -62,6 +62,7 @@ update-radare2
 update-rekall
 update-SSMA
 update-testssl
+update-ViperMonkey
 update-volutility
 update-volatility-env
 update-vt-py

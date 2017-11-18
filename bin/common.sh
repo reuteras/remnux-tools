@@ -388,6 +388,35 @@ function update-floss(){
     install-floss
 }
 
+#https://github.com/decalage2/ViperMonkey
+function install-ViperMonkey(){
+    echo "install-ViperMonkey" >> "$LOG" 2>&1
+    if [[ ! -d ~/src/python/ViperMonkey ]]; then
+        git clone --quiet https://github.com/decalage2/ViperMonkey.git \
+            ~/src/python/ViperMonkey >> "$LOG" 2>&1
+        cd ~/src/python/ViperMonkey || exit "Couldn't cd into install-ViperMonkey."
+        mkvirtualenv ViperMonkey >> "$LOG" 2>&1 || true
+        {
+            setvirtualenvproject
+            pip install --upgrade pip
+            pip install -U -r requirements.txt
+        } >> "$LOG" 2>&1
+        deactivate
+        info-message "Checked out ViperMonkey."
+    fi
+}
+
+function update-ViperMonkey(){
+    if [[ -d ~/src/python/ViperMonkey ]]; then
+        workon ViperMonkey || true
+        git fetch --all >> "$LOG" 2>&1
+        git reset --hard origin/master >> "$LOG" 2>&1
+        pip install --upgrade pip
+        deactivate
+        info-message "Updated ViperMonkey."
+    fi
+}
+
 # https://github.com/secrary/SSMA
 function install-SSMA(){
     echo "install-SSMA" >> "$LOG" 2>&1
