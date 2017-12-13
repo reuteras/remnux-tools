@@ -192,17 +192,18 @@ function fix-python-pip(){
 # Install Volatility
 # First argument should be target path to check out volatility.
 function install-volatility() {
+    VOLATILITY_PATH=$1
     if [[ $# -eq 0 ]]; then
         echo "One argument expected for install-volatility()"
         exit 1
     fi
-    if [ -d "$1" ]; then
-        echo "$1 already exists!"
+    if [ -d "$VOLATILITY_PATH" ]; then
+        echo "$VOLATILITY_PATH already exists!"
         exit 1
     fi
-    info-message "Install volatility to $1."
-    git clone --quiet https://github.com/volatilityfoundation/volatility "$1"
-    cd "$1" || exit "Could not cd $1 in install-volatility."
+    info-message "Install volatility to $VOLATILITY_PATH."
+    git clone --quiet https://github.com/volatilityfoundation/volatility "$VOLATILITY_PATH"
+    cd "$VOLATILITY_PATH" || exit "Could not cd $VOLATILITY_PATH in install-volatility."
     pip install \
         Pillow \
         distorm3 \
@@ -214,9 +215,10 @@ function install-volatility() {
 }
 
 function update-volatility(){
-    if [[ -d "$1" ]]; then
-        cd "$1" || exit "Couldn't cd $1 in update-volatility."
-        info-message "Update volatility in $1."
+    VOLATILITY_PATH=$1
+    if [[ -d "$VOLATILITY_PATH" ]]; then
+        cd "$VOLATILITY_PATH" || exit "Couldn't cd $VOLATILITY_PATH in update-volatility."
+        info-message "Update volatility in $VOLATILITY_PATH."
         {
             git fetch --all
             git reset --hard origin/master
@@ -409,9 +411,11 @@ function install-ViperMonkey(){
 function update-ViperMonkey(){
     if [[ -d ~/src/python/ViperMonkey ]]; then
         workon ViperMonkey || true
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        pip install --upgrade pip
+        {
+            git fetch --all
+            git reset --hard origin/master
+            pip install --upgrade pip
+        } >> "$LOG" 2>&1
         deactivate
         info-message "Updated ViperMonkey."
     fi
