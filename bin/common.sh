@@ -960,8 +960,15 @@ function update-sift(){
         sudo service clamav-freshclam stop >> "$LOG" 2>&1
         START_FRESHCLAM=0
     fi
-    # shellcheck disable=SC2024
-    sudo /usr/local/bin/sift upgrade >> "$LOG" 2>&1
+    {
+        # shellcheck disable=SC2024
+        sudo /usr/local/bin/sift update
+        # shellcheck disable=SC2024
+        sudo /usr/local/bin/sift upgrade
+        # Run upgrade twice since I often seen some fails the first time
+        # shellcheck disable=SC2024
+        sudo /usr/local/bin/sift upgrade
+    } >> "$LOG" 2>&1
     info-message "SITF upgrade finished."
     if [[ $START_FRESHCLAM -eq 0 ]]; then
         # shellcheck disable=SC2024
