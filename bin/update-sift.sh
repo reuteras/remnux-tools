@@ -26,7 +26,7 @@ info-message "Run update-sift script."
 update-sift
 
 info-message "Update clamav database."
-sudo /usr/bin/freshclam
+sudo /usr/bin/freshclam || info-message "Update of clamav database failed."
 
 update-ubuntu
 
