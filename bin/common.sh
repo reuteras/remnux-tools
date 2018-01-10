@@ -479,11 +479,13 @@ function install-RecuperaBit(){
 function update-RecuperaBit(){
     if [[ -d ~/src/python/RecuperaBit ]]; then
         workon RecuperaBit || true
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        pip install --upgrade pip
-        # shellcheck disable=SC2102
-        pip install --upgrade urllib3[secure]
+        {
+            git fetch --all
+            git reset --hard origin/master
+            pip install --upgrade pip
+            # shellcheck disable=SC2102
+            pip install --upgrade urllib3[secure]
+        } >> "$LOG" 2>&1
         deactivate
         info-message "Updated RecuperaBit."
     fi
