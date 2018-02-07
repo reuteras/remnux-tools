@@ -57,7 +57,6 @@ update-floss
 update-just-metadata
 update-oletools
 update-pcodedmp
-update-psparser
 update-radare2
 update-rekall
 update-SSMA

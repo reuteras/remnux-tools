@@ -301,23 +301,6 @@ function remove-old(){
 
 # Install single file scripts
 
-# http://phishme.com/powerpoint-and-custom-actions/
-function install-psparser(){
-    echo "install-psparser" >> "$LOG" 2>&1
-    if [[ ! -e ~/src/bin/psparser.py ]]; then
-        wget -q -O ~/src/bin/psparser.py \
-            https://github.com/phishme/malware_analysis/blob/master/scripts/psparser.py >> "$LOG" 2>&1
-        chmod +x ~/src/bin/psparser.py
-        info-message "Installed psparser.py"
-    fi
-}
-
-function update-psparser(){
-    info-message "Update psparser."
-    rm -f ~/src/bin/psparser.py
-    install-psparser
-}
-
 # https://github.com/sysforensics/VirusTotal
 function install-VirusTotal(){
     echo "install-VirusTotal" >> "$LOG" 2>&1
@@ -904,6 +887,7 @@ function install-radare2(){
 }
 
 function update-radare2(){
+    echo "update-radare2" >> "$LOG" 2>&1
     # shellcheck disable=SC2024
     if [[ -d ~/src/git/radare2 ]]; then
         sudo apt-get remove -y radare2 >> "$LOG" 2>&1

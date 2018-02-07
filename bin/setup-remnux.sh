@@ -54,7 +54,6 @@ install-floss
 install-just-metadata
 install-oletools
 install-pcodedmp
-install-psparser
 install-radare2
 install-regripper
 install-rekall
