@@ -948,7 +948,7 @@ function update-sift(){
     fi
     {
         # shellcheck disable=SC2024
-        sudo /usr/local/bin/sift update
+        sudo /usr/local/bin/sift update || true
         # shellcheck disable=SC2024
         sudo /usr/local/bin/sift upgrade
         # Run upgrade twice since I often seen some fails the first time
