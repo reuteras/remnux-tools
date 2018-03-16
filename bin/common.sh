@@ -110,8 +110,10 @@ function install-apt-remnux(){
     # sleuthkit provides hfind(1)
     # shellcheck disable=SC2024
     sudo apt-get -y -qq install \
+        mpack \
         python3-pip \
-        sleuthkit >> "$LOG" 2>&1
+        sleuthkit \
+        testdisk >> "$LOG" 2>&1
 }
 
 # Install Google Chrome
