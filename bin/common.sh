@@ -246,7 +246,7 @@ function install-pi-rho-security(){
         {
             sudo add-apt-repository -y ppa:pi-rho/security
             sudo apt-get -qq update
-            while ! sudo apt-get -y dist-upgrade ; do
+            while ! sudo apt-get -y dist-upgrade -f ; do
                 echo "APT busy. Will retry in 10 seconds."
                 sleep 10
             done
