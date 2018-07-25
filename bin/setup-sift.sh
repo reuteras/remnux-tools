@@ -43,8 +43,6 @@ install-dcp
 install-floss
 install-RecuperaBit
 
-checkout-git-repo https://github.com/reuteras/resources.git resources
-
 turn-of-sound
 
 # Install aliases for sift. This way we can update them without

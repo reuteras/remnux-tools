@@ -64,7 +64,6 @@ install-volatility-env
 #install-volutility
 install-vt-py
 
-checkout-git-repo https://github.com/reuteras/resources.git resources
 checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules
 
 turn-of-sound
