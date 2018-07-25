@@ -59,7 +59,10 @@ function update-ubuntu(){
     sudo apt-get -qq update >> "$LOG" 2>&1
     info-message "Running apt-get dist-upgrade."
     # shellcheck disable=SC2024
-    sudo apt-get -qq -y dist-upgrade >> "$LOG" 2>&1
+    while ! sudo apt-get -y dist-upgrade >> "$LOG" 2>&1 ; do
+        echo "APT busy. Will retry in 10 seconds."
+        sleep 10
+    done
 }
 
 # General tools
@@ -243,7 +246,10 @@ function install-pi-rho-security(){
         {
             sudo add-apt-repository -y ppa:pi-rho/security
             sudo apt-get -qq update
-            sudo apt-get -qq -y dist-upgrade
+            while ! sudo apt-get -y dist-upgrade ; do
+                echo "APT busy. Will retry in 10 seconds."
+                sleep 10
+            done
             sudo apt-get -qq -y install html2text nasm
             sudo apt-get autoremove -qq -y
         } >> "$LOG" 2>&1
