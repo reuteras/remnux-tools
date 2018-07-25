@@ -33,7 +33,7 @@ info-message "Run update-remnux script."
 sudo /opt/remnux-scripts/update-remnux
 
 info-message "Update clamav database."
-sudo /usr/bin/freshclam
+sudo /usr/bin/freshclam || true
 
 update-ubuntu
 
