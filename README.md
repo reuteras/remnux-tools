@@ -37,7 +37,6 @@ The additions are:
 * Install Yara rules
 * Install latest [Radare2](https://github.com/radare/radare2)
 * Install [tweets_analyzer](https://github.com/x0rz/tweets_analyzer)
-* Install my [resources](https://github.com/reuteras/resources) repository
 * Turn off sound
 
 If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ are installed. There are a couple of aliases for docker images from REMnux. They use directories under _~/docker/<tool name>_.
@@ -53,7 +52,6 @@ This script installs [Sift](https://github.com/sans-dfir/sift-bootstrap)  and so
 * Run the SIFT install script
 * Install Google Chrome
 * Install Tekdefense Automater
-* Install my [resources](https://github.com/reuteras/resources) repository
 * Turn off sound
 
 ## Initial setup
