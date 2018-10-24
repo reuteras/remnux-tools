@@ -54,12 +54,12 @@ function turn-of-sound() {
 
 function update-ubuntu(){
     info-message "Updating Ubuntu."
-    info-message "Running apt-get update."
+    info-message "Running apt update."
     # shellcheck disable=SC2024
-    sudo apt-get -qq update >> "$LOG" 2>&1
-    info-message "Running apt-get dist-upgrade."
+    sudo apt -qq update >> "$LOG" 2>&1
+    info-message "Running apt dist-upgrade."
     # shellcheck disable=SC2024
-    while ! sudo apt-get -y dist-upgrade --force-yes >> "$LOG" 2>&1 ; do
+    while ! sudo apt -y dist-upgrade --force-yes >> "$LOG" 2>&1 ; do
         echo "APT busy. Will retry in 10 seconds."
         sleep 10
     done
@@ -69,31 +69,38 @@ function update-ubuntu(){
 function install-general-tools(){
     info-message "Installing general tools."
     # shellcheck disable=SC2024
-    sudo DEBIAN_FRONTEND=noninteractive apt-get -y -qq install \
+    sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
         ascii \
         bsdgames \
         build-essential \
         ctags \
         curl \
         dos2unix \
-        git \
         exfat-fuse \
         exfat-utils \
+        git \
+        htop \
         libffi-dev \
         libimage-exiftool-perl \
         libncurses5-dev \
         libssl-dev \
+        p7zip \
         python-dev \
         python3-dev \
         python-virtualenv \
+        screen \
         sharutils \
         sqlite3 \
         sqlitebrowser \
+        strace \
+        tmux \
         tshark \
+        unrar \
         vim \
         vim-doc \
         vim-scripts \
         virtualenvwrapper \
+        wget \
         whois \
         wswedish \
         zip >> "$LOG" 2>&1
@@ -103,7 +110,7 @@ function install-general-tools(){
 function install-vmware-tools(){
     info-message "Installing tools for VMware."
     # shellcheck disable=SC2024
-    sudo apt-get -y -qq install \
+    sudo apt -y -qq install \
         fuse \
         open-vm-tools-desktop >> "$LOG" 2>&1
 }
@@ -112,11 +119,28 @@ function install-apt-remnux(){
     info-message "Installing apt-packages for REMnux."
     # sleuthkit provides hfind(1)
     # shellcheck disable=SC2024
-    sudo apt-get -y -qq install \
+    sudo apt -y -qq install \
         mpack \
         python3-pip \
         sleuthkit \
         testdisk >> "$LOG" 2>&1
+}
+
+function install-apt-moloch(){
+    info-message "Installing apt-packages for Moloch."
+    # shellcheck disable=SC2024
+    sudo apt -y -qq install \
+        bash-completion \
+        cifs-utils \
+        nfs-common \
+        ngrep \
+        python3-yara \
+        samba-common \
+        samba-common-bin \
+        tcpslice \
+        tshark \
+        yara \
+        yara-doc >> "$LOG" 2>&1
 }
 
 # Install Google Chrome
@@ -128,9 +152,32 @@ function install-google-chrome() {
         # shellcheck disable=SC2024
         sudo dpkg -i google-chrome-stable_current_amd64.deb  >> "$LOG" 2>&1 || true
         # shellcheck disable=SC2024
-        sudo apt-get -qq -f -y install >> "$LOG" 2>&1
+        sudo apt -qq -f -y install >> "$LOG" 2>&1
         rm -f google-chrome-stable_current_amd64.deb
     fi
+}
+
+# Install geoip
+function install-geoip() {
+    if ! dpkg --status geoip-bin > /dev/null 2>&1 ; then
+        info-message "Installing geoip."
+        # shellcheck disable=SC2024
+        sudo apt -y -qq install \
+            geoip-bin \
+            geoipupdate \
+            mmdb-bin \
+            python3-geoip \
+            python3-pygeoip >> "$LOG" 2>&1
+        info-message "Update geoip database."
+        # shellcheck disable=SC2024
+        sudo /usr/bin/geoipupdate >> "$LOG" 2>&1
+    fi
+}
+
+function update-geoip() {
+    info-message "Update geoip database."
+    # shellcheck disable=SC2024
+    sudo /usr/bin/geoipupdate >> "$LOG" 2>&1
 }
 
 # Create common directories
@@ -181,7 +228,7 @@ function create-cases-not-mounted(){
 function fix-python-pip(){
     if [[ ! -e /usr/local/bin/pip ]]; then
         {
-            sudo apt-get remove -yqq --auto-remove python-pip
+            sudo apt remove -yqq --auto-remove python-pip
             wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
             sudo -H python /tmp/get-pip.py
             sudo ln -s /usr/local/bin/pip /usr/bin/pip
@@ -192,6 +239,21 @@ function fix-python-pip(){
         } >> "$LOG" 2>&1
         info-message "Install pip from pypa.io."
     fi
+}
+
+# Install moloch_query
+function install-moloch_query(){
+    info-message "Install moloch_query."
+    if [ ! -d /data/moloch/bin ]; then
+        error-message "Moloch not installed!"
+        exit 1
+    fi
+    {
+        wget -O /data/moloch/bin/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
+        sudo apt -y -qq install python3-pip
+        pip3 install requests elasticsearch
+    } >> "$LOG" 2>&1
+    info-message "Installed moloch_query."
 }
 
 # Install Volatility
@@ -245,13 +307,13 @@ function install-pi-rho-security(){
         info-message "Enable ppa:pi-rho/security and install updated packages."
         {
             sudo add-apt-repository -y ppa:pi-rho/security
-            sudo apt-get -qq update
-            while ! sudo apt-get -y dist-upgrade --force-yes ; do
+            sudo apt -qq update
+            while ! sudo apt -y dist-upgrade --force-yes ; do
                 echo "APT busy. Will retry in 10 seconds."
                 sleep 10
             done
-            sudo apt-get -qq -y install html2text nasm
-            sudo apt-get autoremove -qq -y
+            sudo apt -qq -y install html2text nasm
+            sudo apt autoremove -qq -y
         } >> "$LOG" 2>&1
     fi
 }
@@ -292,6 +354,14 @@ function cleanup-sift(){
     fi
 }
 
+function cleanup-moloch(){
+    if [[ -e ~/examples.desktop ]]; then
+        info-message "Clean up folders and files."
+        rm -f ~/examples.desktop
+        rm -f ~/moloch_*
+    fi
+}
+
 function remove-old(){
     # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
     if [[ -e /etc/apt/sources.list.d/google-chrome.list ]]; then
@@ -303,7 +373,7 @@ function remove-old(){
     # shellcheck disable=SC2024
     if dpkg -l wireshark | grep 1.12 >> "$LOG" 2>&1 ; then
         info-message "Remove old versions of wireshark."
-        sudo apt-get -y -qq remove wireshark >> "$LOG" 2>&1
+        sudo apt -y -qq remove wireshark >> "$LOG" 2>&1
     fi
 }
 
@@ -825,7 +895,7 @@ function install-dcp(){
         git clone --quiet https://github.com/NationalSecurityAgency/DCP.git \
             ~/src/git/dcp >> "$LOG" 2>&1
         # shellcheck disable=SC2024
-        sudo apt-get install -yqq gengetopt autoconf libtool libjansson-dev \
+        sudo apt install -yqq gengetopt autoconf libtool libjansson-dev \
             libdb-dev >> "$LOG" 2>&1
         cd ~/src/git/dcp || echo "Couldn't cd to dcp."
         {
@@ -884,8 +954,8 @@ function install-radare2(){
     # shellcheck disable=SC2024
     if [[ ! -d ~/src/git/radare2 ]]; then
         info-message "Starting installation of radare2."
-        sudo apt-get remove -y radare2 >> "$LOG" 2>&1
-        sudo apt-get autoremove -y >> "$LOG" 2>&1
+        sudo apt remove -y radare2 >> "$LOG" 2>&1
+        sudo apt autoremove -y >> "$LOG" 2>&1
         checkout-git-repo https://github.com/radare/radare2.git radare2
         cd ~/src/git/radare2 || exit "Couldn't cd into install-radare2."
         make clean >> "$LOG" 2>&1 || true
@@ -898,8 +968,8 @@ function update-radare2(){
     echo "update-radare2" >> "$LOG" 2>&1
     # shellcheck disable=SC2024
     if [[ -d ~/src/git/radare2 ]]; then
-        sudo apt-get remove -y radare2 >> "$LOG" 2>&1
-        sudo apt-get autoremove -y >> "$LOG" 2>&1
+        sudo apt remove -y radare2 >> "$LOG" 2>&1
+        sudo apt autoremove -y >> "$LOG" 2>&1
         cd ~/src/git/radare2 || exit "Couldn't cd into update-radare2."
         {
             git fetch --all
@@ -927,8 +997,8 @@ function install-sift(){
         info-message "Start installation of SIFT."
         cd /tmp || true
         {
-            sudo apt-get remove -y python3-xlsxwriter
-            sudo apt-get autoremove -y
+            sudo apt remove -y python3-xlsxwriter
+            sudo apt autoremove -y
             wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
                 grep 'browser_' | cut -d\" -f4 | head -1)"
             wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
@@ -968,4 +1038,65 @@ function update-sift(){
         # shellcheck disable=SC2024
         sudo service clamav-freshclam start >> "$LOG" 2>&1
     fi
+}
+
+# Moloch
+function install-moloch(){
+    if [[ ! -e ~/.config/.moloch ]]; then
+        info-message "Start installation of Moloch."
+        {
+            DEBIAN_FRONTEND=noninteractive apt -y -qq install \
+                default-jre >> "$LOG" 2>&1
+            wget --queit https://files.molo.ch/builds/ubuntu-18.04/moloch_1.5.3-1_amd64.deb
+            dpkg --install moloch_1.5.3-1_amd64.deb || true
+            apt -y --fix-broken install
+        }  >> "$LOG" 2>&1
+
+        info-message "Configure Moloch"
+        MOLOCH_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
+        MOLOCH_PASSWORD="password"
+        export MOLOCH_INTERFACE MOLOCH_PASSWORD
+        sudo sed -i -e "s/MOLOCH_LOCALELASTICSEARCH=not-set/MOLOCH_LOCALELASTICSEARCH=yes/" /data/moloch/bin/Configure
+        sudo sed -i -e "s/MOLOCH_INET=not-set/MOLOCH_INET=yes/" /data/moloch/bin/Configure
+        sudo -E /data/moloch/bin/Configure
+
+        sudo systemctl start elasticsearch.service
+        while true; do
+            # Make sure Elasticsearch is up
+            STATUS=$(curl -s http://localhost:9200/dstats/version/version/_source)
+            if [[ ! -z $STATUS ]]; then
+                break
+            fi
+        done
+        /data/moloch/db/db.pl http://127.0.0.1:9200 init
+        /data/moloch/bin/moloch_add_user.sh admin "Admin User" password --admin
+
+        mkdir /home/malware/bin
+cat << EOF > /home/malware/bin/start-moloch.sh
+#!/bin/bash
+
+sudo systemctl start elasticsearch.service
+while true; do
+    # Make sure Elasticsearch is up
+    STATUS=$(curl -s http://localhost:9200/dstats/version/version/_source)
+    if [[ ! -z $STATUS ]]; then
+        break
+    fi
+done
+sudo systemctl start molochcapture.service
+sudo systemctl start molochviewer.service
+/opt/google/chrome/chrome http://127.0.0.1:8005 > /dev/null 2>&1 &
+EOF
+        chmod +x /home/malware/bin/start-moloch.sh
+        info-message "Moloch configuration done."
+
+        touch ~/.config/.moloch
+        info-message "Moloch installation finished."
+    fi
+}
+
+function update-moloch(){
+    info-message "Start Moloch upgrade."
+    info-message "   ## NOTHING TODO ##"
+    info-message "Moloch upgrade finished."
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -e ~/.config/.sift ]]; then
-    echo "You have installed SIFT! Use update-sift.sh insteed."
+if [[ -e ~/.config/.sift || -e ~/.config/.moloch ]]; then
+    echo "You have installed SIFT or Moloch!"
     exit 1
 fi
 

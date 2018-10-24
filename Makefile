@@ -10,7 +10,12 @@ dotfiles:
 	cp .bashrc ~/ && chmod 600 ~/.bashrc
 	cp .vimrc ~/ && chmod 600 ~/.vimrc
 
-install:
+install: install-remnux
+
+install-moloch:
+	./bin/setup-moloch.sh
+
+install-remnux:
 	./bin/setup-remnux.sh
 
 install-sift:
@@ -19,7 +24,13 @@ install-sift:
 test:
 	shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
 
-update:
+update: update-remnux
+
+update-moloch:
+	git pull
+	./bin/update-moloch.sh
+
+update-remnux:
 	git pull
 	./bin/update-remnux.sh
 
