@@ -1050,7 +1050,7 @@ function install-moloch(){
             wget --quiet https://files.molo.ch/builds/ubuntu-18.04/moloch_1.5.3-1_amd64.deb
             dpkg --install moloch_1.5.3-1_amd64.deb || true
             apt -y --fix-broken install
-        }  >> "$LOG" 2>&1
+        } >> "$LOG" 2>&1
 
         info-message "Configure Moloch"
         MOLOCH_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
@@ -1060,6 +1060,7 @@ function install-moloch(){
         sudo sed -i -e "s/MOLOCH_INET=not-set/MOLOCH_INET=yes/" /data/moloch/bin/Configure
         sudo -E /data/moloch/bin/Configure
 
+        info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
         while true; do
             # Make sure Elasticsearch is up
@@ -1068,10 +1069,13 @@ function install-moloch(){
                 break
             fi
         done
+        info-message "Init elasticsearch.service"
         /data/moloch/db/db.pl http://127.0.0.1:9200 init
+        info-message "Add user to moloch"
         /data/moloch/bin/moloch_add_user.sh admin "Admin User" password --admin
 
-        mkdir /home/malware/bin
+        info-message "Create bin directory and add start-moloch.sh script."
+        [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
 cat << EOF > /home/malware/bin/start-moloch.sh
 #!/bin/bash
 
