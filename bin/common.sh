@@ -1062,6 +1062,8 @@ function install-moloch(){
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
+        info-message "Status elasticsearch.service"
+        sudo systemctl status elasticsearch.service
         while true; do
             # Make sure Elasticsearch is up
             STATUS=$(curl -s http://localhost:9200/dstats/version/version/_source)
