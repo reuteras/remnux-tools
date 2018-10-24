@@ -1046,8 +1046,8 @@ function install-moloch(){
         info-message "Start installation of Moloch."
         {
             DEBIAN_FRONTEND=noninteractive apt -y -qq install \
-                default-jre >> "$LOG" 2>&1
-            wget --queit https://files.molo.ch/builds/ubuntu-18.04/moloch_1.5.3-1_amd64.deb
+                default-jre
+            wget --quiet https://files.molo.ch/builds/ubuntu-18.04/moloch_1.5.3-1_amd64.deb
             dpkg --install moloch_1.5.3-1_amd64.deb || true
             apt -y --fix-broken install
         }  >> "$LOG" 2>&1
