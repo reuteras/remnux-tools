@@ -1062,15 +1062,7 @@ function install-moloch(){
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
-        while true; do
-            # Make sure Elasticsearch is up
-            info-message "Waiting for Elasticsearch."
-            STATUS=$(curl -s http://localhost:9200/dstats/version/version/_source)
-            if [[ ! -z $STATUS ]]; then
-                break
-            fi
-            sleep 1
-        done
+        sleep 30
         info-message "Init elasticsearch.service"
         /data/moloch/db/db.pl http://127.0.0.1:9200 init
         info-message "Add user to moloch"
