@@ -1052,7 +1052,7 @@ function install-moloch(){
             apt -y --fix-broken install
         } >> "$LOG" 2>&1
 
-        info-message "Configure Moloch"
+        info-message "Run Configure for Moloch"
         MOLOCH_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         MOLOCH_PASSWORD="password"
         export MOLOCH_INTERFACE MOLOCH_PASSWORD
@@ -1064,29 +1064,14 @@ function install-moloch(){
         sudo systemctl start elasticsearch.service
         sleep 30
         info-message "Init elasticsearch.service"
-        /data/moloch/db/db.pl http://127.0.0.1:9200 init
+        echo "INIT" | /data/moloch/db/db.pl http://127.0.0.1:9200 init
         info-message "Add user to moloch"
-        /data/moloch/bin/moloch_add_user.sh admin "Admin User" password --admin
+        /data/moloch/bin/moloch_add_user.sh admin "Admin User" password --admin --email
 
         info-message "Create bin directory and add start-moloch.sh script."
         [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
-cat << EOF > /home/malware/bin/start-moloch.sh
-#!/bin/bash
-
-sudo systemctl start elasticsearch.service
-while true; do
-    # Make sure Elasticsearch is up
-    STATUS=$(curl -s http://localhost:9200/dstats/version/version/_source)
-    if [[ ! -z $STATUS ]]; then
-        break
-    fi
-done
-sudo systemctl start molochcapture.service
-sudo systemctl start molochviewer.service
-/opt/google/chrome/chrome http://127.0.0.1:8005 > /dev/null 2>&1 &
-EOF
-        chmod +x /home/malware/bin/start-moloch.sh
-        info-message "Moloch configuration done."
+        cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
+        chown malware:malware /home/malware/bin/start-moloch.sh
 
         [ ! -d /home/malware/.config ] && mkdir /home/malware/.config && chown malware:malware /home/malware/.config
         touch /home/malware/.config/.moloch
