@@ -1088,7 +1088,8 @@ EOF
         chmod +x /home/malware/bin/start-moloch.sh
         info-message "Moloch configuration done."
 
-        touch ~/.config/.moloch
+        [ ! -d /home/malware/.config ] && mkdir /home/malware/.config && chown malware:malware /home/malware/.config
+        touch /home/malware/.config/.moloch
         info-message "Moloch installation finished."
     fi
 }
