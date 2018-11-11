@@ -37,4 +37,3 @@ update-remnux:
 update-sift:
 	git pull
 	./bin/update-sift.sh
-
