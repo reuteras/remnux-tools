@@ -142,7 +142,7 @@ function install-apt-moloch(){
         tshark \
         yara \
         yara-doc \
-        wireshark-qt >> "$LOG" 2>&1
+        wireshark >> "$LOG" 2>&1
 }
 
 # Install Google Chrome
