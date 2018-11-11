@@ -251,7 +251,7 @@ function install-moloch_query(){
         exit 1
     fi
     {
-        wget -O /data/moloch/bin/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
+        sudo wget -O /data/moloch/bin/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
         sudo apt -y -qq install python3-pip
         sudo pip3 install requests elasticsearch
         sudo sed -i -e r's/"query": {}/"query": {"match_all": {}}/' /data/moloch/bin/moloch_query
@@ -1083,7 +1083,7 @@ function install-moloch(){
     if [[ ! -e ~/.config/.moloch ]]; then
         info-message "Start installation of Moloch."
         {
-            DEBIAN_FRONTEND=noninteractive apt -y -qq install \
+            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
                 default-jre
             wget --quiet https://files.molo.ch/builds/ubuntu-18.04/moloch_1.6.1-1_amd64.deb
             sudo dpkg --install moloch_1.6.1-1_amd64.deb || true
@@ -1110,7 +1110,7 @@ function install-moloch(){
         [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
         cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
 
-        [ ! -d /home/malware/.config ] && mkdir /home/malware/.config && chown malware:malware /home/malware/.config
+        [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
         touch /home/malware/.config/.moloch
         info-message "Moloch installation finished."
     fi
