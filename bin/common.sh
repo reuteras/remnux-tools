@@ -253,8 +253,8 @@ function install-moloch_query(){
     {
         wget -O /data/moloch/bin/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
         sudo apt -y -qq install python3-pip
-        pip3 install requests elasticsearch
-        sed -i -e r's/"query": {}/"query": {"match_all": {}}/' /data/moloch/bin/moloch_query
+        sudo pip3 install requests elasticsearch
+        sudo sed -i -e r's/"query": {}/"query": {"match_all": {}}/' /data/moloch/bin/moloch_query
     } >> "$LOG" 2>&1
     info-message "Installed moloch_query."
 }
@@ -1086,8 +1086,8 @@ function install-moloch(){
             DEBIAN_FRONTEND=noninteractive apt -y -qq install \
                 default-jre
             wget --quiet https://files.molo.ch/builds/ubuntu-18.04/moloch_1.6.1-1_amd64.deb
-            dpkg --install moloch_1.6.1-1_amd64.deb || true
-            apt -y --fix-broken install
+            sudo dpkg --install moloch_1.6.1-1_amd64.deb || true
+            sudo apt -y --fix-broken install
         } >> "$LOG" 2>&1
 
         info-message "Run Configure for Moloch"
@@ -1109,7 +1109,6 @@ function install-moloch(){
         info-message "Create bin directory and add start-moloch.sh script."
         [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
         cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
-        chown malware:malware /home/malware/bin/start-moloch.sh
 
         [ ! -d /home/malware/.config ] && mkdir /home/malware/.config && chown malware:malware /home/malware/.config
         touch /home/malware/.config/.moloch
