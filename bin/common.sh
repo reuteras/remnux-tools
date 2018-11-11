@@ -71,6 +71,7 @@ function install-general-tools(){
     # shellcheck disable=SC2024
     sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
         ascii \
+        bless \
         bsdgames \
         build-essential \
         ctags \
