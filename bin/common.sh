@@ -457,7 +457,7 @@ function update-floss(){
 # https://github.com/USArmyResearchLab/Dshell
 function install-Dshell(){
     echo "install-Dshell" >> "$LOG" 2>&1
-    sudo apt install libpcap-dev
+    sudo apt install -yqq libpcap-dev
     if [[ ! -d ~/src/python/dshell ]]; then
         git clone --quiet https://github.com/USArmyResearchLab/Dshell.git \
             ~/src/python/Dshell >> "$LOG" 2>&1
