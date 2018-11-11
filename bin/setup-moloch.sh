@@ -49,6 +49,5 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "4. Run 'make dotfiles' in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
-else
     info-message "Setup with setup-moloch.sh done."
 fi
