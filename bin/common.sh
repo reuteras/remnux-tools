@@ -251,7 +251,7 @@ function install-moloch_query(){
         exit 1
     fi
     {
-        wget -O /tmp/ https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
+        wget -O /tmp/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
         sudo mv /tmp/moloch_query /data/moloch/bin/moloch_query
         chmod +x /data/moloch/bin/moloch_query
         sudo apt -y -qq install python3-pip
