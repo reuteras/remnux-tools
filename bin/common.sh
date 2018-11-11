@@ -454,6 +454,41 @@ function update-floss(){
     install-floss
 }
 
+# https://github.com/USArmyResearchLab/Dshell
+function install-Dshell(){
+    echo "install-Dshell" >> "$LOG" 2>&1
+    sudo apt install libpcap-dev
+    if [[ ! -d ~/src/python/dshell ]]; then
+        git clone --quiet https://github.com/USArmyResearchLab/Dshell.git \
+            ~/src/python/Dshell >> "$LOG" 2>&1
+        cd ~/src/python/Dshell || exit "Couldn't cd into Dshell."
+        mkvirtualenv Dshell >> "$LOG" 2>&1 || true
+        {
+            setvirtualenvproject
+            pip install --upgrade pip
+            pip install pygeoip pycrypto dpkt IPy pypcap
+        } >> "$LOG" 2>&1
+        make
+        deactivate
+        info-message "Checked out Dshell."
+    fi
+}
+
+function update-Dshell(){
+    if [[ -d ~/src/python/Dshell ]]; then
+        workon Dshell || true
+        {
+            git fetch --all
+            git reset --hard origin/master
+            pip install --upgrade pip
+            pip install --upgrade pygeoip pycrypto dpkt IPy pypcap
+        } >> "$LOG" 2>&1
+        make
+        deactivate
+        info-message "Updated Dshell."
+    fi
+}
+
 #https://github.com/decalage2/ViperMonkey
 function install-ViperMonkey(){
     echo "install-ViperMonkey" >> "$LOG" 2>&1
