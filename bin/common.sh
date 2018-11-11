@@ -251,7 +251,9 @@ function install-moloch_query(){
         exit 1
     fi
     {
-        sudo wget -O /data/moloch/bin/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
+        wget -O /tmp/ https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
+        sudo mv /tmp/moloch_query /data/moloch/bin/moloch_query
+        chmod +x /data/moloch/bin/moloch_query
         sudo apt -y -qq install python3-pip
         sudo pip3 install requests elasticsearch
         sudo sed -i -e r's/"query": {}/"query": {"match_all": {}}/' /data/moloch/bin/moloch_query
