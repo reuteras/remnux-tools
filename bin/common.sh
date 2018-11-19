@@ -318,7 +318,7 @@ function install-pi-rho-security(){
                 sleep 10
             done
             sudo apt -qq -y install html2text nasm
-            sudo apt autoremove -qq -y
+            sudo apt-get autoremove -qq -y
         } >> "$LOG" 2>&1
     fi
 }
@@ -995,7 +995,7 @@ function install-radare2(){
     if [[ ! -d ~/src/git/radare2 ]]; then
         info-message "Starting installation of radare2."
         sudo apt remove -y radare2 >> "$LOG" 2>&1
-        sudo apt autoremove -y >> "$LOG" 2>&1
+        sudo apt-get autoremove -y >> "$LOG" 2>&1
         checkout-git-repo https://github.com/radare/radare2.git radare2
         cd ~/src/git/radare2 || exit "Couldn't cd into install-radare2."
         make clean >> "$LOG" 2>&1 || true
@@ -1009,7 +1009,7 @@ function update-radare2(){
     # shellcheck disable=SC2024
     if [[ -d ~/src/git/radare2 ]]; then
         sudo apt remove -y radare2 >> "$LOG" 2>&1
-        sudo apt autoremove -y >> "$LOG" 2>&1
+        sudo apt-get autoremove -y >> "$LOG" 2>&1
         cd ~/src/git/radare2 || exit "Couldn't cd into update-radare2."
         {
             git fetch --all
@@ -1038,7 +1038,7 @@ function install-sift(){
         cd /tmp || true
         {
             sudo apt remove -y python3-xlsxwriter
-            sudo apt autoremove -y
+            sudo apt-get autoremove -y
             wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
                 grep 'browser_' | cut -d\" -f4 | head -1)"
             wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
