@@ -23,6 +23,7 @@ deactivate 2> /dev/null || true
 remove-old
 
 info-message "Run update-moloch script."
+update-chaosreader
 update-moloch
 update-geoip
 update-ubuntu

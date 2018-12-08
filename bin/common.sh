@@ -439,6 +439,23 @@ function update-testssl(){
     install-testssl
 }
 
+# https://github.com/brendangregg/Chaosreader
+function install-chaosreader(){
+    echo "install-chaosreader" >> "$LOG" 2>&1
+    if [[ ! -e ~/src/bin/chaosreader ]]; then
+        wget -q -O ~/src/bin/chaosreader \
+            https://raw.githubusercontent.com/brendangregg/Chaosreader/master/chaosreader >> "$LOG" 2>&1
+        chmod +x ~/src/bin/chaosreader
+        info-message "Installed chaosreader."
+    fi
+}
+
+function update-chaosreader(){
+    info-message "Update chaosreader."
+    rm -f ~/src/bin/chaosreader
+    install-chaosreader
+}
+
 # Fireeye floss
 function install-floss(){
     echo "install-floss" >> "$LOG" 2>&1

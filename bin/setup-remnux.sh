@@ -48,6 +48,7 @@ export PROJECT_HOME="$HOME"/src/python
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 install-automater
+install-chaosreader
 install-damm
 install-didierstevenssuite
 install-floss

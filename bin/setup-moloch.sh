@@ -33,6 +33,7 @@ create-docker-directories
 create-cases-not-mounted
 
 install-google-chrome
+install-chaosreader
 
 turn-of-sound
 

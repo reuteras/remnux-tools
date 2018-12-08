@@ -51,6 +51,7 @@ update-git-repositories
 
 # Update python
 update-automater
+update-chaosreader
 update-damm
 update-didierstevenssuite
 update-floss
