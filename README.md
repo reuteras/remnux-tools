@@ -9,7 +9,7 @@ There are now two scripts for installs:
 * setup-remnux.sh - install [REMnux](https://remnux.org) and tools.
 * setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap) and tools.
 
-Earlier the REMnux and Sift distributions where installed together in one VM but due to problems with this I've decided to maintain two scripts. Most of the addons have been moved to the REMnux script. But the separation will make it easier to add new tools in both in the future.
+Earlier the REMnux and Sift distributions where installed together in one VM but due to problems with this I've decided to maintain two scripts. Most of the add-ons have been moved to the REMnux script. But the separation will make it easier to add new tools in both in the future.
 
 Both scripts starts from a vanilla Ubuntu 14.04 LTS. Personally I start the installation from the [mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso) and I've only tested with the "Ubuntu desktop" installation option.
 
