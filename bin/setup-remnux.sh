@@ -34,7 +34,6 @@ create-docker-directories
 create-cases-not-mounted
 
 install-google-chrome
-install-pi-rho-security
 
 # Install pip lib globally
 # shellcheck disable=SC2024
