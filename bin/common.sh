@@ -59,7 +59,7 @@ function update-ubuntu(){
     sudo apt -qq update >> "$LOG" 2>&1
     info-message "Running apt dist-upgrade."
     # shellcheck disable=SC2024
-    while ! sudo apt -y dist-upgrade --force-yes >> "$LOG" 2>&1 ; do
+    while ! sudo DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade --force-yes >> "$LOG" 2>&1 ; do
         echo "APT busy. Will retry in 10 seconds."
         sleep 10
     done
