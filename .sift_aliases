@@ -9,3 +9,4 @@ alias urldecode='python -c "import sys, urllib as ul; \
 alias cases-mount="sudo mount -t vmhgfs .host:/$(vmware-hgfsclient) /cases"
 alias cases-umount="sudo umount /cases"
 alias chrome="google-chrome-stable"
+alias rot13="tr 'A-Za-z' 'N-ZA-Mn-za-m'"
