@@ -29,6 +29,12 @@ info-message "Remove old versions of Chrome and Wireshark."
 # shellcheck disable=SC2024
 dpkg -l wireshark | grep 1.12 >> $LOG 2>&1 && sudo apt-get -y -qq remove wireshark >> $LOG 2>&1
 
+# Remove inetsim
+# shellcheck disable=SC2024
+sudo rm -f /etc/apt/sources.list.d/inetsim.list* >> $LOG 2>&1
+# shellcheck disable=SC2024
+sudo apt remove -y inetsim >> $LOG 2>&1
+
 info-message "Run update-remnux script."
 sudo /opt/remnux-scripts/update-remnux
 
