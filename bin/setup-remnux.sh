@@ -61,7 +61,6 @@ install-SSMA
 install-testssl
 install-ViperMonkey
 install-volatility-env
-#install-volutility
 install-vt-py
 
 checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules

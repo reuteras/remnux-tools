@@ -733,46 +733,6 @@ function update-damm(){
     fi
 }
 
-# Install Volutility
-function install-volutility(){
-    echo "install-volutility" >> "$LOG" 2>&1
-    # shellcheck disable=SC2102
-    if [[ ! -d ~/src/python/volutility ]]; then
-        mkdir -p ~/src/python/volutility
-        mkvirtualenv volutility >> "$LOG" 2>&1 || true
-        echo "Start MongoDB with docker-mongodb" > ~/src/python/volutility/README
-        {
-            pip install --upgrade pip
-            pip install --upgrade urllib3[secure]
-            install-volatility ~/src/python/volutility/volatility
-            git clone https://github.com/kevthehermit/VolUtility \
-                ~/src/python/volutility/volutility
-        } >> "$LOG" 2>&1
-        cd ~/src/python/volutility/volutility || exit "Couldn't cd into install-volutility."
-        pip install -r requirements.txt >> "$LOG" 2>&1
-        pip install virustotal-api yara-python >> "$LOG" 2>&1
-        deactivate
-        info-message "Installed Volutility."
-    fi
-}
-
-function update-volutility(){
-    if [[ -d ~/src/python/volutility ]]; then
-        workon volutility || true
-        pip install --upgrade pip >> "$LOG" 2>&1
-        update-volatility ~/src/python/volutility/volatility >> "$LOG" 2>&1
-        cd ~/src/python/volutility/volutility || exit "Couldn't cd into update-volutility."
-        {
-            git fetch --all
-            git reset --hard origin/master
-            pip install --upgrade -r requirements.txt
-            pip install --upgrade virustotal-api yara-python
-        } >> "$LOG" 2>&1
-        deactivate
-        info-message "Updated Volutility."
-    fi
-}
-
 # Keep a seperate environment for volatility (to be able to upgrade separatly)
 function install-volatility-env(){
     echo "install-volatility-env" >> "$LOG" 2>&1

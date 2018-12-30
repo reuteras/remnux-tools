@@ -63,7 +63,6 @@ update-rekall
 update-SSMA
 update-testssl
 update-ViperMonkey
-#update-volutility
 update-volatility-env
 update-vt-py
 info-message "update-remnux.sh done."
