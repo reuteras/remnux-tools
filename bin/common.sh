@@ -1064,8 +1064,8 @@ function install-moloch(){
         {
             DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
                 default-jre
-            wget --quiet https://files.molo.ch/builds/ubuntu-18.04/moloch_1.6.1-1_amd64.deb
-            sudo dpkg --install moloch_1.6.1-1_amd64.deb || true
+            wget --quiet https://files.molo.ch/builds/ubuntu-18.04/moloch_1.6.2-1_amd64.deb
+            sudo dpkg --install moloch_1.6.2-1_amd64.deb || true
             sudo apt -y --fix-broken install
         } >> "$LOG" 2>&1
 
