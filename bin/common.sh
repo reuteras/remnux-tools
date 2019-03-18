@@ -116,6 +116,21 @@ function install-vmware-tools(){
         open-vm-tools-desktop >> "$LOG" 2>&1
 }
 
+
+# Install Docker Community edition for the latest functions.
+# Use the default install script since this is for test only.
+function install-docker-ce(){
+    info-message "Installing Docker Community Edition."
+    {
+        sudo apt -y -qq install curl
+        cd || exit
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sudo sh get-docker.sh
+        sudo usermod -aG docker malware
+        rm get-docker.sh
+    } >> "$LOG" 2>&1
+}
+
 function install-apt-remnux(){
     info-message "Installing apt-packages for REMnux."
     # sleuthkit provides hfind(1)
