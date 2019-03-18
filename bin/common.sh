@@ -122,11 +122,12 @@ function install-vmware-tools(){
 function install-docker-ce(){
     info-message "Installing Docker Community Edition."
     {
-        sudo apt -y -qq install curl
+        sudo apt -y -qq install curl python-pip
         cd || exit
         curl -fsSL https://get.docker.com -o get-docker.sh
         sudo sh get-docker.sh
         sudo usermod -aG docker malware
+        sudo pip3 install docker-compose
         rm get-docker.sh
     } >> "$LOG" 2>&1
 }
