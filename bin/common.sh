@@ -1032,9 +1032,9 @@ function install-sift(){
         {
             sudo apt remove -y python3-xlsxwriter
             sudo apt-get autoremove -y
-            wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
+            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | \
                 grep 'browser_' | cut -d\" -f4 | head -1)"
-            wget "$(curl -s https://api.github.com/repos/sans-dfir/sift-cli/releases/latest | \
+            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | \
                 grep 'browser_' | cut -d\" -f4 | tail -1)"
         } >> "$LOG" 2>&1
         # Does not validate gpg at the moment due to problems downloading keys in some networks...
