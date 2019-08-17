@@ -1052,9 +1052,9 @@ function update-sift(){
     START_FRESHCLAM=1
     info-message "Start SITF upgrade."
     # shellcheck disable=SC2024
-    if ! sudo service clamav-freshclam status >> "$LOG" 2>&1 ; then
+    if sudo service clamav-freshclam status | grep "Active: active" >> "$LOG" 2>&1 ; then
         # shellcheck disable=SC2024
-        sudo service clamav-freshclam stop >> "$LOG" 2>&1
+        sudo service clamav-freshclam stop >> "$LOG" 2>&1 || 
         START_FRESHCLAM=0
     fi
     {
