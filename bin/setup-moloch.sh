@@ -12,7 +12,7 @@ touch "$LOG"
 sudo touch "$LOG"
 
 # shellcheck source=/dev/null
-[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
+[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit 1
 
 info-message "Starting installation of Moloch with remnux-tools."
 info-message "Details logged to $LOG."
@@ -26,6 +26,8 @@ install-geoip
 install-moloch
 install-moloch_query
 cleanup-moloch
+
+install-suricata
 
 create-common-directories
 create-docker-directories
