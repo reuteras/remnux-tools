@@ -81,6 +81,7 @@ function install-general-tools(){
         exfat-utils \
         git \
         htop \
+        jq \
         libffi-dev \
         libimage-exiftool-perl \
         libncurses5-dev \
@@ -1055,7 +1056,7 @@ function update-sift(){
     # shellcheck disable=SC2024
     if sudo service clamav-freshclam status | grep "Active: active" >> "$LOG" 2>&1 ; then
         # shellcheck disable=SC2024
-        sudo service clamav-freshclam stop >> "$LOG" 2>&1 || 
+        sudo service clamav-freshclam stop >> "$LOG" 2>&1
         START_FRESHCLAM=0
     fi
     {
@@ -1116,4 +1117,32 @@ function update-moloch(){
     info-message "Start Moloch upgrade."
     info-message "   ## NOTHING TODO ##"
     info-message "Moloch upgrade finished."
+}
+
+# Suricata
+function install-suricata(){
+    if [[ ! -e ~/.config/.suricata ]]; then
+        info-message "Start installation of Suricata."
+        {
+            sudo add-apt-repository -y -u ppa:oisf/suricata-stable
+            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install suricata
+            sudo suricata-update
+            sudo suricata-update update-sources
+            sudo suricata-update enable-source oisf/trafficid
+            sudo suricata-update enable-source sslbl/ja3-fingerprints
+            sudo suricata-update enable-source et/open
+            sudo suricata-update enable-source ptresearch/attackdetection
+            sudo suricata-update enable-source tgreen/hunting
+            sudo suricata-update enable-source etnetera/aggressive
+            sudo suricata-update
+        } >> "$LOG" 2>&1
+        info-message "Start Moloch config update for Suricata."
+        {
+            echo ""
+            echo "plugins=suricata.so"
+            echo "suricataAlertFile=/home/malware/Downloads/eve.json"
+            echo "suricataExpireMinutes=5256000"
+        } >> /data/moloch/etc/config.ini
+        info-message "Suricata installation finished."
+    fi
 }
