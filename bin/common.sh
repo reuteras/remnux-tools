@@ -1142,7 +1142,7 @@ function install-suricata(){
             echo "plugins=suricata.so"
             echo "suricataAlertFile=/home/malware/Downloads/eve.json"
             echo "suricataExpireMinutes=5256000"
-        } >> /data/moloch/etc/config.ini
+        } | sudo tee -a/data/moloch/etc/config.ini
         info-message "Suricata installation finished."
     fi
 }
