@@ -186,9 +186,10 @@ function install-geoip() {
             mmdb-bin \
             python3-geoip \
             python3-pygeoip >> "$LOG" 2>&1
-        info-message "Update geoip database."
-        # shellcheck disable=SC2024
-        sudo /usr/bin/geoipupdate >> "$LOG" 2>&1
+        # Don't update due to new requirement for account login.
+        #info-message "Update geoip database."
+        #__shellcheck disable=SC2024
+        #sudo /usr/bin/geoipupdate >> "$LOG" 2>&1
     fi
 }
 
