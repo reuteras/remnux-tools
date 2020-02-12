@@ -57,4 +57,4 @@ info-message "Starting open-vm-tools."
 # shellcheck disable=SC2024
 sudo service open-vm-tools stop >> "$LOG" 2>&1
 info-message "You still might need to reboot to get copy and paste to work."
-info-message "Installation completed."
+info-message "Installation of vmhgfs completed."
