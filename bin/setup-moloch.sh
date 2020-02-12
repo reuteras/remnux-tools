@@ -5,7 +5,6 @@ if [[ -e ~/.config/.remnux ]]; then
     exit 1
 fi
 
-set -e
 LOG=/tmp/remnux-tools.log
 touch "$LOG"
 
