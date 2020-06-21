@@ -4,7 +4,7 @@ sudo systemctl start elasticsearch.service
 while true; do
     # Make sure Elasticsearch is up
     STATUS=$(curl -s http://localhost:9200/dstats/version/version/_source)
-    if [[ ! -z $STATUS ]]; then
+    if [[ -n $STATUS ]]; then
         break
     fi
 done
