@@ -12,7 +12,12 @@ touch "$LOG"
 sudo touch "$LOG"
 
 # shellcheck source=/dev/null
-[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit 1
+if [[ -e ~/remnux-tools/bin/common.sh ]]; then
+    . ~/remnux-tools/bin/common.sh
+else
+    echo "Cant find common.sh."
+    exit 1
+fi
 
 info-message "Starting installation of Moloch with remnux-tools."
 info-message "Details logged to $LOG."

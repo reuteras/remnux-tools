@@ -42,6 +42,11 @@ function error-message() {
     (>&2 echo "**** ERROR: $*")
 }
 
+function error-exit-message() {
+    (>&2 echo "**** ERROR: $*")
+    exit 1
+}
+
 # Turn off sound on start up
 function turn-of-sound() {
     if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
@@ -166,7 +171,7 @@ function install-apt-moloch(){
 function install-google-chrome() {
     if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
         info-message "Installing Google Chrome."
-        cd /tmp || exit "Couldn't cd /tmp in install-google-chrome."
+        cd /tmp || error-exit-message "Couldn't cd /tmp in install-google-chrome."
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1
         # shellcheck disable=SC2024
         sudo dpkg -i google-chrome-stable_current_amd64.deb  >> "$LOG" 2>&1 || true
@@ -293,7 +298,7 @@ function install-volatility() {
     fi
     info-message "Install volatility to $VOLATILITY_PATH."
     git clone --quiet https://github.com/volatilityfoundation/volatility "$VOLATILITY_PATH"
-    cd "$VOLATILITY_PATH" || exit "Could not cd $VOLATILITY_PATH in install-volatility."
+    cd "$VOLATILITY_PATH" || error-exit-message "Could not cd $VOLATILITY_PATH in install-volatility."
     pip install \
         Pillow \
         distorm3 \
@@ -307,7 +312,7 @@ function install-volatility() {
 function update-volatility(){
     VOLATILITY_PATH=$1
     if [[ -d "$VOLATILITY_PATH" ]]; then
-        cd "$VOLATILITY_PATH" || exit "Couldn't cd $VOLATILITY_PATH in update-volatility."
+        cd "$VOLATILITY_PATH" || error-exit-message "Couldn't cd $VOLATILITY_PATH in update-volatility."
         info-message "Update volatility in $VOLATILITY_PATH."
         {
             git fetch --all
@@ -498,7 +503,7 @@ function install-Dshell(){
     if [[ ! -d ~/src/python/dshell ]]; then
         git clone --quiet https://github.com/USArmyResearchLab/Dshell.git \
             ~/src/python/Dshell >> "$LOG" 2>&1
-        cd ~/src/python/Dshell || exit "Couldn't cd into Dshell."
+        cd ~/src/python/Dshell || error-exit-message "Couldn't cd into Dshell."
         mkvirtualenv Dshell >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -532,7 +537,7 @@ function install-ViperMonkey(){
     if [[ ! -d ~/src/python/ViperMonkey ]]; then
         git clone --quiet https://github.com/decalage2/ViperMonkey.git \
             ~/src/python/ViperMonkey >> "$LOG" 2>&1
-        cd ~/src/python/ViperMonkey || exit "Couldn't cd into install-ViperMonkey."
+        cd ~/src/python/ViperMonkey || error-exit-message "Couldn't cd into install-ViperMonkey."
         mkvirtualenv ViperMonkey >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -569,7 +574,7 @@ function install-SSMA(){
         pip install virtualenv
         virtualenv -p python3 ~/src/python/SSMA-env
         deactivate
-        cd ~/src/python/SSMA || exit "Couldn't cd into install-SSMA."
+        cd ~/src/python/SSMA || error-exit-message "Couldn't cd into install-SSMA."
         {
             # shellcheck disable=SC1090
             . ~/src/python/SSMA-env/bin/activate
@@ -582,7 +587,7 @@ function install-SSMA(){
 
 function update-SSMA(){
     if [[ -d ~/src/python/SSMA ]]; then
-        cd ~/src/python/SSMA || exit "Couldn't cd into install-SSMA."
+        cd ~/src/python/SSMA || error-exit-message "Couldn't cd into install-SSMA."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
         # shellcheck disable=SC1090
@@ -599,7 +604,7 @@ function install-RecuperaBit(){
     if [[ ! -d ~/src/python/RecuperaBit ]]; then
         git clone --quiet https://github.com/Lazza/RecuperaBit.git \
             ~/src/python/RecuperaBit >> "$LOG" 2>&1
-        cd ~/src/python/RecuperaBit || exit "Couldn't cd into install-RecuperaBit."
+        cd ~/src/python/RecuperaBit || error-exit-message "Couldn't cd into install-RecuperaBit."
         mkvirtualenv RecuperaBit >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -633,7 +638,7 @@ function install-srum-dump(){
     if [[ ! -d ~/src/python/srum-dump ]]; then
         git clone --quiet https://github.com/MarkBaggett/srum-dump.git \
             ~/src/python/srum-dump >> "$LOG" 2>&1
-        cd ~/src/python/srum-dump || exit "Couldn't cd into install-srum-dump."
+        cd ~/src/python/srum-dump || error-exit-message "Couldn't cd into install-srum-dump."
         mkvirtualenv srum-dump >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -667,7 +672,7 @@ function install-tweets_analyzer(){
     if [[ ! -d ~/src/python/tweets_analyzer ]]; then
         git clone --quiet https://github.com/x0rz/tweets_analyzer.git \
             ~/src/python/tweets_analyzer >> "$LOG" 2>&1
-        cd ~/src/python/tweets_analyzer || exit "Couldn't cd into install-tweets_analyzer."
+        cd ~/src/python/tweets_analyzer || error-exit-message "Couldn't cd into install-tweets_analyzer."
         mkvirtualenv tweets_analyzer >> "$LOG" 2>&1 || true
         {
             setvirtualenvproject
@@ -697,7 +702,7 @@ function install-automater(){
     if [[ ! -d ~/src/python/automater ]]; then
         git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
             ~/src/python/automater >> "$LOG" 2>&1
-        cd ~/src/python/automater || exit "Couldn't cd into install-automater."
+        cd ~/src/python/automater || error-exit-message "Couldn't cd into install-automater."
         mkvirtualenv automater >> "$LOG" 2>&1 || true
         setvirtualenvproject >> "$LOG" 2>&1
         deactivate
@@ -724,7 +729,7 @@ function install-damm(){
         mkdir -p ~/src/python/damm
         git clone --quiet https://github.com/504ensicsLabs/DAMM \
             ~/src/python/damm/damm >> "$LOG" 2>&1
-        cd ~/src/python/damm/damm || exit "Couldn't cd into install-damm."
+        cd ~/src/python/damm/damm || error-exit-message "Couldn't cd into install-damm."
         {
             mkvirtualenv damm || true
             setvirtualenvproject
@@ -771,7 +776,7 @@ function install-volatility-env(){
 function update-volatility-env(){
     if [[ -d ~/src/python/volatility ]]; then
         workon volatility || true
-        cd ~/src/python/volatility || exit "Couldn't cd into update-volatility-env."
+        cd ~/src/python/volatility || error-exit-message "Couldn't cd into update-volatility-env."
         update-volatility ~/src/python/volatility/volatility
         deactivate
         info-message "Updated Volatility."
@@ -797,7 +802,7 @@ function install-didierstevenssuite(){
 function update-didierstevenssuite(){
     if [[ -d ~/src/python/didierstevenssuite ]]; then
         workon didierstevenssuite || true
-        cd ~/src/python/didierstevenssuite || exit "Couldn't cd into update-didierstevenssuite."
+        cd ~/src/python/didierstevenssuite || error-exit-message "Couldn't cd into update-didierstevenssuite."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
         enable-new-didier
@@ -872,7 +877,7 @@ function install-pcodedmp(){
 function update-pcodedmp(){
     if [[ -d ~/src/python/pcodedmp ]]; then
         workon pcodedmp || true
-        cd ~/src/python/pcodedmp || exit "Couldn't cd into update-pcodedmp."
+        cd ~/src/python/pcodedmp || error-exit-message "Couldn't cd into update-pcodedmp."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
         deactivate
@@ -899,7 +904,7 @@ function install-just-metadata(){
 function update-just-metadata(){
     if [[ -d ~/src/python/just-metadata ]]; then
         workon just-metadata || true
-        cd ~/src/python/just-metadata || exit "Couldn't cd into update-just-metadata."
+        cd ~/src/python/just-metadata || error-exit-message "Couldn't cd into update-just-metadata."
         {
             git fetch --all
             git reset --hard origin/master
@@ -978,7 +983,7 @@ function update-git-repositories(){
     info-message "Update git repositories."
     for repo in *; do
         info-message "Updating $repo."
-        (cd "$repo" || exit "Couldn't cd into update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
+        (cd "$repo" || error-exit-message "Couldn't cd into update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
     done
     info-message "Updated git repositories."
 }
@@ -992,7 +997,7 @@ function install-radare2(){
         sudo apt remove -y radare2 >> "$LOG" 2>&1
         sudo apt-get autoremove -y >> "$LOG" 2>&1
         checkout-git-repo https://github.com/radare/radare2.git radare2
-        cd ~/src/git/radare2 || exit "Couldn't cd into install-radare2."
+        cd ~/src/git/radare2 || error-exit-message "Couldn't cd into install-radare2."
         make clean >> "$LOG" 2>&1 || true
         ./sys/install.sh >> "$LOG" 2>&1 || error-message "./sys/install.sh failed!"
         info-message "Installed radare2."
@@ -1005,7 +1010,7 @@ function update-radare2(){
     if [[ -d ~/src/git/radare2 ]]; then
         sudo apt remove -y radare2 >> "$LOG" 2>&1
         sudo apt-get autoremove -y >> "$LOG" 2>&1
-        cd ~/src/git/radare2 || exit "Couldn't cd into update-radare2."
+        cd ~/src/git/radare2 || error-exit-message "Couldn't cd into update-radare2."
         {
             git fetch --all
             git reset --hard origin/master

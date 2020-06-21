@@ -5,7 +5,12 @@ LOG=/tmp/remnux-tools.log
 touch "$LOG"
 
 # shellcheck source=/dev/null
-[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
+if [[ -e ~/remnux-tools/bin/common.sh ]]; then
+    . ~/remnux-tools/bin/common.sh
+else 
+    echo "Cant find common.sh."
+    exit 1
+fi
 
 if [[ -f "$1" ]]; then
     LINUX_ISO="$1"
@@ -29,12 +34,12 @@ info-message "Created TMP_DIR: $TMP_DIR"
 info-message "Mount linux.iso"
 [[ ! -d /mnt/cdrom ]] && sudo mkdir -p /mnt/cdrom
 sudo mount --read-only "$LINUX_ISO" /mnt/cdrom
-cd "$TMP_DIR" || exit "Couldn't cd to $TMP_DIR"
+cd "$TMP_DIR" || error-exit-message "Couldn't cd to $TMP_DIR"
 info-message "Extract VMwareTools."
 tar zxf /mnt/cdrom/VMwareTools*.tar.gz
 info-message "Umount linux.iso"
 sudo umount /mnt/cdrom
-cd vmware-tools-distrib || exit "Couldn't cd to vmware-tools-distrib."
+cd vmware-tools-distrib || error-exit-message "Couldn't cd to vmware-tools-distrib."
 
 info-message "Start vmware-install.pl."
 # shellcheck disable=SC2024
