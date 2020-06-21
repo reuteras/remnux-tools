@@ -1,5 +1,7 @@
 # remnux-tools
 
+![Linter](https://github.com/reuteras/remnux-tools/workflows/Linter/badge.svg)
+
 This repository contains my scripts to install [REMnux](https://remnux.org) and [Sift](https://github.com/sans-dfir/sift-bootstrap) with some added tools. I started this repository to be able to quickly install a new VM with the tools I use or would like to use more often. This way it is easy to maintain the same images on many computers. To make it even easier to install I've started to test [packer.io](https://www.packer.io/) to automate even more of the process. My repository for this is called [packer](https://github.com/reuteras/packer).
 
 The setup has changed a lot in the beginning of 2017 and it is recommended to install from scratch in a new VM.
@@ -97,7 +99,7 @@ If you use VMware remember to run the following command to shrink the image:
 There are some extra utilities in the bin directory.
 
 * **api.sh** - configures api keys from config.cfg. Currently has support for
-    - Shodan
-    - tweets_analyzer (Twitter API)
+  - Shodan
+  - tweets_analyzer (Twitter API)
 * **install-vmhgfs.sh** - Install the vmghfs kernel module.
 * **run-one.sh** - Run one function from common. Use **-l** or **--list** for list of functions.
