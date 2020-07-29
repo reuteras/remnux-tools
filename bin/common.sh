@@ -48,9 +48,9 @@ function error-exit-message() {
 }
 
 # Turn off sound on start up
-function turn-of-sound() {
+function turn-off-sound() {
     if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
-        echo "turn-of-sound" >> "$LOG" 2>&1
+        echo "turn-off-sound" >> "$LOG" 2>&1
         echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' | \
         sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
@@ -1025,7 +1025,12 @@ function update-radare2(){
 function install-remnux(){
     if [[ ! -e ~/.config/.remnux ]]; then
         info-message "Start installation of Remnux."
-        wget --quiet -O - https://remnux.org/get-remnux.sh | sudo bash
+        wget --quiet https://REMnux.org/remnux-cli
+        mv remnux-cli remnux
+        chmod +x remnux
+        sudo mv remnux /usr/local/bin
+        sudo apt install -y gnupg
+        sudo /usr/local/bin/remnux install
         touch ~/.config/.remnux
         info-message "Remnux installation finished."
     fi

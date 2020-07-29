@@ -29,7 +29,7 @@ install-general-tools
 install-vmware-tools
 
 # https://bugs.launchpad.net/ubuntu/+source/python-pip/+bug/1658844
-fix-python-pip
+#fix-python-pip
 
 install-remnux
 cleanup-remnux
@@ -42,8 +42,8 @@ install-google-chrome
 
 # Install pip lib globally
 # shellcheck disable=SC2024
-sudo -H pip install colorclass >> "$LOG" 2>&1
-info-message "Installed python colorclass."
+#sudo -H pip install colorclass >> "$LOG" 2>&1
+#info-message "Installed python colorclass."
 
 info-message "Setup virtualenvwrapper."
 # Use virtualenvwrapper for python tools
@@ -70,7 +70,7 @@ install-vt-py
 
 checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules
 
-turn-of-sound
+turn-off-sound
 
 # Install APT packages for REMnux
 install-apt-remnux
