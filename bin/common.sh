@@ -144,7 +144,6 @@ function install-apt-remnux(){
     # shellcheck disable=SC2024
     sudo apt -y -qq install \
         mpack \
-        python3-pip \
         sleuthkit \
         testdisk >> "$LOG" 2>&1
 }
