@@ -30,27 +30,10 @@ info-message "Remove old versions of Chrome and Wireshark."
 [ -e /etc/apt/sources.list.d/google-chrome.list ] && \
     sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
 
-# Remove old wireshark. Caused errors during update
-# shellcheck disable=SC2024
-dpkg -l wireshark | grep 1.12 >> $LOG 2>&1 && sudo apt-get -y -qq remove wireshark >> $LOG 2>&1
-
-# Remove inetsim
-# shellcheck disable=SC2024
-sudo rm -f /etc/apt/sources.list.d/inetsim.list* >> $LOG 2>&1
-# shellcheck disable=SC2024
-sudo apt remove -y inetsim >> $LOG 2>&1
-
-info-message "Run update-remnux script."
-sudo /opt/remnux-scripts/update-remnux
-
 info-message "Update clamav database."
 sudo /usr/bin/freshclam || true
 
 update-ubuntu
-
-info-message "Update python colorclass."
-# shellcheck disable=SC2024
-sudo -H pip install --upgrade colorclass >> $LOG 2>&1
 
 # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/src/python
@@ -61,19 +44,10 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 update-git-repositories
 
 # Update python
-update-automater
 update-chaosreader
 update-damm
-update-didierstevenssuite
-update-floss
 update-just-metadata
-update-oletools
-update-pcodedmp
-update-radare2
 update-rekall
 update-SSMA
 update-testssl
-update-ViperMonkey
-update-volatility-env
-update-vt-py
 info-message "update-remnux.sh done."
