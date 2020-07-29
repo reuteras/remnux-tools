@@ -28,9 +28,6 @@ update-ubuntu
 install-general-tools
 install-vmware-tools
 
-# https://bugs.launchpad.net/ubuntu/+source/python-pip/+bug/1658844
-#fix-python-pip
-
 install-remnux
 cleanup-remnux
 
@@ -40,35 +37,20 @@ create-cases-not-mounted
 
 install-google-chrome
 
-# Install pip lib globally
-# shellcheck disable=SC2024
-#sudo -H pip install colorclass >> "$LOG" 2>&1
-#info-message "Installed python colorclass."
-
 info-message "Setup virtualenvwrapper."
 # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-install-automater
 install-chaosreader
 install-damm
-install-didierstevenssuite
-install-floss
 install-just-metadata
-install-oletools
 install-pcodedmp
-install-radare2
 install-regripper
 install-rekall
 install-SSMA
 install-testssl
-install-ViperMonkey
-install-volatility-env
-install-vt-py
-
-checkout-git-repo https://github.com/Yara-Rules/rules.git yara-rules
 
 turn-off-sound
 
