@@ -1053,7 +1053,7 @@ function install-sift(){
         sudo mv /tmp/sift-cli-linux /usr/local/bin/sift
         rm -f /tmp/sift-cli-linux.sha256.asc
         # shellcheck disable=SC2024
-        sudo /usr/local/bin/sift install >> "$LOG" 2>&1
+        sudo /usr/local/bin/sift install 2>&1 | tee -a "$LOG"
         touch ~/.config/.sift
         info-message "SITF installation finished."
     fi
