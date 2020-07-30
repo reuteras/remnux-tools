@@ -4,16 +4,17 @@
 
 This repository contains my scripts to install [REMnux](https://remnux.org) and [Sift](https://github.com/sans-dfir/sift-bootstrap) with some added tools. I started this repository to be able to quickly install a new virtual machine with the tools I use or would like to use more often. This way it is easy to maintain the same images on many computers. To make it even easier to install I use [packer.io](https://www.packer.io/) to automate process. My repository for this is called [packer](https://github.com/reuteras/packer).
 
-There are now two scripts for installs:
+The following scripts are available for installs:
 
 * setup-remnux.sh - install [REMnux](https://remnux.org) and tools.
 * setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap) and tools.
+* setup-moloch.sh - install [Moloch](https://molo.ch/).
 
-Both scripts starts from a vanilla Ubuntu 18.04 LTS.
+The scripts are tested on Ubuntu 18.04 LTS.
 
 ## setup-remnux.sh
 
-This script install [REMnux](https://remnux.org) and some other tools.
+This script installs [REMnux](https://remnux.org) and some other tools.
 
 The additions are:
 * [Ubuntu](https://www.ubuntu.com/) is updated
@@ -24,16 +25,8 @@ The additions are:
 * Install Google Chrome
 * The repository _ppa:pi-rho/security_ is activated and newer versions of many tools are updated from there
 * Install some scripts. psparser.py, vt.py, testssl.sh and floss
-* Install Tekdefense Automater
 * Install DAMM
-* Install Volutility
-* Install Volatility
 * Install Rekall
-* Install DidierStevensSuite
-* Install oletools
-* Install RegRipper2.8
-* Install Yara rules
-* Install latest [Radare2](https://github.com/radare/radare2)
 * Turn off sound
 
 If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ are installed. There are a couple of aliases for docker images from REMnux. They use directories under _~/docker/<tool name>_.
@@ -51,6 +44,10 @@ This script installs [Sift](https://github.com/sans-dfir/sift-bootstrap)  and so
 * Install Tekdefense Automater
 * Turn off sound
 
+## setup-moloch.sh
+
+This script installs [Moloch](https://molo.ch/).
+
 ## Initial setup
 
 First install git and clone the repository. Run all commands as a regular user and only use *sudo* when needed.
@@ -59,7 +56,7 @@ First install git and clone the repository. Run all commands as a regular user a
     git clone https://github.com/reuteras/remnux-tools.git
     cd remnux-tools
 
-## Install
+### Install
 
 Choose if you would like to install REMnux or SIFT. Don't try to run both scripts in the same VM since it will not work. To install REMnux with my extra packages listed above:
 
@@ -69,7 +66,7 @@ Or to install SIFT with additions listed above:
 
     ./bin/setup-sift.sh
 
-## Update
+### Update
 
 To update REMnux and tools run:
 
@@ -79,7 +76,7 @@ To update SIFT and tools run:
 
     ./bin/update-sift.sh
 
-## Clean
+### Clean
 
 This command will clean apt and write zeros to free space. Use this command if you like to shrink the size of your virtual machine.
 
