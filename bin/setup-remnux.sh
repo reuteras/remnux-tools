@@ -9,6 +9,9 @@ set -e
 LOG=/tmp/remnux-tools.log
 touch "$LOG"
 
+# For apt
+export DEBIAN_FRONTEND=noninteractive
+
 # Make a fake sudo to get password before output
 sudo touch "$LOG"
 
