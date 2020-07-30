@@ -371,7 +371,7 @@ function cleanup-sift(){
         info-message "Clean up folders and files."
         rm -f ~/examples.desktop
     fi
-    if [[ -e ~/Desktop/SANS-DFIR.pdf ]]; then
+    if [[ -e ~/Desktop/SIFT-Cheatsheet.pdf ]]; then
         info-message "Clean Desktop."
         [ ! -d ~/Documents/SIFT ] && mkdir -p ~/Documents/SIFT
         sudo chown malware:malware ~/Desktop
