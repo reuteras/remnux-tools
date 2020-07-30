@@ -49,7 +49,7 @@ install-dcp
 install-floss
 install-RecuperaBit
 
-turn-of-sound
+turn-off-sound
 
 # Install aliases for sift. This way we can update them without
 # affecting .bash_aliases.
