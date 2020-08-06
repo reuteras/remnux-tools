@@ -61,7 +61,7 @@ function update-ubuntu(){
     info-message "Updating Ubuntu."
     info-message "Running apt update."
     # shellcheck disable=SC2024
-    sudo apt -qq update >> "$LOG" 2>&1
+    sudo apt update >> "$LOG" 2>&1
     info-message "Running apt dist-upgrade."
     # shellcheck disable=SC2024
     while ! sudo DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade --force-yes >> "$LOG" 2>&1 ; do

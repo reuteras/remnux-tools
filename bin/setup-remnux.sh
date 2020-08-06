@@ -6,7 +6,7 @@ if [[ -e ~/.config/.sift ]]; then
 fi
 
 set -e
-LOG=/tmp/remnux-tools.log
+export LOG=/tmp/remnux-tools.log
 touch "$LOG"
 
 # For apt
