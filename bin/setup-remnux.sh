@@ -29,7 +29,6 @@ info-message "Details logged to $LOG."
 update-ubuntu
 
 install-general-tools
-install-vmware-tools
 
 install-remnux
 cleanup-remnux
