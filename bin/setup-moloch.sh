@@ -44,7 +44,7 @@ create-cases-not-mounted
 install-google-chrome
 install-chaosreader
 
-turn-of-sound
+turn-off-sound
 
 # Install aliases for moloch. This way we can update them without
 # affecting .bash_aliases.
