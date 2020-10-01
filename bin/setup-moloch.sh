@@ -29,6 +29,7 @@ update-ubuntu
 
 install-general-tools
 install-vmware-tools
+install-apt-moloch
 
 install-geoip
 install-moloch
