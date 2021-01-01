@@ -49,7 +49,8 @@ install-chaosreader
 install-damm
 install-just-metadata
 install-pcodedmp
-install-rekall
+# Install of rekall fails at the moment
+#install-rekall
 install-SSMA
 install-testssl
 
