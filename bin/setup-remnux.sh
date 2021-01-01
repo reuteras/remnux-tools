@@ -49,7 +49,6 @@ install-chaosreader
 install-damm
 install-just-metadata
 install-pcodedmp
-install-regripper
 install-rekall
 install-SSMA
 install-testssl
