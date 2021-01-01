@@ -2,7 +2,8 @@
 
 ![Linter](https://github.com/reuteras/remnux-tools/workflows/Linter/badge.svg)
 
-This repository contains my scripts to install [REMnux](https://remnux.org) and [Sift](https://github.com/sans-dfir/sift-bootstrap) with some added tools. I started this repository to be able to quickly install a new virtual machine with the tools I use or would like to use more often. This way it is easy to maintain the same images on many computers. To make it even easier to install I use [packer.io](https://www.packer.io/) to automate process. My repository for this is called [packer](https://github.com/reuteras/packer).
+This repository contains my scripts to install [REMnux](https://remnux.org) and [Sift](https://github.com/sans-dfir/sift-bootstrap) with some added tools. I started this repository to be able to quickly install a new virtual machine with the tools I use or would like to use more often. This way it is easy to maintain the same images on many computers. 
+To make it even easier to install I use [packer.io](https://www.packer.io/) to automate process. My repository for this is called [packer](https://github.com/reuteras/packer).
 
 The following scripts are available for installs:
 
@@ -10,7 +11,7 @@ The following scripts are available for installs:
 * setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap) and tools.
 * setup-moloch.sh - install [Moloch](https://molo.ch/).
 
-The scripts are tested on Ubuntu 18.04 LTS.
+The scripts are tested on Ubuntu 18.04 LTS for Sift and Moloch. Remnux uses 20.04.
 
 ## setup-remnux.sh
 
