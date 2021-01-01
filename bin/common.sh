@@ -92,9 +92,8 @@ function install-general-tools(){
         libncurses5-dev \
         libssl-dev \
         p7zip \
-        python-dev \
         python3-dev \
-        python-virtualenv \
+        python3-virtualenv \
         screen \
         sharutils \
         sqlite3 \
