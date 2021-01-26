@@ -494,6 +494,27 @@ function update-floss(){
     install-floss
 }
 
+# Brim
+function install-brim(){
+    info-message "Start installation of Brim."
+    cd /tmp || true
+    wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | \
+        grep 'browser_' | grep "amd64.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
+    sudo dpkg -i brim_amd64.deb
+    rm -f brim_amd64.deb
+    info-message "Installed Brim."
+}
+
+function update-brim(){
+    info-message "Start update of Brim."
+    cd /tmp || true
+    wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | \
+        grep 'browser_' | grep "amd64.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
+    sudo dpkg -i brim_amd64.deb
+    rm -f brim_amd64.deb
+    info-message "Brim updated."
+}
+
 # https://github.com/USArmyResearchLab/Dshell
 function install-Dshell(){
     echo "install-Dshell" >> "$LOG" 2>&1
