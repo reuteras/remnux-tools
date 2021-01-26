@@ -26,6 +26,7 @@ The additions are:
 * Install Google Chrome
 * The repository _ppa:pi-rho/security_ is activated and newer versions of many tools are updated from there
 * Install some scripts. psparser.py, vt.py, testssl.sh and floss
+* Install Brim
 * Install DAMM
 * Install Rekall
 * Turn off sound

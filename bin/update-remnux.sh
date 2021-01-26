@@ -46,7 +46,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 # Update git repositories
 update-git-repositories
 
-# Update python
+update-brim
 update-chaosreader
 update-damm
 update-just-metadata
