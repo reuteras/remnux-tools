@@ -1000,6 +1000,7 @@ function checkout-git-repo(){
 function update-git-repositories(){
     cd ~/src/git || exit 1
     info-message "Update git repositories."
+    shopt -s nullglob
     for repo in *; do
         info-message "Updating $repo."
         (cd "$repo" || error-exit-message "Couldn't cd into update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
