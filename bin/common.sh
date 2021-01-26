@@ -498,7 +498,7 @@ function update-floss(){
 function install-brim(){
     info-message "Start installation of Brim."
     cd /tmp || true
-    wget "$(curl -s https://api.github.com/repos/brimsec/brim/releases/latest | \
+    wget "$(curl -s https://api.github.com/repos/brimsec/brim/releases/latest | jq '' | \
         grep 'browser_' | grep "amd64.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
     sudo dpkg -i brim_amd64.deb
     rm -f brim_amd64.deb
@@ -508,7 +508,7 @@ function install-brim(){
 function update-brim(){
     info-message "Start update of Brim."
     cd /tmp || true
-    wget "$(curl -s https://api.github.com/repos/brimsec/brim/releases/latest | \
+    wget "$(curl -s https://api.github.com/repos/brimsec/brim/releases/latest | jq '' | \
         grep 'browser_' | grep "amd64.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
     sudo dpkg -i brim_amd64.deb
     rm -f brim_amd64.deb
@@ -1064,9 +1064,9 @@ function install-sift(){
         {
             sudo apt remove -y python3-xlsxwriter
             sudo apt-get autoremove -y
-            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | \
+            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | jq '' | \
                 grep 'browser_' | cut -d\" -f4 | head -1)"
-            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | \
+            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | jq '' | \
                 grep 'browser_' | cut -d\" -f4 | tail -1)"
         } >> "$LOG" 2>&1
         # Does not validate gpg at the moment due to problems downloading keys in some networks...
