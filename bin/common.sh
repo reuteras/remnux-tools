@@ -1107,13 +1107,28 @@ function update-sift(){
 
 # Moloch
 function install-moloch(){
+    DEB=moloch_2.7.1-1_amd64.deb
+    URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/$DEB"
+    install-moloch-common "$URL" "$DEB"
+}
+
+
+function install-moloch-ecs(){
+    DEB=arkime-ecs_ubuntu18_amd64.deb
+    URL="https://s3.amazonaws.com/files.molo.ch/$DEB"
+    install-moloch-common "$URL" "$DEB"
+}
+
+function install-moloch-common(){
     if [[ ! -e ~/.config/.moloch ]]; then
         info-message "Start installation of Moloch."
+        URL="$1"
+        DEB="$2"
         {
             DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
                 default-jre
-            wget --quiet https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/moloch_2.7.1-1_amd64.deb
-            sudo dpkg --install moloch_2.7.1-1_amd64.deb || true
+            wget --quiet "$URL"
+            sudo dpkg --install "$DEB" || true
             sudo apt -y --fix-broken install
         } >> "$LOG" 2>&1
 
