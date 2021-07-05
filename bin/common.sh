@@ -1120,7 +1120,7 @@ function install-moloch(){
 function install-moloch-ecs(){
     DEB=arkime-ecs_ubuntu18_amd64.deb
     URL="https://s3.amazonaws.com/files.molo.ch/$DEB"
-    if [[ ! -e ~/.config/.moloch ]]; then
+    if [[ ! -e ~/.config/.arkime ]]; then
         info-message "Start installation of Moloch."
         {
             DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
@@ -1139,8 +1139,9 @@ function install-moloch-ecs(){
         sudo -E /opt/arkime/bin/Configure
 
         info-message "Start elasticsearch.service"
+        sudo systemctl enable elasticsearch.service
         sudo systemctl start elasticsearch.service
-        sleep 30
+        sleep 60
         info-message "Init elasticsearch.service"
         echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
         info-message "Add user to moloch"
@@ -1151,7 +1152,7 @@ function install-moloch-ecs(){
         cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
 
         [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
-        touch /home/malware/.config/.moloch
+        touch /home/malware/.config/.arkime
         info-message "Moloch installation finished."
     fi
 }
