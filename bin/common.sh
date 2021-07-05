@@ -267,19 +267,23 @@ function fix-python-pip(){
 # Install moloch_query
 function install-moloch_query(){
     info-message "Install moloch_query."
-    if [ ! -d /data/moloch/bin ]; then
-        error-message "Moloch not installed!"
+    INSTALL_DIR=/data/moloch/bin
+    if [ ! -d "$INSTALL_DIR" ]; then
+        INSTALL_DIR=/opt/arkime/bin
+    fi
+    if [ ! -d "$INSTALL_DIR" ]; then
+        error-message "Arkime not installed!"
         exit 1
     fi
     {
-        wget -O /tmp/moloch_query https://raw.githubusercontent.com/aol/moloch/master/contrib/moloch_query
-        sudo mv /tmp/moloch_query /data/moloch/bin/moloch_query
-        chmod +x /data/moloch/bin/moloch_query
+        wget -O /tmp/moloch_query https://github.com/arkime/arkime/blob/main/contrib/moloch_query
+        sudo mv /tmp/moloch_query "$INSTALL_DIR/moloch_query"
+        chmod +x "$INSTALL_DIR/moloch_query"
         sudo apt -y -qq install python3-pip
         sudo pip3 install requests elasticsearch
-        sudo sed -i -e r's/"query": {}/"query": {"match_all": {}}/' /data/moloch/bin/moloch_query
+        sudo sed -i -e r's/"query": {}/"query": {"match_all": {}}/' "$INSTALL_DIR/moloch_query"
     } >> "$LOG" 2>&1
-    info-message "Installed moloch_query."
+    info-message "Installed moloch_query in $INSTALL_DIR."
 }
 
 # Install Volatility
@@ -1116,7 +1120,40 @@ function install-moloch(){
 function install-moloch-ecs(){
     DEB=arkime-ecs_ubuntu18_amd64.deb
     URL="https://s3.amazonaws.com/files.molo.ch/$DEB"
-    install-moloch-common "$URL" "$DEB"
+    if [[ ! -e ~/.config/.moloch ]]; then
+        info-message "Start installation of Moloch."
+        {
+            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
+                default-jre
+            wget --quiet "$URL"
+            sudo dpkg --install "$DEB" || true
+            sudo apt -y --fix-broken install
+        } >> "$LOG" 2>&1
+
+        info-message "Run Configure for Moloch"
+        ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
+        ARKIME_PASSWORD="password"
+        export ARKIME_INTERFACE ARKIME_PASSWORD
+        sudo sed -i -e "s/ARKIME_LOCALELASTICSEARCH=not-set/ARKIME_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
+        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
+        sudo -E /opt/arkime/bin/Configure
+
+        info-message "Start elasticsearch.service"
+        sudo systemctl start elasticsearch.service
+        sleep 30
+        info-message "Init elasticsearch.service"
+        echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
+        info-message "Add user to moloch"
+        /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email
+
+        info-message "Create bin directory and add start-moloch.sh script."
+        [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
+        cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
+
+        [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
+        touch /home/malware/.config/.moloch
+        info-message "Moloch installation finished."
+    fi
 }
 
 function install-moloch-common(){
