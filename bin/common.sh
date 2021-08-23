@@ -147,8 +147,8 @@ function install-apt-remnux(){
         testdisk >> "$LOG" 2>&1
 }
 
-function install-apt-moloch(){
-    info-message "Installing apt-packages for Moloch."
+function install-apt-arkime(){
+    info-message "Installing apt-packages for Arkime."
     # shellcheck disable=SC2024
     sudo apt -y -qq install \
         bash-completion \
@@ -384,11 +384,11 @@ function cleanup-sift(){
     fi
 }
 
-function cleanup-moloch(){
+function cleanup-arkime(){
     if [[ -e ~/examples.desktop ]]; then
         info-message "Clean up folders and files."
         rm -f ~/examples.desktop
-        rm -f ~/moloch_*
+        rm -f ~/arkime*
     fi
 }
 
@@ -1109,57 +1109,17 @@ function update-sift(){
     fi
 }
 
-# Moloch
-function install-moloch(){
-    DEB=moloch_2.7.1-1_amd64.deb
+# Arkime
+function install-arkime(){
+    DEB=arkime_3.0.0-1_amd64.deb
     URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/$DEB"
-    install-moloch-common "$URL" "$DEB"
+    install-arkime-common "$URL" "$DEB"
 }
 
 
-function install-moloch-ecs(){
-    DEB=arkime-ecs_ubuntu18_amd64.deb
-    URL="https://s3.amazonaws.com/files.molo.ch/$DEB"
+function install-arkime-common(){
     if [[ ! -e ~/.config/.arkime ]]; then
-        info-message "Start installation of Moloch."
-        {
-            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
-                default-jre
-            wget --quiet "$URL"
-            sudo dpkg --install "$DEB" || true
-            sudo apt -y --fix-broken install
-        } >> "$LOG" 2>&1
-
-        info-message "Run Configure for Moloch"
-        ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
-        ARKIME_PASSWORD="password"
-        export ARKIME_INTERFACE ARKIME_PASSWORD
-        sudo sed -i -e "s/ARKIME_LOCALELASTICSEARCH=not-set/ARKIME_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
-        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
-        sudo -E /opt/arkime/bin/Configure
-
-        info-message "Start elasticsearch.service"
-        sudo systemctl enable elasticsearch.service
-        sudo systemctl start elasticsearch.service
-        sleep 60
-        info-message "Init elasticsearch.service"
-        echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
-        info-message "Add user to moloch"
-        /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email
-
-        info-message "Create bin directory and add start-moloch.sh script."
-        [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
-        cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
-
-        [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
-        touch /home/malware/.config/.arkime
-        info-message "Moloch installation finished."
-    fi
-}
-
-function install-moloch-common(){
-    if [[ ! -e ~/.config/.moloch ]]; then
-        info-message "Start installation of Moloch."
+        info-message "Start installation of Arkime."
         URL="$1"
         DEB="$2"
         {
@@ -1170,36 +1130,36 @@ function install-moloch-common(){
             sudo apt -y --fix-broken install
         } >> "$LOG" 2>&1
 
-        info-message "Run Configure for Moloch"
+        info-message "Run Configure for Arkime"
         MOLOCH_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         MOLOCH_PASSWORD="password"
         export MOLOCH_INTERFACE MOLOCH_PASSWORD
-        sudo sed -i -e "s/MOLOCH_LOCALELASTICSEARCH=not-set/MOLOCH_LOCALELASTICSEARCH=yes/" /data/moloch/bin/Configure
-        sudo sed -i -e "s/MOLOCH_INET=not-set/MOLOCH_INET=yes/" /data/moloch/bin/Configure
-        sudo -E /data/moloch/bin/Configure
+        sudo sed -i -e "s/MOLOCH_LOCALELASTICSEARCH=not-set/MOLOCH_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
+        sudo sed -i -e "s/MOLOCH_INET=not-set/MOLOCH_INET=yes/" /opt/arkime/bin/Configure
+        sudo -E /opt/arkime/bin/Configure
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
         sleep 30
         info-message "Init elasticsearch.service"
-        echo "INIT" | /data/moloch/db/db.pl http://127.0.0.1:9200 init
-        info-message "Add user to moloch"
-        /data/moloch/bin/moloch_add_user.sh admin "Admin User" password --admin --email
+        echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
+        info-message "Add user to arkime"
+        /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email
 
-        info-message "Create bin directory and add start-moloch.sh script."
+        info-message "Create bin directory and add start-arkime.sh script."
         [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
-        cp /home/malware/remnux-tools/files/start-moloch.sh /home/malware/bin/start-moloch.sh
+        cp /home/malware/remnux-tools/files/start-arkime.sh /home/malware/bin/start-arkime.sh
 
         [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
-        touch /home/malware/.config/.moloch
-        info-message "Moloch installation finished."
+        touch /home/malware/.config/.arkime
+        info-message "Arkime installation finished."
     fi
 }
 
-function update-moloch(){
-    info-message "Start Moloch upgrade."
+function update-Arkime(){
+    info-message "Start Arkime upgrade."
     info-message "   ## NOTHING TODO ##"
-    info-message "Moloch upgrade finished."
+    info-message "Arkime upgrade finished."
 }
 
 # Suricata
@@ -1219,13 +1179,13 @@ function install-suricata(){
             sudo suricata-update enable-source etnetera/aggressive
             sudo suricata-update
         } >> "$LOG" 2>&1
-        info-message "Start Moloch config update for Suricata."
+        info-message "Start Arkime config update for Suricata."
         {
             echo ""
             echo "plugins=suricata.so"
             echo "suricataAlertFile=/home/malware/Downloads/eve.json"
             echo "suricataExpireMinutes=5256000"
-        } | sudo tee -a /data/moloch/etc/config.ini > /dev/null
+        } | sudo tee -a /opt/arkime/etc/config.ini > /dev/null
         info-message "Suricata installation finished."
     fi
 }

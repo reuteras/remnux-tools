@@ -12,8 +12,8 @@ dotfiles:
 
 install: install-remnux
 
-install-moloch:
-	./bin/setup-moloch.sh
+install-arkime:
+	./bin/setup-arkime.sh
 
 install-remnux:
 	./bin/setup-remnux.sh
@@ -26,9 +26,9 @@ test:
 
 update: update-remnux
 
-update-moloch:
+update-arkime:
 	git pull
-	./bin/update-moloch.sh
+	./bin/update-arkime.sh
 
 update-remnux:
 	git pull

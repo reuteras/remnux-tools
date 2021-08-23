@@ -27,9 +27,9 @@ deactivate 2> /dev/null || true
 
 remove-old
 
-info-message "Run update-moloch script."
+info-message "Run update-arkime script."
 update-chaosreader
-update-moloch
+update-arkime
 update-geoip
 update-ubuntu
 

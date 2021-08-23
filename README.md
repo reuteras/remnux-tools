@@ -9,9 +9,9 @@ The following scripts are available for installs:
 
 * setup-remnux.sh - install [REMnux](https://remnux.org) and tools.
 * setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap) and tools.
-* setup-moloch.sh - install [Moloch](https://molo.ch/).
+* setup-arkime.sh - install [Arkime](https://arkime.com/).
 
-The scripts are tested on Ubuntu 18.04 LTS for Sift and Moloch. Remnux uses 20.04.
+The scripts are tested on Ubuntu 18.04 LTS for Sift and Arkime. Remnux uses 20.04.
 
 ## setup-remnux.sh
 
@@ -46,9 +46,9 @@ This script installs [Sift](https://github.com/sans-dfir/sift-bootstrap)  and so
 * Install Tekdefense Automater
 * Turn off sound
 
-## setup-moloch.sh
+## setup-arkime.sh
 
-This script installs [Moloch](https://molo.ch/).
+This script installs [Arkime](https://arkime.com/).
 
 ## Initial setup
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -e ~/.config/.sift || -e ~/.config/.moloch ]]; then
-    echo "You have installed SIFT or Moloch!"
+if [[ -e ~/.config/.sift || -e ~/.config/.arkime ]]; then
+    echo "You have installed SIFT or Arkime!"
     exit 1
 fi
 

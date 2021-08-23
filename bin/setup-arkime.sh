@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -e ~/.config/.remnux ]]; then
-    echo "You have already installed Moloch!"
+if [[ -e ~/.config/.arkime ]]; then
+    echo "You have already installed Arkime!"
     exit 1
 fi
 
@@ -22,19 +22,19 @@ else
     exit 1
 fi
 
-info-message "Starting installation of Moloch with remnux-tools."
+info-message "Starting installation of Arkime with remnux-tools."
 info-message "Details logged to $LOG."
 
 update-ubuntu
 
 install-general-tools
 install-vmware-tools
-install-apt-moloch
+install-apt-arkime
 
 install-geoip
-install-moloch
+install-arkime
 install-moloch_query
-cleanup-moloch
+cleanup-arkime
 
 install-suricata
 
@@ -47,9 +47,9 @@ install-chaosreader
 
 turn-off-sound
 
-# Install aliases for moloch. This way we can update them without
+# Install aliases for arkime. This way we can update them without
 # affecting .bash_aliases.
-cp ~/remnux-tools/.moloch_aliases ~/.remnux-tools_aliases
+cp ~/remnux-tools/.arkime_aliases ~/.remnux-tools_aliases
 
 if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "##################################################################"
@@ -60,5 +60,5 @@ if [[ ! -e ~/.config/.manual_conf ]]; then
     echo "4. Run 'make dotfiles' in ~/remnux-tools for .bashrc etc."
     echo "##################################################################"
     touch ~/.config/.manual_conf
-    info-message "Setup with setup-moloch.sh done."
+    info-message "Setup with setup-arkime.sh done."
 fi

@@ -8,6 +8,6 @@ while true; do
         break
     fi
 done
-sudo systemctl start molochcapture.service
-sudo systemctl start molochviewer.service
+sudo systemctl start arkimecapture.service
+sudo systemctl start arkimeviewer.service
 /opt/google/chrome/chrome http://127.0.0.1:8005 > /dev/null 2>&1 &
