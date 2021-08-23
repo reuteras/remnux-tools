@@ -1131,11 +1131,11 @@ function install-arkime-common(){
         } >> "$LOG" 2>&1
 
         info-message "Run Configure for Arkime"
-        MOLOCH_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
-        MOLOCH_PASSWORD="password"
-        export MOLOCH_INTERFACE MOLOCH_PASSWORD
-        sudo sed -i -e "s/MOLOCH_LOCALELASTICSEARCH=not-set/MOLOCH_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
-        sudo sed -i -e "s/MOLOCH_INET=not-set/MOLOCH_INET=yes/" /opt/arkime/bin/Configure
+        ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
+        ARKIME_PASSWORD="password"
+        export ARKIME_INTERFACE ARKIME_PASSWORD
+        sudo sed -i -e "s/ARKIME_LOCALELASTICSEARCH=not-set/ARKIME_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
+        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure
 
         info-message "Start elasticsearch.service"
