@@ -1130,12 +1130,29 @@ function install-arkime-common(){
             sudo apt -y --fix-broken install
         } >> "$LOG" 2>&1
 
+        sudo touch /opt/arkime/etc/config-local.ini
+        sudo chown malware:malware /opt/arkime/etc/config-local.ini
+        {
+            echo "parseCookieValue=true"
+            echo "parseQSValue=true"
+            echo "parseSMB=true"
+            echo "parseDNSRecordAll=true"
+            echo "parseSMTP=true"
+            echo "parseSMTPHeaderAll=true"
+            echo "parseHTTPHeaderRequestAll=true"
+            echo "parseHTTPHeaderResponseAll=true"
+            echo "supportSha256=true"
+            echo "suricataAlertFile=/var/log/suricata/eve.json"
+            echo "suricataExpireMinutes=10512000"
+        } > /opt/arkime/etc/config-local.ini
         info-message "Run Configure for Arkime"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         ARKIME_PASSWORD="password"
         export ARKIME_INTERFACE ARKIME_PASSWORD
         sudo sed -i -e "s/ARKIME_LOCALELASTICSEARCH=not-set/ARKIME_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
+        sudo sed -i -e "s!#includes=!includes=/opt/arkime/etc/config-local.ini!" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so/" /opt/arkime/etc/config.ini
         sudo -E /opt/arkime/bin/Configure
 
         info-message "Start elasticsearch.service"
