@@ -50,6 +50,10 @@ This script installs [Sift](https://github.com/sans-dfir/sift-bootstrap)  and so
 
 This script installs [Arkime](https://arkime.com/).
 
+Test Suricata functionality with:
+
+    curl testmynids.org/uid/index.html
+
 ## Initial setup
 
 First install git and clone the repository. Run all commands as a regular user and only use *sudo* when needed.
