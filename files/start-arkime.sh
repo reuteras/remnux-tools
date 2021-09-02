@@ -8,6 +8,8 @@ while true; do
         break
     fi
 done
+INTERFACE=$(ip addr | grep "state UP" | awk '{print $2}' | tr -d ":")
+sudo sed -i -e "s/interface: eth0/interface: ${INTERFACE}/" /etc/suricata/suricata.yaml
 sudo suricata-update update-sources > /dev/null 2>&1
 sudo sudo suricata-update > /dev/null 2>&1
 sudo systemctl start suricata.service
