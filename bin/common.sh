@@ -1151,9 +1151,9 @@ function install-arkime-common(){
         export ARKIME_INTERFACE ARKIME_PASSWORD
         sudo sed -i -e "s/ARKIME_LOCALELASTICSEARCH=not-set/ARKIME_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
-        sudo sed -i -e "s!#includes=!includes=/opt/arkime/etc/config-local.ini!" /opt/arkime/etc/config.ini
-        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so/" /opt/arkime/etc/config.ini
         sudo -E /opt/arkime/bin/Configure
+        sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so/" /opt/arkime/etc/config.ini
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
@@ -1196,13 +1196,6 @@ function install-suricata(){
             sudo suricata-update enable-source etnetera/aggressive
             sudo suricata-update
         } >> "$LOG" 2>&1
-        info-message "Start Arkime config update for Suricata."
-        {
-            echo ""
-            echo "plugins=suricata.so"
-            echo "suricataAlertFile=/home/malware/Downloads/eve.json"
-            echo "suricataExpireMinutes=5256000"
-        } | sudo tee -a /opt/arkime/etc/config.ini > /dev/null
         info-message "Suricata installation finished."
     fi
 }
