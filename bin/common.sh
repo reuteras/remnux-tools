@@ -1133,6 +1133,7 @@ function install-arkime-common(){
         sudo touch /opt/arkime/etc/config-local.ini
         sudo chown malware:malware /opt/arkime/etc/config-local.ini
         {
+            echo '[default]'
             echo "parseCookieValue=true"
             echo "parseQSValue=true"
             echo "parseSMB=true"
