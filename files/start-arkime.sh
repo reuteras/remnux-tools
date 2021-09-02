@@ -13,6 +13,7 @@ sudo sed -i -e "s/interface: eth0/interface: ${INTERFACE}/" /etc/suricata/surica
 sudo suricata-update update-sources > /dev/null 2>&1
 sudo sudo suricata-update > /dev/null 2>&1
 sudo systemctl start suricata.service
+sleep 1 && sudo systemctl restart suricata.service
 sudo systemctl start arkimecapture.service
 sudo systemctl start arkimeviewer.service
 /opt/google/chrome/chrome http://127.0.0.1:8005 > /dev/null 2>&1 &
