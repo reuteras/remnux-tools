@@ -153,6 +153,7 @@ function install-apt-arkime(){
     sudo apt -y -qq install \
         bash-completion \
         cifs-utils \
+        docker.io \
         nfs-common \
         ngrep \
         python3-yara \
@@ -1171,6 +1172,10 @@ function install-arkime-common(){
         [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
         touch /home/malware/.config/.arkime
         info-message "Arkime installation finished."
+        info-message "Start Arkime Wise installation."
+        sudo docker pull reuteras/container-wise
+        cd || exit
+        git clone https://github.com/reuteras/container-wise.git
     fi
 }
 
