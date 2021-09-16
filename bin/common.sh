@@ -1146,6 +1146,7 @@ function install-arkime-common(){
             echo "supportSha256=true"
             echo "suricataAlertFile=/var/log/suricata/eve.json"
             echo "suricataExpireMinutes=10512000"
+            echo "wiseHost=127.0.0.1"
         } > /opt/arkime/etc/config-local.ini
         info-message "Run Configure for Arkime"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
@@ -1155,7 +1156,8 @@ function install-arkime-common(){
         sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
-        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so/" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so; netflow.so/" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
