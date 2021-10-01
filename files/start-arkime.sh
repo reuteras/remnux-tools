@@ -16,4 +16,5 @@ sudo systemctl start suricata.service
 sleep 1 && sudo systemctl restart suricata.service
 sudo systemctl start arkimecapture.service
 sudo systemctl start arkimeviewer.service
+docker run -d --name wise -p 8081:8081 reuteras/container-wise
 /opt/google/chrome/chrome http://127.0.0.1:8005 > /dev/null 2>&1 &

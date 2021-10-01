@@ -1113,7 +1113,7 @@ function update-sift(){
 # Arkime
 function install-arkime(){
     DEB=arkime_3.0.0-1_amd64.deb
-    URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/$DEB"
+    URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-$(lsb_release -r | awk '{print $2}')/$DEB"
     install-arkime-common "$URL" "$DEB"
 }
 
@@ -1156,7 +1156,7 @@ function install-arkime-common(){
         sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
-        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so; netflow.so/" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
 
         info-message "Start elasticsearch.service"
