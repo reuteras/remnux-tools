@@ -505,8 +505,8 @@ function install-brim(){
     cd /tmp || true
     wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' | \
         grep 'browser_' | grep -E "/Brim-.*\.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
-    sudo dpkg -i brim_amd64.deb
-    rm -f brim_amd64.deb
+    sudo dpkg -i Brim*.deb
+    rm -f Brim*.deb
     info-message "Installed Brim."
 }
 
@@ -515,8 +515,8 @@ function update-brim(){
     cd /tmp || true
     wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' | \
         grep 'browser_' | grep -E "/Brim-.*\.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
-    sudo dpkg -i brim_amd64.deb
-    rm -f brim_amd64.deb
+    sudo dpkg -i Brim*.deb
+    rm -f Brim*.deb
     info-message "Brim updated."
 }
 
