@@ -1132,9 +1132,12 @@ function install-arkime-common(){
         } >> "$LOG" 2>&1
 
         sudo touch /opt/arkime/etc/config-local.ini
+        sudo curl -s -o /opt/arkime/etc/cacert.pem https://curl.se/ca/cacert.pem
         sudo chown malware:malware /opt/arkime/etc/config-local.ini
         {
             echo '[default]'
+            echo "caTrustFile=/opt/arkime/etc/cacert.pem"
+            echo "magicMode=both"
             echo "parseCookieValue=true"
             echo "parseQSValue=true"
             echo "parseSMB=true"
