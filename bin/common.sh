@@ -1050,12 +1050,15 @@ function update-radare2(){
 function install-remnux(){
     if [[ ! -e ~/.config/.remnux ]]; then
         info-message "Start installation of Remnux."
+        rm -f remnux-cli
         wget --quiet https://REMnux.org/remnux-cli
         mv remnux-cli remnux
         chmod +x remnux
         sudo mv remnux /usr/local/bin
         sudo apt install -y gnupg
+        sudo systemctl stop ssh.service
         sudo /usr/local/bin/remnux install
+        sudo systemctl start ssh.service
         touch ~/.config/.remnux
         info-message "Remnux installation finished."
     fi
