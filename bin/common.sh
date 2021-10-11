@@ -1081,8 +1081,10 @@ function install-sift(){
         chmod +x /tmp/sift-cli-linux
         sudo mv /tmp/sift-cli-linux /usr/local/bin/sift
         rm -f /tmp/sift-cli-linux.sha256.asc
+        sudo systemctl stop ssh.service
         # shellcheck disable=SC2024
         sudo /usr/local/bin/sift install 2>&1 | tee -a "$LOG"
+        sudo systemctl start ssh.service
         touch ~/.config/.sift
         info-message "SITF installation finished."
     fi
