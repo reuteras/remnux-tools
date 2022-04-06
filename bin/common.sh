@@ -1117,7 +1117,7 @@ function update-sift(){
 
 # Arkime
 function install-arkime(){
-    DEB=arkime_3.3.0-1_amd64.deb
+    DEB=arkime_3.4.2-1_amd64.deb
     URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-$(lsb_release -r | awk '{print $2}')/$DEB"
     install-arkime-common "$URL" "$DEB"
 }
