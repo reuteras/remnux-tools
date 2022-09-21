@@ -32,5 +32,6 @@ update-chaosreader
 update-arkime
 update-geoip
 update-ubuntu
+sudo docker pull reuteras/container-wise
 
-info-message "update-sift.sh done."
+info-message "update-arkime.sh done."
