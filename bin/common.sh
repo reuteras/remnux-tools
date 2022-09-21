@@ -144,7 +144,8 @@ function install-apt-remnux(){
     sudo apt -y -qq install \
         mpack \
         sleuthkit \
-        testdisk >> "$LOG" 2>&1
+        testdisk \
+        tree >> "$LOG" 2>&1
 }
 
 function install-apt-arkime(){
