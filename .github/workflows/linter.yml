@@ -29,4 +29,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Lint Code Base
-        uses: docker://github/super-linter:v4
+        uses: github/super-linter/slim@v4
