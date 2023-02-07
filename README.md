@@ -31,7 +31,7 @@ The additions are:
 * Install Rekall
 * Turn off sound
 
-If you run *make dotfiles* my version of _.bashrc_, _.vimrc_ are installed. There are a couple of aliases for docker images from REMnux. They use directories under _~/docker/<tool name>_.
+If you run **make dotfiles** my version of _.bashrc_, _.vimrc_ are installed. There are a couple of aliases for docker images from REMnux. They use directories under _~/docker/<tool name>_.
 
 ## setup-sift.sh
 
