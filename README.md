@@ -56,7 +56,7 @@ Test Suricata functionality with:
 
 ## Initial setup
 
-First install git and clone the repository. Run all commands as a regular user and only use *sudo* when needed.
+First install git and clone the repository. Run all commands as a regular user and only use **sudo** when needed.
 
     sudo apt-get install -y git
     git clone https://github.com/reuteras/remnux-tools.git
@@ -96,8 +96,7 @@ If you use VMware remember to run the following command to shrink the image:
 
 There are some extra utilities in the bin directory.
 
-* **api.sh** - configures api keys from config.cfg. Currently has support for
+* **api.sh** - configures API keys from config.cfg. Currently has support for
   - Shodan
-  - tweets_analyzer (Twitter API)
 * **install-vmhgfs.sh** - Install the vmghfs kernel module.
 * **run-one.sh** - Run one function from common. Use **-l** or **--list** for list of functions.
