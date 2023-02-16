@@ -151,7 +151,8 @@ function install-apt-remnux(){
 function install-apt-arkime(){
     info-message "Installing apt-packages for Arkime."
     # shellcheck disable=SC2024
-    sudo apt -y -qq install \
+    echo "wireshark-common wireshark-common/install-setuid boolean true" | sudo debconf-set-selections
+    DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
         bash-completion \
         cifs-utils \
         docker.io \
