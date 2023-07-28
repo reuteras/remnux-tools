@@ -1087,7 +1087,7 @@ function install-sift(){
         sudo dpkg -i cast*.deb
         sudo systemctl stop ssh.service
         # shellcheck disable=SC2024
-        sudo /usr/local/bin/cast install teamdfir/sift-saltstack 2>&1 | tee -a "$LOG"
+        sudo /usr/bin/cast install teamdfir/sift-saltstack 2>&1 | tee -a "$LOG"
         sudo systemctl start ssh.service
         touch ~/.config/.sift
         info-message "SITF installation finished."
