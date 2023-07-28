@@ -1072,20 +1072,17 @@ function install-sift(){
         info-message "Start installation of SIFT."
         cd /tmp || true
         {
-            sudo apt remove -y python3-xlsxwriter
             sudo apt-get autoremove -y
-            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | jq '' | \
-                grep 'browser_' | cut -d\" -f4 | head -1)"
-            wget "$(curl -s https://api.github.com/repos/teamdfir/sift-cli/releases/latest | jq '' | \
-                grep 'browser_' | cut -d\" -f4 | tail -1)"
+            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' | \
+                grep 'browser_' | grep deb | grep -v deb.sig | grep "$(uname -m)" | cut -d\" -f4 | head -1)"
+            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' | \
+                grep 'browser_' | grep deb | grep -v deb.sig | grep "$(uname -m)" | cut -d\" -f4 | tail -1)"
         } >> "$LOG" 2>&1
         # Does not validate gpg at the moment due to problems downloading keys in some networks...
-        chmod +x /tmp/sift-cli-linux
-        sudo mv /tmp/sift-cli-linux /usr/local/bin/sift
-        rm -f /tmp/sift-cli-linux.sha256.asc
+        sudo dpkg -i cast*.deb
         sudo systemctl stop ssh.service
         # shellcheck disable=SC2024
-        sudo /usr/local/bin/sift install 2>&1 | tee -a "$LOG"
+        sudo /usr/local/bin/cast install teamdfir/sift-saltstack 2>&1 | tee -a "$LOG"
         sudo systemctl start ssh.service
         touch ~/.config/.sift
         info-message "SITF installation finished."
