@@ -1073,10 +1073,15 @@ function install-sift(){
         cd /tmp || true
         {
             sudo apt-get autoremove -y
+            if uname -m == "x86_64"; then
+                ARCH="amd64"
+            else
+                ARCH="arm64"
+            fi
             wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' | \
-                grep 'browser_' | grep deb | grep -v deb.sig | grep "$(uname -m)" | cut -d\" -f4 | head -1)"
+                grep 'browser_' | grep deb | grep -v deb.sig | grep "$ARCH" | cut -d\" -f4 | head -1)"
             wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' | \
-                grep 'browser_' | grep deb | grep -v deb.sig | grep "$(uname -m)" | cut -d\" -f4 | tail -1)"
+                grep 'browser_' | grep deb | grep -v deb.sig | grep "$ARCH" | cut -d\" -f4 | tail -1)"
         } >> "$LOG" 2>&1
         # Does not validate gpg at the moment due to problems downloading keys in some networks...
         sudo dpkg -i cast*.deb
