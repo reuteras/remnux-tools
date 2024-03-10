@@ -51,6 +51,5 @@ update-chaosreader
 update-damm
 update-just-metadata
 update-rekall
-update-SSMA
 update-testssl
 info-message "update-remnux.sh done."

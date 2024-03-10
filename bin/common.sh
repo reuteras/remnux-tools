@@ -519,107 +519,6 @@ function update-brim(){
     info-message "Brim updated."
 }
 
-# https://github.com/USArmyResearchLab/Dshell
-function install-Dshell(){
-    echo "install-Dshell" >> "$LOG" 2>&1
-    sudo apt install -yqq libpcap-dev
-    if [[ ! -d ~/src/python/dshell ]]; then
-        git clone --quiet https://github.com/USArmyResearchLab/Dshell.git \
-            ~/src/python/Dshell >> "$LOG" 2>&1
-        cd ~/src/python/Dshell || error-exit-message "Couldn't cd into Dshell."
-        mkvirtualenv Dshell >> "$LOG" 2>&1 || true
-        {
-            setvirtualenvproject
-            pip install --upgrade pip
-            pip install pygeoip pycrypto dpkt IPy pypcap
-        } >> "$LOG" 2>&1
-        make
-        deactivate
-        info-message "Checked out Dshell."
-    fi
-}
-
-function update-Dshell(){
-    if [[ -d ~/src/python/Dshell ]]; then
-        workon Dshell || true
-        {
-            git fetch --all
-            git reset --hard origin/master
-            pip install --upgrade pip
-            pip install --upgrade pygeoip pycrypto dpkt IPy pypcap
-        } >> "$LOG" 2>&1
-        make
-        deactivate
-        info-message "Updated Dshell."
-    fi
-}
-
-#https://github.com/decalage2/ViperMonkey
-function install-ViperMonkey(){
-    echo "install-ViperMonkey" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/ViperMonkey ]]; then
-        git clone --quiet https://github.com/decalage2/ViperMonkey.git \
-            ~/src/python/ViperMonkey >> "$LOG" 2>&1
-        cd ~/src/python/ViperMonkey || error-exit-message "Couldn't cd into install-ViperMonkey."
-        mkvirtualenv ViperMonkey >> "$LOG" 2>&1 || true
-        {
-            setvirtualenvproject
-            pip install --upgrade pip
-            pip install -U -r requirements.txt
-        } >> "$LOG" 2>&1
-        deactivate
-        info-message "Checked out ViperMonkey."
-    fi
-}
-
-function update-ViperMonkey(){
-    if [[ -d ~/src/python/ViperMonkey ]]; then
-        workon ViperMonkey || true
-        {
-            git fetch --all
-            git reset --hard origin/master
-            pip install --upgrade pip
-        } >> "$LOG" 2>&1
-        deactivate
-        info-message "Updated ViperMonkey."
-    fi
-}
-
-# https://github.com/secrary/SSMA
-function install-SSMA(){
-    echo "install-SSMA" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/SSMA ]]; then
-        git clone --quiet https://github.com/secrary/SSMA.git \
-            ~/src/python/SSMA >> "$LOG" 2>&1
-        # Make virtualenv to install virtualenv...
-        # Bug in old versions of virtualenv forces us to do this.
-        mkvirtualenv venv >> "$LOG" 2>&1 || true
-        pip install virtualenv
-        virtualenv -p python3 ~/src/python/SSMA-env
-        deactivate
-        cd ~/src/python/SSMA || error-exit-message "Couldn't cd into install-SSMA."
-        {
-            # shellcheck disable=SC1090
-            . ~/src/python/SSMA-env/bin/activate
-            pip3 install -r requirements_with_ssdeep.txt
-        } >> "$LOG" 2>&1
-        deactivate
-        info-message "Checked out SSMA."
-    fi
-}
-
-function update-SSMA(){
-    if [[ -d ~/src/python/SSMA ]]; then
-        cd ~/src/python/SSMA || error-exit-message "Couldn't cd into install-SSMA."
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        # shellcheck disable=SC1090
-        . ~/src/python/SSMA-env/bin/activate
-        pip3 install --upgrade -r requirements_with_ssdeep.txt >> "$LOG" 2>&1
-        deactivate
-        info-message "Updated RecuperaBit."
-    fi
-}
 
 # https://github.com/Lazza/RecuperaBit
 function install-RecuperaBit(){
@@ -635,7 +534,7 @@ function install-RecuperaBit(){
             # shellcheck disable=SC2102
             pip install --upgrade urllib3[secure]
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Checked out RecuperaBit."
     fi
 }
@@ -650,7 +549,7 @@ function update-RecuperaBit(){
             # shellcheck disable=SC2102
             pip install --upgrade urllib3[secure]
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Updated RecuperaBit."
     fi
 }
@@ -670,7 +569,7 @@ function install-srum-dump(){
             pip install --upgrade urllib3[secure]
             pip install impacket openpyxl python-registry
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Checked out srum-dump."
     fi
 }
@@ -684,38 +583,8 @@ function update-srum-dump(){
         # shellcheck disable=SC2102
         pip install --upgrade urllib3[secure]
         pip install --upgrade impacket openpyxl python-registry
-        deactivate
+        deactivate || true
         info-message "Updated srum-dump."
-    fi
-}
-
-# https://github.com/x0rz/tweets_analyzer
-function install-tweets_analyzer(){
-    echo "install-tweets_analyzer" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/tweets_analyzer ]]; then
-        git clone --quiet https://github.com/x0rz/tweets_analyzer.git \
-            ~/src/python/tweets_analyzer >> "$LOG" 2>&1
-        cd ~/src/python/tweets_analyzer || error-exit-message "Couldn't cd into install-tweets_analyzer."
-        mkvirtualenv tweets_analyzer >> "$LOG" 2>&1 || true
-        {
-            setvirtualenvproject
-            pip install --upgrade pip
-            # shellcheck disable=SC2102
-            pip install --upgrade urllib3[secure]
-            pip install -r requirements.txt
-        } >> "$LOG" 2>&1
-        deactivate
-        info-message "Checked out tweets_analyzer."
-    fi
-}
-
-function update-tweets_analyzer(){
-    if [[ -d ~/src/python/tweets_analyzer ]]; then
-        workon tweets_analyzer || true
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        deactivate
-        info-message "Updated tweets_analyzer."
     fi
 }
 
@@ -728,7 +597,7 @@ function install-automater(){
         cd ~/src/python/automater || error-exit-message "Couldn't cd into install-automater."
         mkvirtualenv automater >> "$LOG" 2>&1 || true
         setvirtualenvproject >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Checked out Automater."
     fi
 }
@@ -738,7 +607,7 @@ function update-automater(){
         workon automater || true
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Updated Automater."
     fi
 }
@@ -760,7 +629,7 @@ function install-damm(){
             pip install --upgrade urllib3[secure]
             install-volatility ~/src/python/damm/volatility]
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Checked out DAMM."
     fi
 }
@@ -774,7 +643,7 @@ function update-damm(){
             pip install --upgrade pip
         } >> "$LOG" 2>&1
         update-volatility ~/src/python/damm/volatility
-        deactivate
+        deactivate || true
         info-message "Updated DAMM."
     fi
 }
@@ -791,7 +660,7 @@ function install-volatility-env(){
             pip install --upgrade urllib3[secure]
             install-volatility ~/src/python/volatility/volatility
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Checked out Volatility."
     fi
 }
@@ -801,7 +670,7 @@ function update-volatility-env(){
         workon volatility || true
         cd ~/src/python/volatility || error-exit-message "Couldn't cd into update-volatility-env."
         update-volatility ~/src/python/volatility/volatility
-        deactivate
+        deactivate || true
         info-message "Updated Volatility."
     fi
 }
@@ -817,7 +686,7 @@ function install-didierstevenssuite(){
             setvirtualenvproject
         } >> "$LOG" 2>&1
         enable-new-didier
-        deactivate
+        deactivate || true
         info-message "Checked out DidierStevensSuite."
     fi
 }
@@ -829,7 +698,7 @@ function update-didierstevenssuite(){
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
         enable-new-didier
-        deactivate
+        deactivate || true
         info-message "Updated DidierStevensSuite."
     fi
 }
@@ -867,7 +736,7 @@ function install-rekall(){
             pip install --upgrade pip setuptools wheel
             pip install rekall-agent rekall
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Installed rekall."
     fi
 }
@@ -892,7 +761,7 @@ function install-pcodedmp(){
             pip install --upgrade pip setuptools
             pip install oletools
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Installed pcodedmp."
     fi
 }
@@ -903,7 +772,7 @@ function update-pcodedmp(){
         cd ~/src/python/pcodedmp || error-exit-message "Couldn't cd into update-pcodedmp."
         git fetch --all >> "$LOG" 2>&1
         git reset --hard origin/master >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Updated pcodedmp."
     fi
 }
@@ -919,7 +788,7 @@ function install-just-metadata(){
             pip install --upgrade pip setuptools
             pip install ipwhois requests shodan netaddr
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Installed just-metadata."
     fi
 }
@@ -934,7 +803,7 @@ function update-just-metadata(){
             pip install --upgrade pip setuptools
             pip install --upgrade ipwhois requests shodan netaddr
         } >> "$LOG" 2>&1
-        deactivate
+        deactivate || true
         info-message "Updated just-metadata."
     fi
 }

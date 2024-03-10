@@ -52,7 +52,6 @@ install-just-metadata
 install-pcodedmp
 # Install of rekall fails at the moment
 #install-rekall
-install-SSMA
 install-testssl
 
 turn-off-sound

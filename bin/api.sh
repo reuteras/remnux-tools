@@ -15,23 +15,6 @@ if [[ ! -e ~/.shodan/api_key && -n "$SHODAN_API_KEY" ]]; then
     fi
 fi
 
-if [[ -e ~/src/python/tweets_analyzer/secrets.py ]]; then
-    if grep xxxxxxxxxxxxxx ~/src/python/tweets_analyzer/secrets.py > /dev/null ; then
-        if [[ -n "$TWITTER_CONSUMER_KEY" && -n "$TWITTER_CONSUMER_SECRET" \
-            && -n "$TWITTER_ACCESS_TOKEN" && -n "$TWITTER_ACCESS_TOKEN_SECRET" ]]; then
-            {
-                echo 'consumer_key="'"$TWITTER_CONSUMER_KEY"'"'
-                echo 'consumer_secret="'"$TWITTER_CONSUMER_SECRET"'"'
-                echo 'access_token="'"$TWITTER_ACCESS_TOKEN"'"'
-                echo 'access_token_secret="'"$TWITTER_ACCESS_TOKEN_SECRET"'"'
-            } > ~/src/python/tweets_analyzer/secrets.py
-            echo "Configured Twitter tokens for tweets_analyzer."
-        else
-            echo "No configuration for twitter in ~/remnux-tools/config.cfg"
-        fi
-    fi
-fi
-
 # Configure GIT
 if [[ -n $REMNUX_EDITOR ]]; then
     if [[ $(git config --global --get core.editor) != "$REMNUX_EDITOR" ]]; then
