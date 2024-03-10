@@ -115,7 +115,6 @@ function install-vmware-tools(){
     info-message "Installing tools for VMware."
     # shellcheck disable=SC2024
     sudo apt -y -qq install \
-        fuse \
         open-vm-tools-desktop >> "$LOG" 2>&1
 }
 
