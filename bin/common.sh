@@ -79,11 +79,9 @@ function install-general-tools(){
         bless \
         bsdgames \
         build-essential \
-        ctags \
         curl \
         dos2unix \
         exfat-fuse \
-        exfat-utils \
         git \
         htop \
         jq \
