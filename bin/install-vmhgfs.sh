@@ -7,7 +7,7 @@ touch "$LOG"
 # shellcheck source=/dev/null
 if [[ -e ~/remnux-tools/bin/common.sh ]]; then
     . ~/remnux-tools/bin/common.sh
-else 
+else
     echo "Cant find common.sh."
     exit 1
 fi

@@ -1,4 +1,4 @@
-" Many settings copied from 
+" Many settings copied from
 "   https://github.com/nvie/vimrc
 " Use vim settings, rather then vi settings (much better!)
 " This must be first, because it changes other options as a side effect.
@@ -59,7 +59,7 @@ nnoremap / /\v
 vnoremap / /\v
 
 " Let F3 insert timestamp
-inoremap <F3> <C-R>=strftime('%c').': '<CR>   
+inoremap <F3> <C-R>=strftime('%c').': '<CR>
 
 set termencoding=utf-8
 set encoding=utf-8
