@@ -1,0 +1,36 @@
+# EditorConfig is awesome: http://EditorConfig.org
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines at the bottom of every file
+[*]
+end_of_line = lf
+charset = utf-8
+
+# Space indentation
+indent_style = space
+indent_size = 4
+
+# Make sure every file has a blank line at the end
+insert_final_newline = true
+
+# Remove any whitespace characters preceding newline characters
+trim_trailing_whitespace = true
+
+# Give operators breathing room, but not brackets
+spaces_around_operators = true
+spaces_around_brackets = true
+space_redirects = true
+
+# Max line length (not supported by all editors)
+# Enable this option by un-commenting the following line
+# max_line_length = 150
+
+[{*.yml,*.yaml,.dockerfilelintrc}]
+indent_style = space
+indent_size = 2
+
+[{Makefile,go.mod,go.sum,*.go,.gitmodules}]
+indent_style = tab
+indent_size = 4
+
