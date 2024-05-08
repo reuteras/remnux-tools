@@ -51,27 +51,27 @@ function error-exit-message() {
 function turn-off-sound() {
     if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
         echo "turn-off-sound" >> "$LOG" 2>&1
-        echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' | \
+        echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' |
         sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
     fi
 }
 
-function update-ubuntu(){
+function update-ubuntu() {
     info-message "Updating Ubuntu."
     info-message "Running apt update."
     # shellcheck disable=SC2024
     sudo apt update >> "$LOG" 2>&1
     info-message "Running apt dist-upgrade."
     # shellcheck disable=SC2024
-    while ! sudo DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade --force-yes >> "$LOG" 2>&1 ; do
+    while ! sudo DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade --force-yes >> "$LOG" 2>&1; do
         echo "APT busy. Will retry in 10 seconds."
         sleep 10
     done
 }
 
 # General tools
-function install-general-tools(){
+function install-general-tools() {
     info-message "Installing general tools."
     # shellcheck disable=SC2024
     sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
@@ -111,17 +111,16 @@ function install-general-tools(){
 }
 
 # Tools for Vmware
-function install-vmware-tools(){
+function install-vmware-tools() {
     info-message "Installing tools for VMware."
     # shellcheck disable=SC2024
     sudo apt -y -qq install \
         open-vm-tools-desktop >> "$LOG" 2>&1
 }
 
-
 # Install Docker Community edition for the latest functions.
 # Use the default install script since this is for test only.
-function install-docker-ce(){
+function install-docker-ce() {
     info-message "Installing Docker Community Edition."
     {
         sudo apt -y -qq install curl python-pip
@@ -134,7 +133,7 @@ function install-docker-ce(){
     } >> "$LOG" 2>&1
 }
 
-function install-apt-remnux(){
+function install-apt-remnux() {
     info-message "Installing apt-packages for REMnux."
     # sleuthkit provides hfind(1)
     # shellcheck disable=SC2024
@@ -145,7 +144,7 @@ function install-apt-remnux(){
         tree >> "$LOG" 2>&1
 }
 
-function install-apt-arkime(){
+function install-apt-arkime() {
     info-message "Installing apt-packages for Arkime."
     echo "wireshark-common wireshark-common/install-setuid boolean true" | sudo debconf-set-selections
     # shellcheck disable=SC2024
@@ -167,12 +166,12 @@ function install-apt-arkime(){
 
 # Install Google Chrome
 function install-google-chrome() {
-    if ! dpkg --status google-chrome-stable > /dev/null 2>&1 ; then
+    if ! dpkg --status google-chrome-stable > /dev/null 2>&1; then
         info-message "Installing Google Chrome."
         cd /tmp || error-exit-message "Couldn't cd /tmp in install-google-chrome."
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1
         # shellcheck disable=SC2024
-        sudo dpkg -i google-chrome-stable_current_amd64.deb  >> "$LOG" 2>&1 || true
+        sudo dpkg -i google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1 || true
         # shellcheck disable=SC2024
         sudo apt -qq -f -y install >> "$LOG" 2>&1
         rm -f google-chrome-stable_current_amd64.deb
@@ -181,7 +180,7 @@ function install-google-chrome() {
 
 # Install geoip
 function install-geoip() {
-    if ! dpkg --status geoip-bin > /dev/null 2>&1 ; then
+    if ! dpkg --status geoip-bin > /dev/null 2>&1; then
         info-message "Installing geoip."
         # shellcheck disable=SC2024
         sudo apt -y -qq install \
@@ -204,7 +203,7 @@ function update-geoip() {
 }
 
 # Create common directories
-function create-common-directories(){
+function create-common-directories() {
     info-message "Create basic directory structure."
     if [ ! -d ~/src ]; then
         mkdir -p ~/src/bin
@@ -220,7 +219,7 @@ function create-common-directories(){
 }
 
 # Create docker directories.
-function create-docker-directories(){
+function create-docker-directories() {
     if [ ! -d ~/docker ]; then
         info-message "Create docker directory structure."
         mkdir -p ~/docker
@@ -235,10 +234,10 @@ function create-docker-directories(){
 }
 
 # Create /cases/not-mounted
-function create-cases-not-mounted(){
+function create-cases-not-mounted() {
     if [[ ! -e /cases/not-mounted ]]; then
         # Check if already mounted
-        if ! mount | grep /cases | grep ^.host > /dev/null ; then
+        if ! mount | grep /cases | grep ^.host > /dev/null; then
             info-message "Create /cases/not-mounted."
             [[ ! -d /cases ]] && sudo mkdir /cases
             sudo chown "$USER" /cases
@@ -248,7 +247,7 @@ function create-cases-not-mounted(){
 }
 
 # Fix problem with pip - https://github.com/pypa/pip/issues/1093
-function fix-python-pip(){
+function fix-python-pip() {
     if [[ ! -e /usr/local/bin/pip ]]; then
         {
             sudo apt remove -yqq --auto-remove python-pip
@@ -265,7 +264,7 @@ function fix-python-pip(){
 }
 
 # Install moloch_query
-function install-moloch_query(){
+function install-moloch_query() {
     info-message "Install moloch_query."
     INSTALL_DIR=/data/moloch/bin
     if [ ! -d "$INSTALL_DIR" ]; then
@@ -311,7 +310,7 @@ function install-volatility() {
     python setup.py install
 }
 
-function update-volatility(){
+function update-volatility() {
     VOLATILITY_PATH=$1
     if [[ -d "$VOLATILITY_PATH" ]]; then
         cd "$VOLATILITY_PATH" || error-exit-message "Couldn't cd $VOLATILITY_PATH in update-volatility."
@@ -332,13 +331,13 @@ function update-volatility(){
 }
 
 # This repo contians newer versions of Wireshark etc. Update again after adding
-function install-pi-rho-security(){
+function install-pi-rho-security() {
     if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
         info-message "Enable ppa:pi-rho/security and install updated packages."
         {
             sudo add-apt-repository -y ppa:pi-rho/security
             sudo apt -qq update
-            while ! sudo apt -y dist-upgrade --force-yes ; do
+            while ! sudo apt -y dist-upgrade --force-yes; do
                 echo "APT busy. Will retry in 10 seconds."
                 sleep 10
             done
@@ -349,7 +348,7 @@ function install-pi-rho-security(){
 }
 
 # Cleanup functions
-function cleanup-remnux(){
+function cleanup-remnux() {
     if [[ -e ~/examples.desktop ]]; then
         info-message "Clean up folders and files."
         rm -f ~/examples.desktop
@@ -357,9 +356,9 @@ function cleanup-remnux(){
     if [[ -e ~/Desktop/REMnux\ Cheat\ Sheet ]]; then
         info-message "Clean Desktop."
         [ ! -d ~/Documents/Remnux ] && mkdir -p ~/Documents/Remnux
-        [ -e ~/Desktop/REMnux\ Docs ] && mv -f ~/Desktop/REMnux\ Docs  ~/Documents/Remnux/
-        [ -e ~/Desktop/REMnux\ Tools\ Sheet ] && mv -f ~/Desktop/REMnux\ Tools\ Sheet  ~/Documents/Remnux/
-        [ -e ~/Desktop/REMnux\ Cheat\ Sheet ] && mv -f ~/Desktop/REMnux\ Cheat\ Sheet  ~/Documents/Remnux/
+        [ -e ~/Desktop/REMnux\ Docs ] && mv -f ~/Desktop/REMnux\ Docs ~/Documents/Remnux/
+        [ -e ~/Desktop/REMnux\ Tools\ Sheet ] && mv -f ~/Desktop/REMnux\ Tools\ Sheet ~/Documents/Remnux/
+        [ -e ~/Desktop/REMnux\ Cheat\ Sheet ] && mv -f ~/Desktop/REMnux\ Cheat\ Sheet ~/Documents/Remnux/
         if [[ ! -e ~/Desktop/cases ]]; then
             ln -s /cases ~/Desktop/cases || true
         fi
@@ -369,7 +368,7 @@ function cleanup-remnux(){
     fi
 }
 
-function cleanup-sift(){
+function cleanup-sift() {
     if [[ -e ~/examples.desktop ]]; then
         info-message "Clean up folders and files."
         rm -f ~/examples.desktop
@@ -378,13 +377,13 @@ function cleanup-sift(){
         info-message "Clean Desktop."
         [ ! -d ~/Documents/SIFT ] && mkdir -p ~/Documents/SIFT
         sudo chown malware:malware ~/Desktop
-        sudo chown malware:malware  ~/Desktop/*.pdf
+        sudo chown malware:malware ~/Desktop/*.pdf
         mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
         [ ! -e ~/Desktop/SIFT ] && ln -s ~/Documents/SIFT ~/Desktop/SIFT
     fi
 }
 
-function cleanup-arkime(){
+function cleanup-arkime() {
     if [[ -e ~/examples.desktop ]]; then
         info-message "Clean up folders and files."
         rm -f ~/examples.desktop
@@ -392,7 +391,7 @@ function cleanup-arkime(){
     fi
 }
 
-function remove-old(){
+function remove-old() {
     # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
     if [[ -e /etc/apt/sources.list.d/google-chrome.list ]]; then
         info-message "Remove old versions of Chrome."
@@ -401,7 +400,7 @@ function remove-old(){
 
     # Remove old wireshark. Caused errors during update
     # shellcheck disable=SC2024
-    if dpkg -l wireshark | grep 1.12 >> "$LOG" 2>&1 ; then
+    if dpkg -l wireshark | grep 1.12 >> "$LOG" 2>&1; then
         info-message "Remove old versions of wireshark."
         sudo apt -y -qq remove wireshark >> "$LOG" 2>&1
     fi
@@ -410,7 +409,7 @@ function remove-old(){
 # Install single file scripts
 
 # https://github.com/sysforensics/VirusTotal
-function install-VirusTotal(){
+function install-VirusTotal() {
     echo "install-VirusTotal" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/vt_public.py && ! -e ~/src/bin/vt_public_autorun.py ]]; then
         wget -q -O ~/src/bin/vt_public.py \
@@ -423,7 +422,7 @@ function install-VirusTotal(){
     fi
 }
 
-function update-VirusTotal(){
+function update-VirusTotal() {
     info-message "Update VirusTotal."
     rm -f ~/src/bin/vt_public.py
     rm -f ~/src/bin/vt_public_autorun.py
@@ -431,7 +430,7 @@ function update-VirusTotal(){
 }
 
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
-function install-vt-py(){
+function install-vt-py() {
     echo "install-vt-py" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/vt.py ]]; then
         wget -q -O ~/src/bin/vt.py \
@@ -441,14 +440,14 @@ function install-vt-py(){
     fi
 }
 
-function update-vt-py(){
+function update-vt-py() {
     info-message "Update vt.py."
     rm -f ~/src/bin/vt.py
     install-vt-py
 }
 
 # https://testssl.sh/
-function install-testssl(){
+function install-testssl() {
     echo "install-testssl" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/testssl.sh ]]; then
         wget -q -O ~/src/bin/testssl.sh \
@@ -458,14 +457,14 @@ function install-testssl(){
     fi
 }
 
-function update-testssl(){
+function update-testssl() {
     info-message "Update testssl.sh."
     rm -f ~/src/bin/testssl.sh
     install-testssl
 }
 
 # https://github.com/brendangregg/Chaosreader
-function install-chaosreader(){
+function install-chaosreader() {
     echo "install-chaosreader" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/chaosreader ]]; then
         wget -q -O ~/src/bin/chaosreader \
@@ -475,14 +474,14 @@ function install-chaosreader(){
     fi
 }
 
-function update-chaosreader(){
+function update-chaosreader() {
     info-message "Update chaosreader."
     rm -f ~/src/bin/chaosreader
     install-chaosreader
 }
 
 # Fireeye floss
-function install-floss(){
+function install-floss() {
     echo "install-floss" >> "$LOG" 2>&1
     if [[ ! -e ~/src/bin/floss ]]; then
         wget -q -O ~/src/bin/floss \
@@ -492,36 +491,35 @@ function install-floss(){
     fi
 }
 
-function update-floss(){
+function update-floss() {
     info-message "Update floss."
     rm -f ~/src/bin/floss
     install-floss
 }
 
 # Brim
-function install-brim(){
+function install-brim() {
     info-message "Start installation of Brim."
     cd /tmp || true
-    wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' | \
+    wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' |
         grep 'browser_' | grep -E "/Brim-.*\.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
     sudo dpkg -i Brim*.deb
     rm -f Brim*.deb
     info-message "Installed Brim."
 }
 
-function update-brim(){
+function update-brim() {
     info-message "Start update of Brim."
     cd /tmp || true
-    wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' | \
+    wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' |
         grep 'browser_' | grep -E "/Brim-.*\.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
     sudo dpkg -i Brim*.deb
     rm -f Brim*.deb
     info-message "Brim updated."
 }
 
-
 # https://github.com/Lazza/RecuperaBit
-function install-RecuperaBit(){
+function install-RecuperaBit() {
     echo "install-RecuperaBit" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/RecuperaBit ]]; then
         git clone --quiet https://github.com/Lazza/RecuperaBit.git \
@@ -539,7 +537,7 @@ function install-RecuperaBit(){
     fi
 }
 
-function update-RecuperaBit(){
+function update-RecuperaBit() {
     if [[ -d ~/src/python/RecuperaBit ]]; then
         workon RecuperaBit || true
         {
@@ -555,7 +553,7 @@ function update-RecuperaBit(){
 }
 
 # https://github.com/MarkBaggett/srum-dump
-function install-srum-dump(){
+function install-srum-dump() {
     echo "install-srum-dump" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/srum-dump ]]; then
         git clone --quiet https://github.com/MarkBaggett/srum-dump.git \
@@ -574,7 +572,7 @@ function install-srum-dump(){
     fi
 }
 
-function update-srum-dump(){
+function update-srum-dump() {
     if [[ -d ~/src/python/srum-dump ]]; then
         workon srum-dump || true
         git fetch --all >> "$LOG" 2>&1
@@ -589,7 +587,7 @@ function update-srum-dump(){
 }
 
 # http://www.tekdefense.com/automater/
-function install-automater(){
+function install-automater() {
     echo "install-automater" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/automater ]]; then
         git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
@@ -602,7 +600,7 @@ function install-automater(){
     fi
 }
 
-function update-automater(){
+function update-automater() {
     if [[ -d ~/src/python/automater ]]; then
         workon automater || true
         git fetch --all >> "$LOG" 2>&1
@@ -614,7 +612,7 @@ function update-automater(){
 
 # https://n0where.net/malware-analysis-damm/
 # Also install a seperate version of the latest volatility in this env.
-function install-damm(){
+function install-damm() {
     echo "install-damm" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
     if [[ ! -d ~/src/python/damm ]]; then
@@ -634,7 +632,7 @@ function install-damm(){
     fi
 }
 
-function update-damm(){
+function update-damm() {
     if [[ -d ~/src/python/damm ]]; then
         workon damm || true
         {
@@ -649,7 +647,7 @@ function update-damm(){
 }
 
 # Keep a seperate environment for volatility (to be able to upgrade separatly)
-function install-volatility-env(){
+function install-volatility-env() {
     echo "install-volatility-env" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
     if [[ ! -d ~/src/python/volatility ]]; then
@@ -665,7 +663,7 @@ function install-volatility-env(){
     fi
 }
 
-function update-volatility-env(){
+function update-volatility-env() {
     if [[ -d ~/src/python/volatility ]]; then
         workon volatility || true
         cd ~/src/python/volatility || error-exit-message "Couldn't cd into update-volatility-env."
@@ -676,7 +674,7 @@ function update-volatility-env(){
 }
 
 # https://github.com/DidierStevens/DidierStevensSuite
-function install-didierstevenssuite(){
+function install-didierstevenssuite() {
     echo "install-didierstevenssuite" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/didierstevenssuite ]]; then
         {
@@ -691,7 +689,7 @@ function install-didierstevenssuite(){
     fi
 }
 
-function update-didierstevenssuite(){
+function update-didierstevenssuite() {
     if [[ -d ~/src/python/didierstevenssuite ]]; then
         workon didierstevenssuite || true
         cd ~/src/python/didierstevenssuite || error-exit-message "Couldn't cd into update-didierstevenssuite."
@@ -704,7 +702,7 @@ function update-didierstevenssuite(){
 }
 
 # https://github.com/decalage2/oletools.git
-function install-oletools(){
+function install-oletools() {
     echo "install-oletools" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
     if [[ ! -d ~/.virtualenvs/oletools ]]; then
@@ -718,7 +716,7 @@ function install-oletools(){
     fi
 }
 
-function update-oletools(){
+function update-oletools() {
     if [[ -d ~/.virtualenvs/oletools ]]; then
         workon oletools || true
         pip install --upgrade pip >> "$LOG" 2>&1
@@ -728,7 +726,7 @@ function update-oletools(){
 }
 
 # Rekall
-function install-rekall(){
+function install-rekall() {
     echo "install-rekall" >> "$LOG" 2>&1
     if [[ ! -d ~/.virtualenvs/rekall ]]; then
         {
@@ -741,7 +739,7 @@ function install-rekall(){
     fi
 }
 
-function update-rekall(){
+function update-rekall() {
     if [[ -d ~/.virtualenvs/rekall ]]; then
         info-message "Remove current rekall."
         rm -rf ~/.virtualenvs/rekall
@@ -751,7 +749,7 @@ function update-rekall(){
 }
 
 # https://github.com/bontchev/pcodedmp
-function install-pcodedmp(){
+function install-pcodedmp() {
     echo "install-pcodedmp" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/pcodedmp ]]; then
         {
@@ -766,7 +764,7 @@ function install-pcodedmp(){
     fi
 }
 
-function update-pcodedmp(){
+function update-pcodedmp() {
     if [[ -d ~/src/python/pcodedmp ]]; then
         workon pcodedmp || true
         cd ~/src/python/pcodedmp || error-exit-message "Couldn't cd into update-pcodedmp."
@@ -778,7 +776,7 @@ function update-pcodedmp(){
 }
 
 # https://github.com/ChrisTruncer/Just-Metadata
-function install-just-metadata(){
+function install-just-metadata() {
     echo "install-just-metadata" >> "$LOG" 2>&1
     if [[ ! -d ~/src/python/just-metadata ]]; then
         {
@@ -793,7 +791,7 @@ function install-just-metadata(){
     fi
 }
 
-function update-just-metadata(){
+function update-just-metadata() {
     if [[ -d ~/src/python/just-metadata ]]; then
         workon just-metadata || true
         cd ~/src/python/just-metadata || error-exit-message "Couldn't cd into update-just-metadata."
@@ -809,7 +807,7 @@ function update-just-metadata(){
 }
 
 # https://github.com/keydet89/RegRipper2.8
-function install-regripper(){
+function install-regripper() {
     echo "install-regripper" >> "$LOG" 2>&1
     if [[ ! -d ~/src/git/RegRipper2.8 ]]; then
         git clone --quiet https://github.com/keydet89/RegRipper2.8.git \
@@ -821,7 +819,7 @@ function install-regripper(){
 }
 
 # https://github.com/nationalsecurityagency/dcp
-function install-dcp(){
+function install-dcp() {
     echo "install-dcp" >> "$LOG" 2>&1
     if [[ ! -d ~/src/git/dcp ]]; then
         git clone --quiet https://github.com/NationalSecurityAgency/DCP.git \
@@ -841,7 +839,7 @@ function install-dcp(){
     fi
 }
 
-function update-dcp(){
+function update-dcp() {
     echo "update-dcp" >> "$LOG" 2>&1
     if [[ -d ~/src/git/dcp ]]; then
         cd ~/src/git/dcp || echo "Couldn't cd to dcp."
@@ -861,7 +859,7 @@ function update-dcp(){
 }
 
 # Checkout git repo to directory
-function checkout-git-repo(){
+function checkout-git-repo() {
     echo "Checkout $2 to $1" >> "$LOG" 2>&1
     if [[ ! -d ~/src/git/"$2" ]]; then
         git clone --quiet "$1" ~/src/git/"$2" >> "$LOG" 2>&1
@@ -870,7 +868,7 @@ function checkout-git-repo(){
 }
 
 # Update git repositories
-function update-git-repositories(){
+function update-git-repositories() {
     cd ~/src/git || exit 1
     info-message "Update git repositories."
     shopt -s nullglob
@@ -882,7 +880,7 @@ function update-git-repositories(){
 }
 
 # https://github.com/radare/radare2
-function install-radare2(){
+function install-radare2() {
     echo "install-radare2" >> "$LOG" 2>&1
     # shellcheck disable=SC2024
     if [[ ! -d ~/src/git/radare2 ]]; then
@@ -897,7 +895,7 @@ function install-radare2(){
     fi
 }
 
-function update-radare2(){
+function update-radare2() {
     echo "update-radare2" >> "$LOG" 2>&1
     # shellcheck disable=SC2024
     if [[ -d ~/src/git/radare2 ]]; then
@@ -915,7 +913,7 @@ function update-radare2(){
 
 # Main install and update functions
 # REMnux
-function install-remnux(){
+function install-remnux() {
     if [[ ! -e ~/.config/.remnux ]]; then
         info-message "Start installation of Remnux."
         rm -f remnux-cli
@@ -933,7 +931,7 @@ function install-remnux(){
 }
 
 # SIFT
-function install-sift(){
+function install-sift() {
     if [[ ! -e ~/.config/.sift ]]; then
         info-message "Start installation of SIFT."
         cd /tmp || true
@@ -944,9 +942,9 @@ function install-sift(){
             else
                 ARCH="arm64"
             fi
-            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' | \
+            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' |
                 grep 'browser_' | grep deb | grep -v deb.sig | grep "$ARCH" | cut -d\" -f4 | head -1)"
-            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' | \
+            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' |
                 grep 'browser_' | grep deb | grep -v deb.sig | grep "$ARCH" | cut -d\" -f4 | tail -1)"
         } >> "$LOG" 2>&1
         # Does not validate gpg at the moment due to problems downloading keys in some networks...
@@ -960,7 +958,7 @@ function install-sift(){
     fi
 }
 
-function update-sift(){
+function update-sift() {
     START_FRESHCLAM=1
     info-message "Start SITF upgrade."
     # shellcheck disable=SC2024
@@ -986,14 +984,14 @@ function update-sift(){
 }
 
 # Arkime
-function install-arkime(){
+function install-arkime() {
     DEB=arkime_4.1.0-1_amd64.deb
     URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-$(lsb_release -r | awk '{print $2}')/$DEB"
     install-arkime-common "$URL" "$DEB"
 }
 
 
-function install-arkime-common(){
+function install-arkime-common() {
     if [[ ! -e ~/.config/.arkime ]]; then
         info-message "Start installation of Arkime."
         URL="$1"
@@ -1059,14 +1057,14 @@ function install-arkime-common(){
     fi
 }
 
-function update-Arkime(){
+function update-Arkime() {
     info-message "Start Arkime upgrade."
     info-message "   ## NOTHING TODO ##"
     info-message "Arkime upgrade finished."
 }
 
 # Suricata
-function install-suricata(){
+function install-suricata() {
     if [[ ! -e ~/.config/.suricata ]]; then
         info-message "Start installation of Suricata."
         {

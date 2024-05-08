@@ -27,7 +27,7 @@ deactivate 2> /dev/null || true
 
 info-message "Remove old versions of Chrome."
 # Fixes from https://github.com/sans-dfir/sift/issues/106#issuecomment-251566412
-[ -e /etc/apt/sources.list.d/google-chrome.list ] && \
+[ -e /etc/apt/sources.list.d/google-chrome.list ] &&
     sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
 
 info-message "Update clamav database."

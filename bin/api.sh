@@ -9,7 +9,7 @@ fi
 . ~/remnux-tools/config.cfg
 
 if [[ ! -e ~/.shodan/api_key && -n "$SHODAN_API_KEY" ]]; then
-    if type shodan > /dev/null 2>&1 ; then
+    if type shodan > /dev/null 2>&1; then
         echo -n "Initialize Shodan API (access via command shodan): "
         shodan init "$SHODAN_API_KEY"
     fi
@@ -33,4 +33,3 @@ if [[ -n $REMNUX_NAME ]]; then
         git config --global user.name "$REMNUX_NAME"
     fi
 fi
-
