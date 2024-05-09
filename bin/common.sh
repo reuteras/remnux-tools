@@ -52,7 +52,7 @@ function turn-off-sound() {
     if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
         echo "turn-off-sound" >> "$LOG" 2>&1
         echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' |
-        sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null
+            sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
     fi
 }
@@ -874,7 +874,11 @@ function update-git-repositories() {
     shopt -s nullglob
     for repo in *; do
         info-message "Updating $repo."
-        (cd "$repo" || error-exit-message "Couldn't cd into update-git-repositories" ; git fetch --all >> "$LOG" 2>&1; git reset --hard origin/master >> "$LOG" 2>&1)
+        (
+            cd "$repo" || error-exit-message "Couldn't cd into update-git-repositories"
+            git fetch --all >> "$LOG" 2>&1
+            git reset --hard origin/master >> "$LOG" 2>&1
+        )
     done
     info-message "Updated git repositories."
 }
@@ -962,7 +966,7 @@ function update-sift() {
     START_FRESHCLAM=1
     info-message "Start SITF upgrade."
     # shellcheck disable=SC2024
-    if sudo service clamav-freshclam status | grep "Active: active" >> "$LOG" 2>&1 ; then
+    if sudo service clamav-freshclam status | grep "Active: active" >> "$LOG" 2>&1; then
         # shellcheck disable=SC2024
         sudo service clamav-freshclam stop >> "$LOG" 2>&1
         START_FRESHCLAM=0
@@ -989,7 +993,6 @@ function install-arkime() {
     URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-$(lsb_release -r | awk '{print $2}')/$DEB"
     install-arkime-common "$URL" "$DEB"
 }
-
 
 function install-arkime-common() {
     if [[ ! -e ~/.config/.arkime ]]; then
