@@ -1025,6 +1025,7 @@ function install-arkime-common() {
             wget --quiet "$URL"
             sudo dpkg --install "$DEB" || true
             sudo apt -y --fix-broken install
+            rm -f "$DEB"
         } >> "$LOG" 2>&1
 
         sudo touch /opt/arkime/etc/config-local.ini
@@ -1033,6 +1034,7 @@ function install-arkime-common() {
         {
             echo '[default]'
             echo "caTrustFile=/opt/arkime/etc/cacert.pem"
+            echo "cronQueries=true"
             echo "magicMode=both"
             echo "parseCookieValue=true"
             echo "parseQSValue=true"
