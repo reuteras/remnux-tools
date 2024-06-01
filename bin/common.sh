@@ -99,7 +99,6 @@ function install-general-tools() {
         strace \
         tmux \
         tshark \
-        unrar \
         vim \
         vim-doc \
         vim-scripts \
@@ -108,6 +107,11 @@ function install-general-tools() {
         whois \
         wswedish \
         zip >> "$LOG" 2>&1
+    # shellcheck disable=SC2024
+    sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
+        unrar >> "${LOG}" 2>&1 || \
+    sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
+        unrar-free >> "${LOG}" 2>&1
 }
 
 # Tools for Vmware
@@ -994,7 +998,7 @@ function install-arkime() {
 function install-arkime-common() {
     if [[ ! -e ~/.config/.arkime ]]; then
         info-message "Start installation of Arkime."
-        if [[ "$(uname -a)" == "aarch64" ]]; then
+        if [[ "$(uname -m)" == "aarch64" ]]; then
             ARCH="arm64"
         else
             ARCH="amd64"
