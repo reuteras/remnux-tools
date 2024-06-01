@@ -1050,7 +1050,7 @@ function install-arkime-common() {
         info-message "Run Configure for Arkime"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         ARKIME_PASSWORD="password"
-        ARKIME_ELASTICSEARCH="https://localhost:9200"
+        ARKIME_ELASTICSEARCH="http://localhost:9200"
         export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
         sudo -E /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure --wise
