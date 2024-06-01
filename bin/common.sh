@@ -1055,6 +1055,7 @@ function install-arkime-common() {
             echo "supportSha256=true"
             echo "suricataAlertFile=/var/log/suricata/eve.json"
             echo "suricataExpireMinutes=10512000"
+            echo "turnOffGraphDays=36500"
             echo "wiseHost=127.0.0.1"
         } > /opt/arkime/etc/config-local.ini
         info-message "Run Configure for Arkime"
