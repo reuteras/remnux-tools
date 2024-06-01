@@ -1001,12 +1001,20 @@ function install-arkime-common() {
             ARCH="amd64"
         fi
 
-        if test -f /etc/os-release && grep "Debian" /etc/os-release; then
+        if test -f /etc/os-release && grep "Debian" /etc/os-release > /dev/null; then
+            OS="Debian"
+        else
+            OS="Ubuntu"
+        fi
+
+        if [[ "${OS}" == "Debian" ]]; then
             URL="https://github.com/arkime/arkime/releases/download/v5.2.0/arkime_5.2.0-1.debian12_${ARCH}.deb"
             DEB="arkime_5.2.0-1.debian12_${ARCH}.deb"
+            USERGROUP="user:user"
         else
             URL="https://github.com/arkime/arkime/releases/download/v5.2.0/arkime_5.2.0-1.ubuntu2204_${ARCH}.deb"
             DEB="arkime_5.2.0-1.ubuntu2204_${ARCH}.deb"
+            USERGROUP="malware:malware"
         fi
         {
             DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
@@ -1018,7 +1026,7 @@ function install-arkime-common() {
 
         sudo touch /opt/arkime/etc/config-local.ini
         sudo curl -s -o /opt/arkime/etc/cacert.pem https://curl.se/ca/cacert.pem
-        sudo chown malware:malware /opt/arkime/etc/config-local.ini
+        sudo chown "$USERGROUP" /opt/arkime/etc/config-local.ini
         {
             echo '[default]'
             echo "caTrustFile=/opt/arkime/etc/cacert.pem"
