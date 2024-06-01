@@ -989,16 +989,25 @@ function update-sift() {
 
 # Arkime
 function install-arkime() {
-    DEB=arkime_4.1.0-1_amd64.deb
-    URL="https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-$(lsb_release -r | awk '{print $2}')/$DEB"
-    install-arkime-common "$URL" "$DEB"
+    install-arkime-common
 }
 
 function install-arkime-common() {
     if [[ ! -e ~/.config/.arkime ]]; then
         info-message "Start installation of Arkime."
-        URL="$1"
-        DEB="$2"
+        if [[ "$(uname -a)" == "aarch64" ]]; then
+            ARCH="arm64"
+        else
+            ARCH="amd64"
+        fi
+
+        if test -f /etc/os-release && grep "Debian" /etc/os-release; then
+            URL="https://github.com/arkime/arkime/releases/download/v5.2.0/arkime_5.2.0-1.debian12_${ARCH}.deb"
+            DEB="arkime_5.2.0-1.debian12_${ARCH}.deb"
+        else
+            URL="https://github.com/arkime/arkime/releases/download/v5.2.0/arkime_5.2.0-1.ubuntu2204_${ARCH}.deb"
+            DEB="arkime_5.2.0-1.ubuntu2204_${ARCH}.deb"
+        fi
         {
             DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
                 default-jre
