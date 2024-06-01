@@ -170,15 +170,23 @@ function install-apt-arkime() {
 
 # Install Google Chrome
 function install-google-chrome() {
-    if ! dpkg --status google-chrome-stable > /dev/null 2>&1; then
-        info-message "Installing Google Chrome."
-        cd /tmp || error-exit-message "Couldn't cd /tmp in install-google-chrome."
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1
-        # shellcheck disable=SC2024
-        sudo dpkg -i google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1 || true
-        # shellcheck disable=SC2024
-        sudo apt -qq -f -y install >> "$LOG" 2>&1
-        rm -f google-chrome-stable_current_amd64.deb
+    if [[ "$(uname -m)" == "aarch64" ]]; then
+        if ! dpkg --status chromium > /dev/null 2>&1; then
+            info-message "Installing chromium."
+            # shellcheck disable=SC2024
+            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install chromium >> "$LOG" 2>&1
+        fi
+    else
+        if ! dpkg --status google-chrome-stable > /dev/null 2>&1; then
+            info-message "Installing Google Chrome."
+            cd /tmp || error-exit-message "Couldn't cd /tmp in install-google-chrome."
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1
+            # shellcheck disable=SC2024
+            sudo dpkg -i google-chrome-stable_current_amd64.deb >> "$LOG" 2>&1 || true
+            # shellcheck disable=SC2024
+            sudo apt -qq -f -y install >> "$LOG" 2>&1
+            rm -f google-chrome-stable_current_amd64.deb
+        fi
     fi
 }
 
@@ -1075,6 +1083,10 @@ function install-arkime-common() {
         [ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
         cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
         cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
+
+        info-message "Enable and start arkimeviewer."
+        sudo systemctl enable arkimeviewer.service
+        sudo systemctl start arkimeviewer.service
 
         [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
         touch "${HOME}/.config/.arkime"
