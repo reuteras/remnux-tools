@@ -1058,9 +1058,11 @@ function install-arkime-common() {
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/#uploadCommand/uploadCommand/" /opt/arkime/etc/config.ini
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
+        sudo systemctl enable elasticsearch.service
         sleep 30
         info-message "Init elasticsearch.service"
         echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
@@ -1070,6 +1072,7 @@ function install-arkime-common() {
         info-message "Create bin directory and add start-arkime.sh script."
         [ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
         cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
+        cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
 
         [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
         touch "${HOME}/.config/.arkime"
