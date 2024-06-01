@@ -109,9 +109,9 @@ function install-general-tools() {
         zip >> "$LOG" 2>&1
     # shellcheck disable=SC2024
     sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
-        unrar >> "${LOG}" 2>&1 || \
-    sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
-        unrar-free >> "${LOG}" 2>&1
+        unrar >> "${LOG}" 2>&1 ||
+        sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
+            unrar-free >> "${LOG}" 2>&1
 }
 
 # Tools for Vmware
