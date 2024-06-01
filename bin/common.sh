@@ -1067,11 +1067,11 @@ function install-arkime-common() {
         /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email
 
         info-message "Create bin directory and add start-arkime.sh script."
-        [ ! -d /home/malware/bin ] && mkdir -p /home/malware/bin
-        cp /home/malware/remnux-tools/files/start-arkime.sh /home/malware/bin/start-arkime.sh
+        [ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
+        cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
 
-        [ ! -d /home/malware/.config ] && mkdir /home/malware/.config
-        touch /home/malware/.config/.arkime
+        [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
+        touch "${HOME}/.config/.arkime"
         info-message "Arkime installation finished."
         info-message "Start Arkime Wise installation."
         sudo docker pull reuteras/container-wise
