@@ -1052,7 +1052,9 @@ function install-arkime-common() {
         ARKIME_PASSWORD="password"
         ARKIME_ELASTICSEARCH="https://localhost:9200"
         export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
+        sudo -E /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure --wise
+        sudo -E /opt/arkime/bin/Configure --cont3xt
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
