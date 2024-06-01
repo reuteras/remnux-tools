@@ -185,7 +185,6 @@ function install-geoip() {
         # shellcheck disable=SC2024
         sudo apt -y -qq install \
             geoip-bin \
-            geoipupdate \
             mmdb-bin \
             python3-geoip \
             python3-pygeoip >> "$LOG" 2>&1
