@@ -1050,10 +1050,9 @@ function install-arkime-common() {
         info-message "Run Configure for Arkime"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         ARKIME_PASSWORD="password"
-        export ARKIME_INTERFACE ARKIME_PASSWORD
-        sudo sed -i -e "s/ARKIME_LOCALELASTICSEARCH=not-set/ARKIME_LOCALELASTICSEARCH=yes/" /opt/arkime/bin/Configure
-        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
-        sudo -E /opt/arkime/bin/Configure
+        ARKIME_ELASTICSEARCH="https://localhost:9200"
+        export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
+        sudo -E /opt/arkime/bin/Configure --wise
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
@@ -1073,10 +1072,7 @@ function install-arkime-common() {
         [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
         touch "${HOME}/.config/.arkime"
         info-message "Arkime installation finished."
-        info-message "Start Arkime Wise installation."
-        sudo docker pull reuteras/container-wise
         cd || exit
-        git clone https://github.com/reuteras/container-wise.git
     fi
 }
 
