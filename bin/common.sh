@@ -1082,11 +1082,11 @@ function install-arkime-common() {
             echo "server=type:string"
         } > /opt/arkime/etc/config-local.ini
         info-message "Run Configure for Arkime"
-        ARKIME_INET="yes"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         ARKIME_PASSWORD="password"
         ARKIME_ELASTICSEARCH="http://localhost:9200"
-        export ARKIME_INET ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
+        export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
+        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/ARKIME_INSTALLELASTICSEARCH=not-set/ARKIME_INSTALLELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure
