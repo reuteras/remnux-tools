@@ -33,13 +33,11 @@ install-apt-arkime
 
 install-geoip
 install-arkime
-install-moloch_query
 cleanup-arkime
 
 install-suricata
 
 create-common-directories
-create-docker-directories
 create-cases-not-mounted
 
 install-google-chrome

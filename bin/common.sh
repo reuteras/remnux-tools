@@ -193,17 +193,26 @@ function install-google-chrome() {
 # Install geoip
 function install-geoip() {
     if ! dpkg --status geoip-bin > /dev/null 2>&1; then
+        if test -e /etc/os-release && grep "Debian" /etc/os-release > /dev/null; then
+            # shellcheck disable=SC2024
+            DEBIAN_FRONTEND=noninteractive sudo apt install software-properties-common -y >> "$LOG" 2>&1
+            # shellcheck disable=SC2024
+            sudo apt-add-repository contrib non-free-firmware >> "$LOG" 2>&1
+        fi
         info-message "Installing geoip."
         # shellcheck disable=SC2024
         sudo apt -y -qq install \
             geoip-bin \
+            geoipupdate \
             mmdb-bin \
             python3-geoip \
             python3-pygeoip >> "$LOG" 2>&1
         # Don't update due to new requirement for account login.
-        #info-message "Update geoip database."
-        #__shellcheck disable=SC2024
-        #sudo /usr/bin/geoipupdate >> "$LOG" 2>&1
+        info-message "Update geoip database."
+        read -r -p "Update your Maxmind key. Click enter to open the configuration file in vim."
+        sudo vim /etc/GeoIP.conf
+        # shellcheck disable=SC2024
+        sudo /usr/bin/geoipupdate >> "$LOG" 2>&1
     fi
 }
 
@@ -272,28 +281,6 @@ function fix-python-pip() {
         } >> "$LOG" 2>&1
         info-message "Install pip from pypa.io."
     fi
-}
-
-# Install moloch_query
-function install-moloch_query() {
-    info-message "Install moloch_query."
-    INSTALL_DIR=/data/moloch/bin
-    if [ ! -d "$INSTALL_DIR" ]; then
-        INSTALL_DIR=/opt/arkime/bin
-    fi
-    if [ ! -d "$INSTALL_DIR" ]; then
-        error-message "Arkime not installed!"
-        exit 1
-    fi
-    {
-        wget -O /tmp/moloch_query https://github.com/arkime/arkime/blob/main/contrib/moloch_query
-        sudo mv /tmp/moloch_query "$INSTALL_DIR/moloch_query"
-        chmod +x "$INSTALL_DIR/moloch_query"
-        sudo apt -y -qq install python3-pip
-        sudo pip3 install requests elasticsearch
-        sudo sed -i -e r's/"query": {}/"query": {"match_all": {}}/' "$INSTALL_DIR/moloch_query"
-    } >> "$LOG" 2>&1
-    info-message "Installed moloch_query in $INSTALL_DIR."
 }
 
 # Install Volatility
@@ -1052,6 +1039,7 @@ function install-arkime-common() {
             echo "parseSMTPHeaderAll=true"
             echo "parseHTTPHeaderRequestAll=true"
             echo "parseHTTPHeaderResponseAll=true"
+            echo "spiDataMaxIndices=100000"
             echo "supportSha256=true"
             echo "suricataAlertFile=/var/log/suricata/eve.json"
             echo "suricataExpireMinutes=10512000"
@@ -1070,6 +1058,7 @@ function install-arkime-common() {
         sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/#uploadCommand/uploadCommand/" /opt/arkime/etc/config.ini
+        sudo sed -i -e "s/#geoLite/geoLite/" /opt/arkime/etc/config.ini
 
         info-message "Start elasticsearch.service"
         sudo systemctl start elasticsearch.service
@@ -1084,6 +1073,9 @@ function install-arkime-common() {
         [ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
         cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
         cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
+        cp "${HOME}/remnux-tools/files/add-pcaps.sh" "${HOME}/bin/add-pcaps.sh"
+        sudo cp "${HOME}/remnux-tools/files/disable.conf" "/etc/suricata/disable.conf"
+        sudo cp "${HOME}/remnux-tools/files/suricata.yaml" "/etc/suricata/suricata.yaml"
 
         info-message "Enable and start arkimeviewer."
         sudo systemctl enable arkimeviewer.service
@@ -1113,10 +1105,13 @@ function install-suricata() {
             sudo suricata-update update-sources
             sudo suricata-update enable-source oisf/trafficid
             sudo suricata-update enable-source sslbl/ja3-fingerprints
+            sudo suricata-update enable-source sslbl/ssl-fp-blacklist
             sudo suricata-update enable-source et/open
-            sudo suricata-update enable-source ptresearch/attackdetection
+            sudo suricata-update enable-source stamus/lateral
+            sudo suricata-update enable-source malsilo/win-malware
             sudo suricata-update enable-source tgreen/hunting
             sudo suricata-update enable-source etnetera/aggressive
+            sudo suricata-update enable-source pawpatrules
             sudo suricata-update
         } >> "$LOG" 2>&1
         info-message "Suricata installation finished."
