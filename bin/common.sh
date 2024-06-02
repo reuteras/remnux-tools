@@ -996,13 +996,16 @@ function install-nfa() {
         info-message "Start installation of nfa for Arkime."
 
         cd || exit
-        git clone https://github.com/reuteras/nfa.git > /dev/null
+        git clone https://github.com/reuteras/nfa.git > /dev/null 2>&1
         cd nfa || exit
         make apt-install >> "$LOG" 2>&1
         make install >> "$LOG" 2>&1
         cp "${HOME}/remnux-tools/files/nfa-config.ini" "${HOME}/nfa/config.ini"
 
+        info-message "Start nfa for Arkime."
         screen -dm -S nfa bash -c "make run"
+        info-message "Add automatic start of nfa for Arkime to current user crontab."
+        echo "@reboot cd $HOME/nfa && screen -dm -S nfa bash -c 'make run'" | crontab -
 
         [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
         touch "${HOME}/.config/.nfa"
