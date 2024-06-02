@@ -1082,10 +1082,11 @@ function install-arkime-common() {
             echo "server=type:string"
         } > /opt/arkime/etc/config-local.ini
         info-message "Run Configure for Arkime"
+        ARKIME_INET="yes"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         ARKIME_PASSWORD="password"
         ARKIME_ELASTICSEARCH="http://localhost:9200"
-        export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
+        export ARKIME_INET ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
         sudo sed -i -e "s/ARKIME_INSTALLELASTICSEARCH=not-set/ARKIME_INSTALLELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure
@@ -1112,6 +1113,8 @@ function install-arkime-common() {
         cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
         cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
         cp "${HOME}/remnux-tools/files/add-pcaps.sh" "${HOME}/bin/add-pcaps.sh"
+        sudo cp "${HOME}/remnux-tools/files/wise.ini" "/opt/arkime/etc/wise.ini"
+        sudo systemctl restart arkimewise.service
         sudo cp "${HOME}/remnux-tools/files/valueactions-otx.ini" "/opt/arkime/etc/valueactions-otx.ini"
         sudo cp "${HOME}/remnux-tools/files/valueactions-virustotal.ini" "/opt/arkime/etc/valueactions-virustotal.ini"
 
