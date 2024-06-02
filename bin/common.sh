@@ -197,7 +197,7 @@ function install-geoip() {
             # shellcheck disable=SC2024
             DEBIAN_FRONTEND=noninteractive sudo apt install software-properties-common -y >> "$LOG" 2>&1
             # shellcheck disable=SC2024
-            sudo apt-add-repository contrib non-free-firmware >> "$LOG" 2>&1
+            DEBIAN_FRONTEND=noninteractive sudo apt-add-repository -y contrib non-free-firmware >> "$LOG" 2>&1
         fi
         info-message "Installing geoip."
         # shellcheck disable=SC2024
