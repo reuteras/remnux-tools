@@ -1120,6 +1120,7 @@ function install-arkime-common() {
         sudo cp "${HOME}/remnux-tools/files/wise.ini" "/opt/arkime/etc/wise.ini"
         # shellcheck disable=SC2024
         sudo systemctl restart arkimewise.service >> "$LOG" 2>&1
+        sudo cp "${HOME}/remnux-tools/files/valueactions-nfa.ini" "/opt/arkime/etc/valueactions-nfa.ini"
         sudo cp "${HOME}/remnux-tools/files/valueactions-otx.ini" "/opt/arkime/etc/valueactions-otx.ini"
         sudo cp "${HOME}/remnux-tools/files/valueactions-virustotal.ini" "/opt/arkime/etc/valueactions-virustotal.ini"
 
