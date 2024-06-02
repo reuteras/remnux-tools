@@ -1074,8 +1074,6 @@ function install-arkime-common() {
         cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
         cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
         cp "${HOME}/remnux-tools/files/add-pcaps.sh" "${HOME}/bin/add-pcaps.sh"
-        sudo cp "${HOME}/remnux-tools/files/disable.conf" "/etc/suricata/disable.conf"
-        sudo cp "${HOME}/remnux-tools/files/suricata.yaml" "/etc/suricata/suricata.yaml"
 
         info-message "Enable and start arkimeviewer."
         sudo systemctl enable arkimeviewer.service
@@ -1112,6 +1110,8 @@ function install-suricata() {
             sudo suricata-update enable-source tgreen/hunting
             sudo suricata-update enable-source etnetera/aggressive
             sudo suricata-update enable-source pawpatrules
+            sudo cp "${HOME}/remnux-tools/files/disable.conf" "/etc/suricata/disable.conf"
+            sudo cp "${HOME}/remnux-tools/files/suricata.yaml" "/etc/suricata/suricata.yaml"
             sudo suricata-update
         } >> "$LOG" 2>&1
         info-message "Suricata installation finished."
