@@ -26,6 +26,11 @@ space_redirects = true
 # Enable this option by un-commenting the following line
 # max_line_length = 150
 
+[{suricata.yaml}]
+indent_style = unset
+indent_size = 1
+trim_trailing_whitespace = unset
+
 [{.arkime_aliases,.bashrc,.remnux_aliases,.sift_aliases,.vimrc}]
 indent_style = space
 indent_size = 4
