@@ -1089,9 +1089,11 @@ function install-arkime-common() {
         sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/ARKIME_INSTALLELASTICSEARCH=not-set/ARKIME_INSTALLELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
-        sudo -E /opt/arkime/bin/Configure
-        sudo -E /opt/arkime/bin/Configure --wise
-        sudo -E /opt/arkime/bin/Configure --cont3xt
+        {
+            sudo -E /opt/arkime/bin/Configure
+            sudo -E /opt/arkime/bin/Configure --wise
+            sudo -E /opt/arkime/bin/Configure --cont3xt
+        } >> "$LOG" 2>&1
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# plugins=tagger.so; netflow.so/plugins=suricata.so; wise.so; tagger.so/" /opt/arkime/etc/config.ini
         sudo sed -i -e "s/# viewerPlugins=wise.js/viewerPlugins=wise.js/" /opt/arkime/etc/config.ini
@@ -1099,14 +1101,16 @@ function install-arkime-common() {
         sudo sed -i -e "s/#geoLite/geoLite/" /opt/arkime/etc/config.ini
 
         info-message "Start elasticsearch.service"
-        sudo systemctl start elasticsearch.service
-        sudo systemctl enable elasticsearch.service
+        {
+            sudo systemctl start elasticsearch.service
+            sudo systemctl enable elasticsearch.service
+        } >> "$LOG" 2>&1
         sleep 30
         info-message "Init elasticsearch.service"
         echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
         info-message "Add user to arkime"
-        /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email
-        /opt/arkime/bin/arkime_add_user.sh api "API account" password --email
+        /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email >> "$LOG" 2>&1
+        /opt/arkime/bin/arkime_add_user.sh api "API account" password --email >> "$LOG" 2>&1
 
         info-message "Create bin directory and add start-arkime.sh script."
         [ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
@@ -1114,13 +1118,16 @@ function install-arkime-common() {
         cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
         cp "${HOME}/remnux-tools/files/add-pcaps.sh" "${HOME}/bin/add-pcaps.sh"
         sudo cp "${HOME}/remnux-tools/files/wise.ini" "/opt/arkime/etc/wise.ini"
-        sudo systemctl restart arkimewise.service
+        # shellcheck disable=SC2024
+        sudo systemctl restart arkimewise.service >> "$LOG" 2>&1
         sudo cp "${HOME}/remnux-tools/files/valueactions-otx.ini" "/opt/arkime/etc/valueactions-otx.ini"
         sudo cp "${HOME}/remnux-tools/files/valueactions-virustotal.ini" "/opt/arkime/etc/valueactions-virustotal.ini"
 
         info-message "Enable and start arkimeviewer."
-        sudo systemctl enable arkimeviewer.service
-        sudo systemctl start arkimeviewer.service
+        {
+            sudo systemctl enable arkimeviewer.service
+            sudo systemctl start arkimeviewer.service
+        } >> "$LOG" 2>&1
 
         [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
         touch "${HOME}/.config/.arkime"
