@@ -1152,6 +1152,7 @@ function install-suricata() {
             sudo suricata-update enable-source pawpatrules
             sudo cp "${HOME}/remnux-tools/files/disable.conf" "/etc/suricata/disable.conf"
             sudo cp "${HOME}/remnux-tools/files/suricata.yaml" "/etc/suricata/suricata.yaml"
+            sudo cp "${HOME}/remnux-tools/files/update.yaml" "/etc/suricata/update.yaml"
             sudo suricata-update
         } >> "$LOG" 2>&1
         info-message "Suricata installation finished."
