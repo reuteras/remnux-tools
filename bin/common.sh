@@ -1001,7 +1001,7 @@ function install-nfa() {
         make apt-install >> "$LOG" 2>&1
         make install >> "$LOG" 2>&1
         cp "${HOME}/remnux-tools/files/nfa-config.ini" "${HOME}/nfa/config.ini"
-        
+
         screen -dm -S nfa bash -c "make run"
 
         [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
@@ -1010,7 +1010,6 @@ function install-nfa() {
         cd || exit
     fi
 }
-
 
 function install-arkime-common() {
     if [[ ! -e ~/.config/.arkime ]]; then
