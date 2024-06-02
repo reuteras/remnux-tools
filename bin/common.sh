@@ -988,7 +988,26 @@ function update-sift() {
 # Arkime
 function install-arkime() {
     install-arkime-common
+    install-nfa
 }
+
+function install-nfa() {
+    if [[ ! -e ~/.config/.nfa ]]; then
+        info-message "Start installation of nfa for Arkime."
+
+        cd || exit
+        git clone https://github.com/reuteras/nfa.git > /dev/null
+        cd nfa || exit
+        make install >> "$LOG" 2>&1
+        screen -dm -S nfa bash -c "make run"
+
+        [ ! -d "${HOME}/.config" ] && mkdir "${HOME}/.config"
+        touch "${HOME}/.config/.nfa"
+        info-message "Installation of nfa for Arkime finished."
+        cd || exit
+    fi
+}
+
 
 function install-arkime-common() {
     if [[ ! -e ~/.config/.arkime ]]; then
@@ -1031,20 +1050,31 @@ function install-arkime-common() {
             echo "caTrustFile=/opt/arkime/etc/cacert.pem"
             echo "cronQueries=true"
             echo "magicMode=both"
+            echo "maxReqBody=0"
             echo "parseCookieValue=true"
-            echo "parseQSValue=true"
-            echo "parseSMB=true"
             echo "parseDNSRecordAll=true"
-            echo "parseSMTP=true"
-            echo "parseSMTPHeaderAll=true"
             echo "parseHTTPHeaderRequestAll=true"
             echo "parseHTTPHeaderResponseAll=true"
-            echo "spiDataMaxIndices=100000"
+            echo "parseHTTPHeaderValueMaxLen=1048576"
+            echo "parseQSValue=true"
+            echo "parseSMB=true"
+            echo "parseSMTP=true"
+            echo "parseSMTPHeaderAll=true"
+            echo "queryAllIndices=true"
+            echo "readTruncatedPackets=true"
+            echo "spiDataMaxIndices=1048576"
             echo "supportSha256=true"
             echo "suricataAlertFile=/var/log/suricata/eve.json"
             echo "suricataExpireMinutes=10512000"
             echo "turnOffGraphDays=36500"
             echo "wiseHost=127.0.0.1"
+            echo ""
+            echo "[headers-http-request]"
+            echo "referer=type:string;count:true;unique:true"
+            echo ""
+            echo "[headers-http-response]"
+            echo "location=type:string"
+            echo "server=type:string"
         } > /opt/arkime/etc/config-local.ini
         info-message "Run Configure for Arkime"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
@@ -1068,12 +1098,15 @@ function install-arkime-common() {
         echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
         info-message "Add user to arkime"
         /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email
+        /opt/arkime/bin/arkime_add_user.sh api "API account" password --email
 
         info-message "Create bin directory and add start-arkime.sh script."
         [ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
         cp "${HOME}/remnux-tools/files/start-arkime.sh" "${HOME}/bin/start-arkime.sh"
         cp "${HOME}/remnux-tools/files/download-test-pcaps.sh" "${HOME}/bin/download-test-pcaps.sh"
         cp "${HOME}/remnux-tools/files/add-pcaps.sh" "${HOME}/bin/add-pcaps.sh"
+        sudo cp "${HOME}/remnux-tools/files/valueactions-otx.ini" "/opt/arkime/etc/valueactions-otx.ini"
+        sudo cp "${HOME}/remnux-tools/files/valueactions-virustotal.ini" "/opt/arkime/etc/valueactions-virustotal.ini"
 
         info-message "Enable and start arkimeviewer."
         sudo systemctl enable arkimeviewer.service
