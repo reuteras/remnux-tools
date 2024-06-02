@@ -40,5 +40,5 @@ indent_size = 4
 
 [{suricata.yaml}]
 indent_style = unset
-indent_size = unset
+indent_size = 1
 trim_trailing_whitespace = unset
