@@ -998,6 +998,7 @@ function install-nfa() {
         cd || exit
         git clone https://github.com/reuteras/nfa.git > /dev/null
         cd nfa || exit
+        make apt-install >> "$LOG" 2>&1
         make install >> "$LOG" 2>&1
         cp "${HOME}/remnux-tools/nfa-config.ini" "${HOME}/nfa/config.ini"
         
