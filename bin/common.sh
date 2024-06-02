@@ -1081,7 +1081,7 @@ function install-arkime-common() {
             echo "location=type:string"
             echo "server=type:string"
         } > /opt/arkime/etc/config-local.ini
-        info-message "Run Configure for Arkime"
+        info-message "Change defaults for Configure script for Arkime"
         ARKIME_INTERFACE=$(ip addr | grep ens | grep "state UP" | cut -f2 -d: | sed -e "s/ //g")
         ARKIME_PASSWORD="password"
         ARKIME_ELASTICSEARCH="http://localhost:9200"
@@ -1090,8 +1090,11 @@ function install-arkime-common() {
         sudo sed -i -e "s/ARKIME_INSTALLELASTICSEARCH=not-set/ARKIME_INSTALLELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         {
+            info-message "Run Configure for Arkime"
             sudo -E /opt/arkime/bin/Configure
+            info-message "Run Configure for Arkime --wise"
             sudo -E /opt/arkime/bin/Configure --wise
+            info-message "Run Configure for Arkime --cont3xt"
             sudo -E /opt/arkime/bin/Configure --cont3xt
         } >> "$LOG" 2>&1
         sudo sed -i -e "s_#includes=_includes=/opt/arkime/etc/config-local.ini_" /opt/arkime/etc/config.ini
@@ -1108,7 +1111,7 @@ function install-arkime-common() {
         sleep 30
         info-message "Init elasticsearch.service"
         echo "INIT" | /opt/arkime/db/db.pl http://127.0.0.1:9200 init
-        info-message "Add user to arkime"
+        info-message "Add users admin and api to arkime"
         /opt/arkime/bin/arkime_add_user.sh admin "Admin User" password --admin --email >> "$LOG" 2>&1
         /opt/arkime/bin/arkime_add_user.sh api "API account" password --email >> "$LOG" 2>&1
 
