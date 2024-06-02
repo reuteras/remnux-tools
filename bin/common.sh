@@ -1000,7 +1000,7 @@ function install-nfa() {
         cd nfa || exit
         make apt-install >> "$LOG" 2>&1
         make install >> "$LOG" 2>&1
-        cp "${HOME}/remnux-tools/nfa-config.ini" "${HOME}/nfa/config.ini"
+        cp "${HOME}/remnux-tools/files/nfa-config.ini" "${HOME}/nfa/config.ini"
         
         screen -dm -S nfa bash -c "make run"
 
@@ -1084,6 +1084,8 @@ function install-arkime-common() {
         ARKIME_PASSWORD="password"
         ARKIME_ELASTICSEARCH="http://localhost:9200"
         export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
+        sudo sed -i -e "s/ARKIME_INSTALLELASTICSEARCH=not-set/ARKIME_INSTALLELASTICSEARCH=yes/" /opt/arkime/bin/Configure
+        sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure
         sudo -E /opt/arkime/bin/Configure --wise
         sudo -E /opt/arkime/bin/Configure --cont3xt
