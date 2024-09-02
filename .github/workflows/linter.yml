@@ -31,7 +31,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Lint Code Base
-        uses: github/super-linter/slim@v6
+        uses: github/super-linter/slim@v7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_GITLEAKS: false
