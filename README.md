@@ -56,7 +56,7 @@ Test Suricata functionality with:
 
 ## Initial setup
 
-First install git and clone the repository. Run all commands as a regular user and only use **sudo** when needed.
+First install Git and clone the repository. Run all commands as a regular user and only use **sudo** when needed.
 
     sudo apt-get install -y git
     git clone https://github.com/reuteras/remnux-tools.git
