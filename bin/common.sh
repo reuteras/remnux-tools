@@ -1172,3 +1172,13 @@ function install-suricata() {
         info-message "Suricata installation finished."
     fi
 }
+
+function install-vmbin() {
+    info-message "Installing vmbin"
+    if [[ ! -d ~/src/vmbin ]]; then
+        cd ~/src || exit
+        git clone https://github.com/reuteras/vmbin.git >> "$LOG" 2>&1
+        cd || exit
+    fi
+    info-message "Done installing vmbin"
+}
