@@ -30,6 +30,7 @@ update-ubuntu
 
 install-general-tools
 install-vmware-tools
+install-vmbin
 
 install-sift
 cleanup-sift

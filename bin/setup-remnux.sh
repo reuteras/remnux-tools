@@ -29,6 +29,7 @@ info-message "Details logged to $LOG."
 update-ubuntu
 
 install-general-tools
+install-vmbin
 
 install-remnux
 cleanup-remnux
