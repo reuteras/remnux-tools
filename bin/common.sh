@@ -1030,7 +1030,7 @@ function install-arkime-common() {
         fi
 
         if [[ "${OS}" == "Debian" ]]; then
-            ARKIME_VERSION="5.5.1"
+            ARKIME_VERSION="5.6.0"
             URL="https://github.com/arkime/arkime/releases/download/v${ARKIME_VERSION}/arkime_${ARKIME_VERSION}-1.debian12_${ARCH}.deb"
             DEB="arkime_${ARKIME_VERSION}-1.debian12_${ARCH}.deb"
             USERGROUP="user:user"
