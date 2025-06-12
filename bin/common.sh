@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ARKIME_VERSION="5.7.0"
+
 function enable-new-didier() {
     echo "enable-new-didier" >> "$LOG" 2>&1
     if [[ -d ~/src/python/didierstevenssuite ]]; then
@@ -1030,7 +1032,6 @@ function install-arkime-common() {
         fi
 
         if [[ "${OS}" == "Debian" ]]; then
-            ARKIME_VERSION="5.6.4"
             URL="https://github.com/arkime/arkime/releases/download/v${ARKIME_VERSION}/arkime_${ARKIME_VERSION}-1.debian12_${ARCH}.deb"
             DEB="arkime_${ARKIME_VERSION}-1.debian12_${ARCH}.deb"
             USERGROUP="user:user"
