@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARKIME_VERSION="5.7.1"
+ARKIME_VERSION="5.8.2"
 
 function enable-new-didier() {
     echo "enable-new-didier" >> "$LOG" 2>&1
