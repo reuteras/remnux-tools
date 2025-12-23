@@ -11,8 +11,6 @@ The following scripts are available for installs:
 * setup-sift.sh - install [Sift](https://github.com/sans-dfir/sift-bootstrap) and tools.
 * setup-arkime.sh - install [Arkime](https://arkime.com/).
 
-The scripts are tested on Ubuntu 18.04 LTS for Sift and Arkime. Remnux uses 20.04.
-
 ## setup-remnux.sh
 
 This script installs [REMnux](https://remnux.org) and some other tools.
