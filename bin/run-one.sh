@@ -37,7 +37,5 @@ fi
 info-message "Executing function $1."
 deactivate 2> /dev/null || true
 export PROJECT_HOME="$HOME"/src/python
-# shellcheck source=/dev/null
-source /usr/share/virtualenvwrapper/virtualenvwrapper.sh >> $LOG 2>&1
 "$@"
 info-message "Done."

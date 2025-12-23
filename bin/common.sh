@@ -1032,8 +1032,9 @@ function install-arkime-common() {
         fi
 
         if [[ "${OS}" == "Debian" ]]; then
-            URL="https://github.com/arkime/arkime/releases/download/v${ARKIME_VERSION}/arkime_${ARKIME_VERSION}-1.debian12_${ARCH}.deb"
-            DEB="arkime_${ARKIME_VERSION}-1.debian12_${ARCH}.deb"
+            source /etc/os-release
+            URL="https://github.com/arkime/arkime/releases/download/v${ARKIME_VERSION}/arkime_${ARKIME_VERSION}-1.debian${VERSION_ID}_${ARCH}.deb"
+            DEB="arkime_${ARKIME_VERSION}-1.debian${VERSION_ID}_${ARCH}.deb"
             USERGROUP="user:user"
         else
             URL="https://github.com/arkime/arkime/releases/download/v${ARKIME_VERSION}/arkime_${ARKIME_VERSION}-1.ubuntu2204_${ARCH}.deb"
