@@ -1044,7 +1044,8 @@ function install-arkime-common() {
         fi
         {
             DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install \
-                default-jre
+                default-jre \
+                screen
             wget --quiet "$URL"
             sudo dpkg --install "$DEB" || true
             sudo apt -y --fix-broken install
@@ -1095,7 +1096,7 @@ function install-arkime-common() {
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         {
             info-message "Run Configure for Arkime"
-            sudo -E /opt/arkime/bin/Configure
+            echo $ARKIME_INTERFACE | sudo -E /opt/arkime/bin/Configure
             info-message "Run Configure for Arkime --wise"
             sudo -E /opt/arkime/bin/Configure --wise
             info-message "Run Configure for Arkime --cont3xt"

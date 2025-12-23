@@ -42,7 +42,6 @@ create-common-directories
 create-cases-not-mounted
 
 install-google-chrome
-install-chaosreader
 
 turn-off-sound
 
