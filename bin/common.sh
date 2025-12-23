@@ -205,10 +205,11 @@ function install-geoip() {
         # shellcheck disable=SC2024
         sudo apt -y -qq install \
             geoip-bin \
+            geoip-database \
             geoipupdate \
             mmdb-bin \
             python3-geoip \
-            python3-pygeoip >> "$LOG" 2>&1
+            python3-geoip2 >> "$LOG" 2>&1
         # Don't update due to new requirement for account login.
         info-message "Update geoip database."
         read -r -p "Update your Maxmind key. Click enter to open the configuration file in vim."
