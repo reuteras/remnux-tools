@@ -1090,7 +1090,7 @@ function install-arkime-common() {
         ARKIME_PASSWORD="password"
         ARKIME_ELASTICSEARCH="http://localhost:9200"
         export ARKIME_INTERFACE ARKIME_PASSWORD ARKIME_ELASTICSEARCH
-        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=yes/" /opt/arkime/bin/Configure
+        sudo sed -i -e "s/ARKIME_INET=not-set/ARKIME_INET=no/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/ARKIME_INSTALLELASTICSEARCH=not-set/ARKIME_INSTALLELASTICSEARCH=yes/" /opt/arkime/bin/Configure
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         {
