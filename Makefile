@@ -1,4 +1,4 @@
-.PHONY: clean dotfiles install install-sift test update update-sift
+.PHONY: clean dotfiles install test update
 
 all:
 	@echo "Select one of the targets clean, dotfiles, install or update."
@@ -18,9 +18,6 @@ install-arkime:
 install-remnux:
 	./bin/setup-remnux.sh
 
-install-sift:
-	./bin/setup-sift.sh
-
 test:
 	shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
 
@@ -33,7 +30,3 @@ update-arkime:
 update-remnux:
 	git pull
 	./bin/update-remnux.sh
-
-update-sift:
-	git pull
-	./bin/update-sift.sh

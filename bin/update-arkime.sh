@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -e ~/.config/.remnux || -e ~/.config/.sift ]]; then
-    echo "You have installed Remnux or Sift!"
+if [[ -e ~/.config/.remnux ]]; then
+    echo "You have installed Remnux!"
     exit 1
 fi
 

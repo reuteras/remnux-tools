@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [[ -e ~/.config/.sift ]]; then
-    echo "You have already installed SIFT! Install Remnux in separate VM."
-    exit 1
-fi
-
 set -e
 export LOG=/tmp/remnux-tools.log
 touch "$LOG"

@@ -369,21 +369,6 @@ function cleanup-remnux() {
     fi
 }
 
-function cleanup-sift() {
-    if [[ -e ~/examples.desktop ]]; then
-        info-message "Clean up folders and files."
-        rm -f ~/examples.desktop
-    fi
-    if [[ -e ~/Desktop/SIFT-Cheatsheet.pdf ]]; then
-        info-message "Clean Desktop."
-        [ ! -d ~/Documents/SIFT ] && mkdir -p ~/Documents/SIFT
-        sudo chown malware:malware ~/Desktop
-        sudo chown malware:malware ~/Desktop/*.pdf
-        mv ~/Desktop/*.pdf ~/Documents/SIFT/ || true
-        [ ! -e ~/Desktop/SIFT ] && ln -s ~/Documents/SIFT ~/Desktop/SIFT
-    fi
-}
-
 function cleanup-arkime() {
     if [[ -e ~/examples.desktop ]]; then
         info-message "Clean up folders and files."
@@ -932,59 +917,6 @@ function install-remnux() {
         sudo systemctl start ssh.service
         touch ~/.config/.remnux
         info-message "Remnux installation finished."
-    fi
-}
-
-# SIFT
-function install-sift() {
-    if [[ ! -e ~/.config/.sift ]]; then
-        info-message "Start installation of SIFT."
-        cd /tmp || true
-        {
-            sudo apt-get autoremove -y
-            if [[ $(uname -m) == "x86_64" ]]; then
-                ARCH="amd64"
-            else
-                ARCH="arm64"
-            fi
-            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' |
-                grep 'browser_' | grep deb | grep -v deb.sig | grep "$ARCH" | cut -d\" -f4 | head -1)"
-            wget "$(curl -s https://api.github.com/repos/ekristen/cast/releases/latest | jq '' |
-                grep 'browser_' | grep deb | grep -v deb.sig | grep "$ARCH" | cut -d\" -f4 | tail -1)"
-        } >> "$LOG" 2>&1
-        # Does not validate gpg at the moment due to problems downloading keys in some networks...
-        sudo dpkg -i cast*.deb
-        sudo systemctl stop ssh.service
-        # shellcheck disable=SC2024
-        sudo /usr/bin/cast install teamdfir/sift-saltstack 2>&1 | tee -a "$LOG"
-        sudo systemctl start ssh.service
-        touch ~/.config/.sift
-        info-message "SITF installation finished."
-    fi
-}
-
-function update-sift() {
-    START_FRESHCLAM=1
-    info-message "Start SITF upgrade."
-    # shellcheck disable=SC2024
-    if sudo service clamav-freshclam status | grep "Active: active" >> "$LOG" 2>&1; then
-        # shellcheck disable=SC2024
-        sudo service clamav-freshclam stop >> "$LOG" 2>&1
-        START_FRESHCLAM=0
-    fi
-    {
-        # shellcheck disable=SC2024
-        sudo /usr/local/bin/sift update || true
-        # shellcheck disable=SC2024
-        sudo /usr/local/bin/sift upgrade
-        # Run upgrade twice since I often seen some fails the first time
-        # shellcheck disable=SC2024
-        sudo /usr/local/bin/sift upgrade
-    } >> "$LOG" 2>&1
-    info-message "SITF upgrade finished."
-    if [[ $START_FRESHCLAM -eq 0 ]]; then
-        # shellcheck disable=SC2024
-        sudo service clamav-freshclam start >> "$LOG" 2>&1
     fi
 }
 

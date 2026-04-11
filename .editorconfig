@@ -31,7 +31,7 @@ indent_style = unset
 indent_size = 1
 trim_trailing_whitespace = unset
 
-[{.arkime_aliases,.bashrc,.remnux_aliases,.sift_aliases,.vimrc}]
+[{.arkime_aliases,.bashrc,.remnux_aliases,.vimrc}]
 indent_style = space
 indent_size = 4
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -e ~/.config/.sift || -e ~/.config/.arkime ]]; then
-    echo "You have installed SIFT or Arkime!"
+if [[ -e ~/.config/.arkime ]]; then
+    echo "You have installed Arkime!"
     exit 1
 fi
 
