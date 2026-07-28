@@ -792,18 +792,6 @@ function update-just-metadata() {
     fi
 }
 
-# https://github.com/keydet89/RegRipper4.0
-function install-regripper() {
-    echo "install-regripper" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/git/RegRipper4.0 ]]; then
-        git clone --quiet https://github.com/keydet89/RegRipper4.0.git \
-            ~/src/git/RegRipper4.0 >> "$LOG" 2>&1
-        info-message "Checked out RegRipper4.0."
-        ln -s ~/remnux-tools/files/regripper ~/src/bin/regripper
-        chmod 755 ~/remnux-tools/files/regripper
-    fi
-}
-
 # https://github.com/nationalsecurityagency/dcp
 function install-dcp() {
     echo "install-dcp" >> "$LOG" 2>&1

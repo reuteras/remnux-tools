@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cd ~/src/git/RegRipper4.0/ && wine rr.exe
