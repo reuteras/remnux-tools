@@ -108,4 +108,3 @@ augroup END
 " set nospell
 
 let g:syntastic_check_on_wq = 0
-

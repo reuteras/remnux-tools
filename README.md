@@ -15,6 +15,7 @@ The following scripts are available for installs:
 This script installs [REMnux](https://remnux.org) and some other tools.
 
 The additions are:
+
 * [Ubuntu](https://www.ubuntu.com/) is updated
 * Some general packages are installed. This includes bsdgames (some useful tools for CTFs), vim, tshark, exfat and more. Also a basic development environment is installed
 * Installs open-vm-tools for VMware
@@ -73,6 +74,6 @@ If you use VMware remember to run the following command to shrink the image:
 There are some extra utilities in the bin directory.
 
 * **api.sh** - configures API keys from config.cfg. Currently has support for
-  - Shodan
+  * Shodan
 * **install-vmhgfs.sh** - Install the vmghfs kernel module.
 * **run-one.sh** - Run one function from common. Use **-l** or **--list** for list of functions.

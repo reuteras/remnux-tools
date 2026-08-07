@@ -1016,7 +1016,7 @@ function install-arkime-common() {
         sudo sed -i -e "s/read -r ARKIME_ELASTICSEARCH_/echo | read -r ARKIME_ELASTICSEARCH_/" /opt/arkime/bin/Configure
         {
             info-message "Run Configure for Arkime"
-            echo $ARKIME_INTERFACE | sudo -E /opt/arkime/bin/Configure
+            echo "$ARKIME_INTERFACE" | sudo -E /opt/arkime/bin/Configure
             info-message "Run Configure for Arkime --wise"
             sudo -E /opt/arkime/bin/Configure --wise
             info-message "Run Configure for Arkime --cont3xt"
