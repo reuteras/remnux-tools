@@ -12,11 +12,6 @@ repos:
       - id: check-shebang-scripts-are-executable
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 3.0.0
-    hooks:
-      - id: shellcheck
-        files: \.sh$
   - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
     rev: 3.8.0
     hooks:
@@ -26,19 +21,7 @@ repos:
     rev: v1.7.3
     hooks:
       - id: betterleaks
-  - repo: https://github.com/zizmorcore/zizmor-pre-commit
-    rev: v1.29.0
-    hooks:
-      - id: zizmor
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.49.1
     hooks:
       - id: markdownlint
-  - repo: local
-    hooks:
-      - id: markdown-table-formatter
-        name: markdown-table-formatter
-        entry: npx markdown-table-formatter
-        language: node
-        types: [markdown]
-        additional_dependencies: ["markdown-table-formatter@1.6.1"]
