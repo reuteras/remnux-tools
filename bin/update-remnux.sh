@@ -48,6 +48,5 @@ update-git-repositories
 
 update-chaosreader
 update-just-metadata
-update-rekall
 update-testssl
 info-message "update-remnux.sh done."

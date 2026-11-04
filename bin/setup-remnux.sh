@@ -44,8 +44,6 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 install-chaosreader
 install-just-metadata
 install-pcodedmp
-# Install of rekall fails at the moment
-#install-rekall
 install-testssl
 
 turn-off-sound

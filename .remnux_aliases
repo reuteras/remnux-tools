@@ -11,12 +11,8 @@ alias docker-mongodb="sudo docker run -d -p 27017:27017 --name mongodb mongo:3.2
 alias jdeserialize="java -jar ~/remnux-tools/lib/jdeserialize-1.2.jar -noclasses"
 alias private="/usr/bin/curl http://icanhazip.com"
 alias zerodisk="dd if=/dev/zero of=zero; sync; rm -f zero"
-# shellcheck disable=SC1004
-alias urlencode='python -c "import sys, urllib as ul; \
-    print ul.quote_plus(sys.argv[1])"'
-# shellcheck disable=SC1004
-alias urldecode='python -c "import sys, urllib as ul; \
-    print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python3 -c "import sys, urllib.parse; print(urllib.parse.quote_plus(sys.argv[1]))"'
+alias urldecode='python3 -c "import sys, urllib.parse; print(urllib.parse.unquote_plus(sys.argv[1]))"'
 alias cases-mount="sudo mount -t vmhgfs .host:/$(vmware-hgfsclient) /cases"
 alias cases-umount="sudo umount /cases"
 alias SSMA=". ~/src/python/SSMA-env/bin/activate"
