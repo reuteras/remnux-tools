@@ -127,7 +127,7 @@ function bin-to-dec(){
     echo "ibase=2; $1" | bc
 }
 
-export PATH=$HOME/bin:$HOME/src/bin:$HOME/src/python/didierstevenssuite:$PATH:/opt/remnux-scripts
+export PATH=$HOME/bin:$HOME/src/bin:$PATH:/opt/remnux-scripts
 export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
