@@ -129,21 +129,6 @@ function install-vmware-tools() {
         open-vm-tools-desktop >> "$LOG" 2>&1
 }
 
-# Install Docker Community edition for the latest functions.
-# Use the default install script since this is for test only.
-function install-docker-ce() {
-    info-message "Installing Docker Community Edition."
-    {
-        sudo apt -y -qq install curl python-pip
-        cd || exit
-        curl -fsSL https://get.docker.com -o get-docker.sh
-        sudo sh get-docker.sh
-        sudo usermod -aG docker malware
-        sudo pip3 install docker-compose
-        rm get-docker.sh
-    } >> "$LOG" 2>&1
-}
-
 function install-apt-remnux() {
     info-message "Installing apt-packages for REMnux."
     # sleuthkit provides hfind(1)
@@ -274,23 +259,6 @@ function create-cases-not-mounted() {
     fi
 }
 
-# Fix problem with pip - https://github.com/pypa/pip/issues/1093
-function fix-python-pip() {
-    if [[ ! -e /usr/local/bin/pip ]]; then
-        {
-            sudo apt remove -yqq --auto-remove python-pip
-            wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-            sudo -H python /tmp/get-pip.py
-            sudo ln -s /usr/local/bin/pip /usr/bin/pip
-            sudo rm /tmp/get-pip.py
-            sudo -H pip install pyopenssl ndg-httpsclient pyasn1
-            # shellcheck disable=SC2102
-            sudo -H pip install --upgrade urllib3[secure]
-        } >> "$LOG" 2>&1
-        info-message "Install pip from pypa.io."
-    fi
-}
-
 # Install Volatility
 # First argument should be target path to check out volatility.
 function install-volatility() {
@@ -332,23 +300,6 @@ function update-volatility() {
                 ujson \
                 yara-python
             python setup.py install
-        } >> "$LOG" 2>&1
-    fi
-}
-
-# This repo contains newer versions of Wireshark etc. Update again after adding
-function install-pi-rho-security() {
-    if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
-        info-message "Enable ppa:pi-rho/security and install updated packages."
-        {
-            sudo add-apt-repository -y ppa:pi-rho/security
-            sudo apt -qq update
-            while ! sudo apt -y dist-upgrade --force-yes; do
-                echo "APT busy. Will retry in 10 seconds."
-                sleep 10
-            done
-            sudo apt -qq -y install html2text nasm
-            sudo apt-get autoremove -qq -y
         } >> "$LOG" 2>&1
     fi
 }
@@ -413,13 +364,6 @@ function install-VirusTotal() {
     fi
 }
 
-function update-VirusTotal() {
-    info-message "Update VirusTotal."
-    rm -f ~/src/bin/vt_public.py
-    rm -f ~/src/bin/vt_public_autorun.py
-    install-VirusTotal
-}
-
 # https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
 function install-vt-py() {
     echo "install-vt-py" >> "$LOG" 2>&1
@@ -429,12 +373,6 @@ function install-vt-py() {
         chmod +x ~/src/bin/vt.py
         info-message "Installed vt.py."
     fi
-}
-
-function update-vt-py() {
-    info-message "Update vt.py."
-    rm -f ~/src/bin/vt.py
-    install-vt-py
 }
 
 # https://testssl.sh/
@@ -482,12 +420,6 @@ function install-floss() {
     fi
 }
 
-function update-floss() {
-    info-message "Update floss."
-    rm -f ~/src/bin/floss
-    install-floss
-}
-
 # https://github.com/Lazza/RecuperaBit
 function install-RecuperaBit() {
     echo "install-RecuperaBit" >> "$LOG" 2>&1
@@ -504,21 +436,6 @@ function install-RecuperaBit() {
         } >> "$LOG" 2>&1
         deactivate || true
         info-message "Checked out RecuperaBit."
-    fi
-}
-
-function update-RecuperaBit() {
-    if [[ -d ~/src/python/RecuperaBit ]]; then
-        workon RecuperaBit || true
-        {
-            git fetch --all
-            git reset --hard origin/master
-            pip install --upgrade pip
-            # shellcheck disable=SC2102
-            pip install --upgrade urllib3[secure]
-        } >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Updated RecuperaBit."
     fi
 }
 
@@ -542,20 +459,6 @@ function install-srum-dump() {
     fi
 }
 
-function update-srum-dump() {
-    if [[ -d ~/src/python/srum-dump ]]; then
-        workon srum-dump || true
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        pip install --upgrade pip
-        # shellcheck disable=SC2102
-        pip install --upgrade urllib3[secure]
-        pip install --upgrade impacket openpyxl python-registry
-        deactivate || true
-        info-message "Updated srum-dump."
-    fi
-}
-
 # http://www.tekdefense.com/automater/
 function install-automater() {
     echo "install-automater" >> "$LOG" 2>&1
@@ -567,16 +470,6 @@ function install-automater() {
         setvirtualenvproject >> "$LOG" 2>&1
         deactivate || true
         info-message "Checked out Automater."
-    fi
-}
-
-function update-automater() {
-    if [[ -d ~/src/python/automater ]]; then
-        workon automater || true
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Updated Automater."
     fi
 }
 
@@ -683,15 +576,6 @@ function install-oletools() {
             pip install oletools
         } >> "$LOG" 2>&1
         info-message "Installed oletools."
-    fi
-}
-
-function update-oletools() {
-    if [[ -d ~/.virtualenvs/oletools ]]; then
-        workon oletools || true
-        pip install --upgrade pip >> "$LOG" 2>&1
-        pip install --upgrade oletools >> "$LOG" 2>&1
-        info-message "Updated oletools."
     fi
 }
 
@@ -1056,7 +940,7 @@ function install-arkime-common() {
     fi
 }
 
-function update-Arkime() {
+function update-arkime() {
     info-message "Start Arkime upgrade."
     info-message "   ## NOTHING TODO ##"
     info-message "Arkime upgrade finished."
