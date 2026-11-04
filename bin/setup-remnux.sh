@@ -45,8 +45,6 @@ install-chaosreader
 install-damm
 install-just-metadata
 install-pcodedmp
-# Install of rekall fails at the moment
-#install-rekall
 install-testssl
 
 turn-off-sound

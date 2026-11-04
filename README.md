@@ -25,7 +25,6 @@ The additions are:
 - The repository `ppa:pi-rho/security` is activated and newer versions of many tools are updated from there
 - Install some scripts. psparser.py, vt.py, testssl.sh and floss
 - Install DAMM
-- Install Rekall
 - Turn off sound
 
 If you run `make dotfiles` my version of `.bashrc`, `.vimrc` are installed. There are a couple of aliases for Docker images from REMnux. They use directories under `~/docker/<tool name>`.
