@@ -8,40 +8,6 @@ ARKIME_VERSION="6.9.1"
 REMNUX_INSTALLER_URL="https://REMnux.org/remnux"
 REMNUX_INSTALLER_SHA256="c1e2dbc7191c4c3382deea2c5ecc40d729c271b7d6b8897caa5cbeb7e3e7d203"
 
-function enable-new-didier() {
-    echo "enable-new-didier" >> "$LOG" 2>&1
-    if [[ -d ~/src/python/didierstevenssuite ]]; then
-        chmod 755 ~/src/python/didierstevenssuite/
-        chmod 755 ~/src/python/didierstevenssuite/base64dump.py
-        chmod 755 ~/src/python/didierstevenssuite/byte-stats.py
-        chmod 755 ~/src/python/didierstevenssuite/cipher-tool.py
-        chmod 755 ~/src/python/didierstevenssuite/count.py
-        chmod 755 ~/src/python/didierstevenssuite/cut-bytes.py
-        chmod 755 ~/src/python/didierstevenssuite/decode*
-        chmod 755 ~/src/python/didierstevenssuite/defuzzer.py
-        chmod 755 ~/src/python/didierstevenssuite/emldump.py
-        chmod 755 ~/src/python/didierstevenssuite/extractscripts.py
-        chmod 755 ~/src/python/didierstevenssuite/file2vbscript.py
-        chmod 755 ~/src/python/didierstevenssuite/find-file-in-file.py
-        chmod 755 ~/src/python/didierstevenssuite/hex-to-bin.py
-        chmod 755 ~/src/python/didierstevenssuite/numbers*
-        chmod 755 ~/src/python/didierstevenssuite/oledump.py
-        chmod 755 ~/src/python/didierstevenssuite/pdf-parser.py
-        chmod 755 ~/src/python/didierstevenssuite/pdfid.py
-        chmod 755 ~/src/python/didierstevenssuite/pecheck.py
-        chmod 755 ~/src/python/didierstevenssuite/plugin_*
-        chmod 755 ~/src/python/didierstevenssuite/python-per-line.py
-        chmod 755 ~/src/python/didierstevenssuite/reextra.py
-        chmod 755 ~/src/python/didierstevenssuite/re-search.py
-        chmod 755 ~/src/python/didierstevenssuite/rtfdump.py
-        chmod 755 ~/src/python/didierstevenssuite/sets.py
-        chmod 755 ~/src/python/didierstevenssuite/shellcode*
-        chmod 755 ~/src/python/didierstevenssuite/split.py
-        chmod 755 ~/src/python/didierstevenssuite/translate.py
-        chmod 755 ~/src/python/didierstevenssuite/zipdump.py
-    fi
-}
-
 function info-message() {
     echo "**** INFO: $*"
 }
@@ -55,16 +21,6 @@ function error-exit-message() {
     exit 1
 }
 
-# Turn off sound on start up
-function turn-off-sound() {
-    if [[ ! -e /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override ]]; then
-        echo "turn-off-sound" >> "$LOG" 2>&1
-        echo -e '[com.canonical.unity-greeter]\nplay-ready-sound = false' |
-            sudo tee -a /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override > /dev/null
-        sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
-    fi
-}
-
 function update-ubuntu() {
     info-message "Updating Ubuntu."
     info-message "Running apt update."
@@ -72,7 +28,7 @@ function update-ubuntu() {
     sudo apt update >> "$LOG" 2>&1
     info-message "Running apt dist-upgrade."
     # shellcheck disable=SC2024
-    while ! sudo DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade --force-yes >> "$LOG" 2>&1; do
+    while ! sudo DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade >> "$LOG" 2>&1; do
         echo "APT busy. Will retry in 10 seconds."
         sleep 10
     done
@@ -305,31 +261,6 @@ function remove-old() {
 
 # Install single file scripts
 
-# https://github.com/sysforensics/VirusTotal
-function install-VirusTotal() {
-    echo "install-VirusTotal" >> "$LOG" 2>&1
-    if [[ ! -e ~/src/bin/vt_public.py && ! -e ~/src/bin/vt_public_autorun.py ]]; then
-        wget -q -O ~/src/bin/vt_public.py \
-            https://raw.githubusercontent.com/sysforensics/VirusTotal/master/vt_public.py >> "$LOG" 2>&1
-        wget -q -O ~/src/bin/vt_public_autorun.py \
-            https://raw.githubusercontent.com/sysforensics/VirusTotal/master/vt_public_autorun.py >> "$LOG" 2>&1
-        chmod +x ~/src/bin/vt_public.py
-        chmod +x ~/src/bin/vt_public_autorun.py
-        info-message "Installed VirusTotal from sysforensics."
-    fi
-}
-
-# https://www.virustotal.com/en/documentation/public-api/#getting-file-scans
-function install-vt-py() {
-    echo "install-vt-py" >> "$LOG" 2>&1
-    if [[ ! -e ~/src/bin/vt.py ]]; then
-        wget -q -O ~/src/bin/vt.py \
-            https://raw.githubusercontent.com/Xen0ph0n/VirusTotal_API_Tool/master/vt.py >> "$LOG" 2>&1
-        chmod +x ~/src/bin/vt.py
-        info-message "Installed vt.py."
-    fi
-}
-
 # https://testssl.sh/
 function install-testssl() {
     echo "install-testssl" >> "$LOG" 2>&1
@@ -362,113 +293,6 @@ function update-chaosreader() {
     info-message "Update chaosreader."
     rm -f ~/src/bin/chaosreader
     install-chaosreader
-}
-
-# Fireeye floss
-function install-floss() {
-    echo "install-floss" >> "$LOG" 2>&1
-    if [[ ! -e ~/src/bin/floss ]]; then
-        wget -q -O ~/src/bin/floss \
-            https://s3.amazonaws.com/build-artifacts.floss.flare.fireeye.com/travis/linux/dist/floss >> "$LOG" 2>&1
-        chmod +x ~/src/bin/floss
-        info-message "Installed floss."
-    fi
-}
-
-# https://github.com/Lazza/RecuperaBit
-function install-RecuperaBit() {
-    echo "install-RecuperaBit" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/RecuperaBit ]]; then
-        git clone --quiet https://github.com/Lazza/RecuperaBit.git \
-            ~/src/python/RecuperaBit >> "$LOG" 2>&1
-        cd ~/src/python/RecuperaBit || error-exit-message "Couldn't cd into install-RecuperaBit."
-        mkvirtualenv RecuperaBit >> "$LOG" 2>&1 || true
-        {
-            setvirtualenvproject
-            pip install --upgrade pip
-            # shellcheck disable=SC2102
-            pip install --upgrade urllib3[secure]
-        } >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Checked out RecuperaBit."
-    fi
-}
-
-# https://github.com/MarkBaggett/srum-dump
-function install-srum-dump() {
-    echo "install-srum-dump" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/srum-dump ]]; then
-        git clone --quiet https://github.com/MarkBaggett/srum-dump.git \
-            ~/src/python/srum-dump >> "$LOG" 2>&1
-        cd ~/src/python/srum-dump || error-exit-message "Couldn't cd into install-srum-dump."
-        mkvirtualenv srum-dump >> "$LOG" 2>&1 || true
-        {
-            setvirtualenvproject
-            pip install --upgrade pip
-            # shellcheck disable=SC2102
-            pip install --upgrade urllib3[secure]
-            pip install impacket openpyxl python-registry
-        } >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Checked out srum-dump."
-    fi
-}
-
-# http://www.tekdefense.com/automater/
-function install-automater() {
-    echo "install-automater" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/automater ]]; then
-        git clone --quiet https://github.com/1aN0rmus/TekDefense-Automater.git \
-            ~/src/python/automater >> "$LOG" 2>&1
-        cd ~/src/python/automater || error-exit-message "Couldn't cd into install-automater."
-        mkvirtualenv automater >> "$LOG" 2>&1 || true
-        setvirtualenvproject >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Checked out Automater."
-    fi
-}
-
-# https://github.com/DidierStevens/DidierStevensSuite
-function install-didierstevenssuite() {
-    echo "install-didierstevenssuite" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/python/didierstevenssuite ]]; then
-        {
-            git clone --quiet https://github.com/DidierStevens/DidierStevensSuite.git \
-                ~/src/python/didierstevenssuite
-            mkvirtualenv didierstevenssuite || true
-            setvirtualenvproject
-        } >> "$LOG" 2>&1
-        enable-new-didier
-        deactivate || true
-        info-message "Checked out DidierStevensSuite."
-    fi
-}
-
-function update-didierstevenssuite() {
-    if [[ -d ~/src/python/didierstevenssuite ]]; then
-        workon didierstevenssuite || true
-        cd ~/src/python/didierstevenssuite || error-exit-message "Couldn't cd into update-didierstevenssuite."
-        git fetch --all >> "$LOG" 2>&1
-        git reset --hard origin/master >> "$LOG" 2>&1
-        enable-new-didier
-        deactivate || true
-        info-message "Updated DidierStevensSuite."
-    fi
-}
-
-# https://github.com/decalage2/oletools.git
-function install-oletools() {
-    echo "install-oletools" >> "$LOG" 2>&1
-    # shellcheck disable=SC2102
-    if [[ ! -d ~/.virtualenvs/oletools ]]; then
-        {
-            mkvirtualenv oletools || true
-            pip install --upgrade pip
-            pip install --upgrade urllib3[secure]
-            pip install oletools
-        } >> "$LOG" 2>&1
-        info-message "Installed oletools."
-    fi
 }
 
 # https://github.com/bontchev/pcodedmp
@@ -529,55 +353,6 @@ function update-just-metadata() {
     fi
 }
 
-# https://github.com/nationalsecurityagency/dcp
-function install-dcp() {
-    echo "install-dcp" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/git/dcp ]]; then
-        git clone --quiet https://github.com/NationalSecurityAgency/DCP.git \
-            ~/src/git/dcp >> "$LOG" 2>&1
-        # shellcheck disable=SC2024
-        sudo apt install -yqq gengetopt autoconf libtool libjansson-dev \
-            libdb-dev >> "$LOG" 2>&1
-        cd ~/src/git/dcp || echo "Couldn't cd to dcp."
-        {
-            ./bootstrap.sh
-            ./configure
-            make
-            sudo make install
-            make clean
-        } >> "$LOG" 2>&1
-        info-message "Installed DCP."
-    fi
-}
-
-function update-dcp() {
-    echo "update-dcp" >> "$LOG" 2>&1
-    if [[ -d ~/src/git/dcp ]]; then
-        cd ~/src/git/dcp || echo "Couldn't cd to dcp."
-        {
-            make clean
-            git fetch --all
-            git reset --hard origin/master
-            git pull
-            ./bootstrap.sh
-            ./configure
-            make
-            sudo make install
-            make clean
-        } >> "$LOG" 2>&1
-        info-message "Updated DCP."
-    fi
-}
-
-# Checkout git repo to directory
-function checkout-git-repo() {
-    echo "Checkout $2 to $1" >> "$LOG" 2>&1
-    if [[ ! -d ~/src/git/"$2" ]]; then
-        git clone --quiet "$1" ~/src/git/"$2" >> "$LOG" 2>&1
-        info-message "Checkout git repo $1"
-    fi
-}
-
 # Update git repositories
 function update-git-repositories() {
     cd ~/src/git || exit 1
@@ -592,38 +367,6 @@ function update-git-repositories() {
         )
     done
     info-message "Updated git repositories."
-}
-
-# https://github.com/radare/radare2
-function install-radare2() {
-    echo "install-radare2" >> "$LOG" 2>&1
-    # shellcheck disable=SC2024
-    if [[ ! -d ~/src/git/radare2 ]]; then
-        info-message "Starting installation of radare2."
-        sudo apt remove -y radare2 >> "$LOG" 2>&1
-        sudo apt-get autoremove -y >> "$LOG" 2>&1
-        checkout-git-repo https://github.com/radare/radare2.git radare2
-        cd ~/src/git/radare2 || error-exit-message "Couldn't cd into install-radare2."
-        make clean >> "$LOG" 2>&1 || true
-        ./sys/install.sh >> "$LOG" 2>&1 || error-message "./sys/install.sh failed!"
-        info-message "Installed radare2."
-    fi
-}
-
-function update-radare2() {
-    echo "update-radare2" >> "$LOG" 2>&1
-    # shellcheck disable=SC2024
-    if [[ -d ~/src/git/radare2 ]]; then
-        sudo apt remove -y radare2 >> "$LOG" 2>&1
-        sudo apt-get autoremove -y >> "$LOG" 2>&1
-        cd ~/src/git/radare2 || error-exit-message "Couldn't cd into update-radare2."
-        {
-            git fetch --all
-            git reset --hard origin/master
-            ./sys/install.sh
-        } >> "$LOG" 2>&1
-        info-message "Updated radare2."
-    fi
 }
 
 # Main install and update functions
@@ -794,6 +537,7 @@ function install-arkime-common() {
         sudo systemctl restart arkimewise.service >> "$LOG" 2>&1
         sudo cp "${HOME}/remnux-tools/files/valueactions-nfa.ini" "/opt/arkime/etc/valueactions-nfa.ini"
         sudo cp "${HOME}/remnux-tools/files/valueactions-otx.ini" "/opt/arkime/etc/valueactions-otx.ini"
+        sudo cp "${HOME}/remnux-tools/files/valueactions-spur.ini" "/opt/arkime/etc/valueactions-spur.ini"
         sudo cp "${HOME}/remnux-tools/files/valueactions-virustotal.ini" "/opt/arkime/etc/valueactions-virustotal.ini"
 
         info-message "Enable and start arkimeviewer."
