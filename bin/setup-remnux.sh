@@ -42,7 +42,6 @@ export PROJECT_HOME="$HOME"/src/python
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 install-chaosreader
-install-damm
 install-just-metadata
 install-pcodedmp
 install-testssl
