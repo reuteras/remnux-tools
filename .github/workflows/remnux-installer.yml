@@ -1,0 +1,116 @@
+---
+# Track https://REMnux.org/remnux (the REMnux installer). When its SHA256
+# changes, open an issue and a PR that updates files/remnux-installer (so the
+# PR diff shows exactly what changed upstream) and REMNUX_INSTALLER_SHA256 in
+# bin/common.sh. Nothing is merged automatically - review the diff, including
+# the pinned Cast version and checksums, before merging.
+
+name: Track REMnux installer
+
+on:
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: remnux-installer
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check for new REMnux installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          INSTALLER_URL: https://REMnux.org/remnux
+          INSTALLER_FILE: files/remnux-installer
+          COMMON_SH: bin/common.sh
+        run: |
+          set -euo pipefail
+
+          new_file="$RUNNER_TEMP/remnux"
+          curl --fail --silent --show-error --location --retry 3 \
+              --output "$new_file" "$INSTALLER_URL"
+
+          # Guard against error pages being served with HTTP 200.
+          if [[ "$(head -n 1 "$new_file")" != "#!/usr/bin/env bash" ]]; then
+              echo "::error::Downloaded file does not look like the REMnux installer."
+              head -c 300 "$new_file"
+              exit 1
+          fi
+
+          new_sha=$(sha256sum "$new_file" | cut -d ' ' -f 1)
+          old_sha=$(sed -n 's/^REMNUX_INSTALLER_SHA256="\([0-9a-f]\{64\}\)"$/\1/p' "$COMMON_SH")
+          if [[ -z "$old_sha" ]]; then
+              echo "::error::Could not find REMNUX_INSTALLER_SHA256 in $COMMON_SH."
+              exit 1
+          fi
+
+          if [[ "$new_sha" == "$old_sha" ]]; then
+              echo "REMnux installer unchanged ($old_sha)."
+              exit 0
+          fi
+
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          branch="remnux-installer/${new_sha:0:12}"
+          if git ls-remote --exit-code --heads "$remote" "$branch" > /dev/null; then
+              echo "Update to $new_sha already proposed on branch $branch."
+              exit 0
+          fi
+
+          cast_version() {
+              sed -n 's/^CAST_VERSION="\(.*\)"$/\1/p' "$1"
+          }
+          old_cast=$(cast_version "$INSTALLER_FILE")
+          new_cast=$(cast_version "$new_file")
+
+          cp "$new_file" "$INSTALLER_FILE"
+          chmod 755 "$INSTALLER_FILE"
+          sed -i "s/^REMNUX_INSTALLER_SHA256=\"$old_sha\"$/REMNUX_INSTALLER_SHA256=\"$new_sha\"/" "$COMMON_SH"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add "$INSTALLER_FILE" "$COMMON_SH"
+          git commit -m "Update REMnux installer to ${new_sha:0:12}"
+          git push "$remote" "$branch"
+
+          diff_stat=$(git diff --stat HEAD~1 -- "$INSTALLER_FILE")
+          summary=$(printf '%s\n' \
+              "The REMnux installer at $INSTALLER_URL has changed." \
+              "" \
+              "| | Old | New |" \
+              "|---|---|---|" \
+              "| SHA256 | \`$old_sha\` | \`$new_sha\` |" \
+              "| Cast version | \`${old_cast:-unknown}\` | \`${new_cast:-unknown}\` |" \
+              "" \
+              '```' \
+              "$diff_stat" \
+              '```')
+
+          issue_url=$(gh issue create \
+              --title "REMnux installer changed (${new_sha:0:12})" \
+              --body "$(printf '%s\n\n%s\n' "$summary" \
+                  "Until the PR is merged, \`install-remnux\` fails the checksum check.")")
+          issue_number="${issue_url##*/}"
+
+          gh pr create \
+              --base "$DEFAULT_BRANCH" \
+              --head "$branch" \
+              --title "Update REMnux installer to ${new_sha:0:12}" \
+              --body "$(printf '%s\n\n%s\n\n%s\n' "$summary" \
+                  "Review the full diff of \`$INSTALLER_FILE\` (download URLs, Cast version and checksums) before merging." \
+                  "Closes #$issue_number")"

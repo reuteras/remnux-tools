@@ -4,12 +4,12 @@
 name: Linter
 
 # Controls when the action will run. Triggers the workflow on push or pull
-# request events but only for the master branch
+# request events but only for the main branch
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 permissions:
   contents: read
@@ -42,3 +42,5 @@ jobs:
           VALIDATE_GITLEAKS: false
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_YAML_PRETTIER: false
+          # Upstream REMnux installer, kept byte-identical for checksum tracking
+          FILTER_REGEX_EXCLUDE: files/remnux-installer

@@ -1,4 +1,6 @@
 ---
+# Upstream REMnux installer, kept byte-identical for checksum tracking
+exclude: ^files/remnux-installer$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0

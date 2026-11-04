@@ -2,6 +2,12 @@
 
 ARKIME_VERSION="6.9.1"
 
+# REMnux installer (https://docs.remnux.org/install-distro/install-from-scratch).
+# Tracked by .github/workflows/remnux-installer.yml - review the diff of
+# files/remnux-installer in the generated PR before merging.
+REMNUX_INSTALLER_URL="https://REMnux.org/remnux"
+REMNUX_INSTALLER_SHA256="c1e2dbc7191c4c3382deea2c5ecc40d729c271b7d6b8897caa5cbeb7e3e7d203"
+
 function enable-new-didier() {
     echo "enable-new-didier" >> "$LOG" 2>&1
     if [[ -d ~/src/python/didierstevenssuite ]]; then
@@ -78,7 +84,6 @@ function install-general-tools() {
     # shellcheck disable=SC2024
     sudo DEBIAN_FRONTEND=noninteractive apt -y -qq install \
         ascii \
-        bless \
         bsdgames \
         build-essential \
         curl \
@@ -89,7 +94,7 @@ function install-general-tools() {
         jq \
         libffi-dev \
         libimage-exiftool-perl \
-        libncurses5-dev \
+        libncurses-dev \
         libssl-dev \
         p7zip \
         python3-dev \
@@ -173,10 +178,10 @@ function install-apt-arkime() {
 # Install Google Chrome
 function install-google-chrome() {
     if [[ "$(uname -m)" == "aarch64" ]]; then
-        if ! dpkg --status chromium > /dev/null 2>&1; then
+        if ! dpkg --status chromium-browser > /dev/null 2>&1; then
             info-message "Installing chromium."
             # shellcheck disable=SC2024
-            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install chromium >> "$LOG" 2>&1
+            DEBIAN_FRONTEND=noninteractive sudo apt -y -qq install chromium-browser >> "$LOG" 2>&1
         fi
     else
         if ! dpkg --status google-chrome-stable > /dev/null 2>&1; then
@@ -481,27 +486,6 @@ function update-floss() {
     info-message "Update floss."
     rm -f ~/src/bin/floss
     install-floss
-}
-
-# Brim
-function install-brim() {
-    info-message "Start installation of Brim."
-    cd /tmp || true
-    wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' |
-        grep 'browser_' | grep -E "/Brim-.*\.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
-    sudo dpkg -i Brim*.deb
-    rm -f Brim*.deb
-    info-message "Installed Brim."
-}
-
-function update-brim() {
-    info-message "Start update of Brim."
-    cd /tmp || true
-    wget "$(curl -s https://api.github.com/repos/brimdata/brim/releases/latest | jq '' |
-        grep 'browser_' | grep -E "/Brim-.*\.deb" | cut -d\" -f4 | head -1)" >> "$LOG" 2>&1
-    sudo dpkg -i Brim*.deb
-    rm -f Brim*.deb
-    info-message "Brim updated."
 }
 
 # https://github.com/Lazza/RecuperaBit
@@ -894,14 +878,20 @@ function update-radare2() {
 function install-remnux() {
     if [[ ! -e ~/.config/.remnux ]]; then
         info-message "Start installation of Remnux."
-        rm -f remnux-cli
-        wget --quiet https://REMnux.org/remnux-cli
-        mv remnux-cli remnux
-        chmod +x remnux
-        sudo mv remnux /usr/local/bin
+        local tmp_dir
+        tmp_dir=$(mktemp -d)
+        wget --quiet -O "$tmp_dir/remnux" "$REMNUX_INSTALLER_URL" ||
+            error-exit-message "Couldn't download $REMNUX_INSTALLER_URL."
+        if ! echo "$REMNUX_INSTALLER_SHA256  $tmp_dir/remnux" | sha256sum --check --status; then
+            rm -rf "$tmp_dir"
+            error-exit-message "SHA256 mismatch for REMnux installer. Review and update REMNUX_INSTALLER_SHA256."
+        fi
+        chmod +x "$tmp_dir/remnux"
+        sudo mv "$tmp_dir/remnux" /usr/local/bin/remnux
+        rm -rf "$tmp_dir"
         sudo apt install -y gnupg
         sudo systemctl stop ssh.service
-        sudo /usr/local/bin/remnux install
+        sudo /usr/local/bin/remnux install --user="$USER"
         sudo systemctl start ssh.service
         touch ~/.config/.remnux
         info-message "Remnux installation finished."
@@ -953,6 +943,7 @@ function install-arkime-common() {
         fi
 
         if [[ "${OS}" == "Debian" ]]; then
+            # shellcheck source=/dev/null
             source /etc/os-release
             URL="https://github.com/arkime/arkime/releases/download/v${ARKIME_VERSION}/arkime_${ARKIME_VERSION}-1.debian${VERSION_ID}_${ARCH}.deb"
             DEB="arkime_${ARKIME_VERSION}-1.debian${VERSION_ID}_${ARCH}.deb"

@@ -41,7 +41,6 @@ export PROJECT_HOME="$HOME"/src/python
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-install-brim
 install-chaosreader
 install-damm
 install-just-metadata

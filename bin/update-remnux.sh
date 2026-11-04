@@ -33,8 +33,8 @@ info-message "Remove old versions of Chrome."
 info-message "Update clamav database."
 sudo /usr/bin/freshclam || true
 
-info-message "Run upgrade and update for REMnux."
-sudo remnux upgrade && sudo remnux update
+info-message "Run upgrade for REMnux."
+sudo remnux upgrade --user="$USER"
 
 update-ubuntu
 
@@ -46,7 +46,6 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 # Update git repositories
 update-git-repositories
 
-update-brim
 update-chaosreader
 update-damm
 update-just-metadata
