@@ -22,7 +22,6 @@ if [[ $1 == "-h" || $1 == "--help" || $1 == "-l" || $1 == "--list" ]]; then
         grep -v install-apt-remnux |
         grep -v install-general-tools |
         grep -v install-google-chrome |
-        grep -v install-pi-rho-security |
         grep -v install-remnux |
         grep -v install-vmware-tools |
         grep -v turn-off-sound |
