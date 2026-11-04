@@ -579,29 +579,6 @@ function install-oletools() {
     fi
 }
 
-# Rekall
-function install-rekall() {
-    echo "install-rekall" >> "$LOG" 2>&1
-    if [[ ! -d ~/.virtualenvs/rekall ]]; then
-        {
-            mkvirtualenv rekall || true
-            pip install --upgrade pip setuptools wheel
-            pip install rekall-agent rekall
-        } >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Installed rekall."
-    fi
-}
-
-function update-rekall() {
-    if [[ -d ~/.virtualenvs/rekall ]]; then
-        info-message "Remove current rekall."
-        rm -rf ~/.virtualenvs/rekall
-        install-rekall >> "$LOG" 2>&1
-        info-message "Reinstalled rekall."
-    fi
-}
-
 # https://github.com/bontchev/pcodedmp
 function install-pcodedmp() {
     echo "install-pcodedmp" >> "$LOG" 2>&1
