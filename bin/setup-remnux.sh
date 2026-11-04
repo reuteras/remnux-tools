@@ -46,8 +46,6 @@ install-just-metadata
 install-pcodedmp
 install-testssl
 
-turn-off-sound
-
 # Install APT packages for REMnux
 install-apt-remnux
 

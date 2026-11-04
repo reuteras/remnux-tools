@@ -22,9 +22,7 @@ The additions are:
 - Create a basic directory structure
 - Run the REMnux install script
 - Install Google Chrome
-- The repository `ppa:pi-rho/security` is activated and newer versions of many tools are updated from there
-- Install some scripts. psparser.py, vt.py, testssl.sh and floss
-- Turn off sound
+- Install chaosreader, Just-Metadata, pcodedmp and testssl.sh
 
 If you run `make dotfiles` my version of `.bashrc`, `.vimrc` are installed. There are a couple of aliases for Docker images from REMnux. They use directories under `~/docker/<tool name>`.
 
