@@ -47,7 +47,6 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 update-git-repositories
 
 update-chaosreader
-update-damm
 update-just-metadata
 update-rekall
 update-testssl

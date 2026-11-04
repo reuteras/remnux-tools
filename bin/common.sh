@@ -259,51 +259,6 @@ function create-cases-not-mounted() {
     fi
 }
 
-# Install Volatility
-# First argument should be target path to check out volatility.
-function install-volatility() {
-    VOLATILITY_PATH=$1
-    if [[ $# -eq 0 ]]; then
-        echo "One argument expected for install-volatility()"
-        exit 1
-    fi
-    if [ -d "$VOLATILITY_PATH" ]; then
-        echo "$VOLATILITY_PATH already exists!"
-        exit 1
-    fi
-    info-message "Install volatility to $VOLATILITY_PATH."
-    git clone --quiet https://github.com/volatilityfoundation/volatility "$VOLATILITY_PATH"
-    cd "$VOLATILITY_PATH" || error-exit-message "Could not cd $VOLATILITY_PATH in install-volatility."
-    pip install \
-        Pillow \
-        distorm3 \
-        openpyxl \
-        pycrypto \
-        ujson \
-        yara-python
-    python setup.py install
-}
-
-function update-volatility() {
-    VOLATILITY_PATH=$1
-    if [[ -d "$VOLATILITY_PATH" ]]; then
-        cd "$VOLATILITY_PATH" || error-exit-message "Couldn't cd $VOLATILITY_PATH in update-volatility."
-        info-message "Update volatility in $VOLATILITY_PATH."
-        {
-            git fetch --all
-            git reset --hard origin/master
-            pip install --upgrade \
-                Pillow \
-                distorm3 \
-                openpyxl \
-                pycrypto \
-                ujson \
-                yara-python
-            python setup.py install
-        } >> "$LOG" 2>&1
-    fi
-}
-
 # Cleanup functions
 function cleanup-remnux() {
     if [[ -e ~/examples.desktop ]]; then
@@ -470,69 +425,6 @@ function install-automater() {
         setvirtualenvproject >> "$LOG" 2>&1
         deactivate || true
         info-message "Checked out Automater."
-    fi
-}
-
-# https://n0where.net/malware-analysis-damm/
-# Also install a separate version of the latest volatility in this env.
-function install-damm() {
-    echo "install-damm" >> "$LOG" 2>&1
-    # shellcheck disable=SC2102
-    if [[ ! -d ~/src/python/damm ]]; then
-        mkdir -p ~/src/python/damm
-        git clone --quiet https://github.com/504ensicsLabs/DAMM \
-            ~/src/python/damm/damm >> "$LOG" 2>&1
-        cd ~/src/python/damm/damm || error-exit-message "Couldn't cd into install-damm."
-        {
-            mkvirtualenv damm || true
-            setvirtualenvproject
-            pip install --upgrade pip
-            pip install --upgrade urllib3[secure]
-            install-volatility ~/src/python/damm/volatility]
-        } >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Checked out DAMM."
-    fi
-}
-
-function update-damm() {
-    if [[ -d ~/src/python/damm ]]; then
-        workon damm || true
-        {
-            git fetch --all
-            git reset --hard origin/master
-            pip install --upgrade pip
-        } >> "$LOG" 2>&1
-        update-volatility ~/src/python/damm/volatility
-        deactivate || true
-        info-message "Updated DAMM."
-    fi
-}
-
-# Keep a separate environment for volatility (to be able to upgrade separately)
-function install-volatility-env() {
-    echo "install-volatility-env" >> "$LOG" 2>&1
-    # shellcheck disable=SC2102
-    if [[ ! -d ~/src/python/volatility ]]; then
-        mkdir -p ~/src/python/volatility
-        {
-            mkvirtualenv volatility || true
-            pip install --upgrade pip
-            pip install --upgrade urllib3[secure]
-            install-volatility ~/src/python/volatility/volatility
-        } >> "$LOG" 2>&1
-        deactivate || true
-        info-message "Checked out Volatility."
-    fi
-}
-
-function update-volatility-env() {
-    if [[ -d ~/src/python/volatility ]]; then
-        workon volatility || true
-        cd ~/src/python/volatility || error-exit-message "Couldn't cd into update-volatility-env."
-        update-volatility ~/src/python/volatility/volatility
-        deactivate || true
-        info-message "Updated Volatility."
     fi
 }
 
