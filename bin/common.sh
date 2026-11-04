@@ -336,7 +336,7 @@ function update-volatility() {
     fi
 }
 
-# This repo contians newer versions of Wireshark etc. Update again after adding
+# This repo contains newer versions of Wireshark etc. Update again after adding
 function install-pi-rho-security() {
     if [[ ! -e /etc/apt/sources.list.d/pi-rho-security-trusty.list ]]; then
         info-message "Enable ppa:pi-rho/security and install updated packages."
@@ -581,7 +581,7 @@ function update-automater() {
 }
 
 # https://n0where.net/malware-analysis-damm/
-# Also install a seperate version of the latest volatility in this env.
+# Also install a separate version of the latest volatility in this env.
 function install-damm() {
     echo "install-damm" >> "$LOG" 2>&1
     # shellcheck disable=SC2102
@@ -616,7 +616,7 @@ function update-damm() {
     fi
 }
 
-# Keep a seperate environment for volatility (to be able to upgrade separatly)
+# Keep a separate environment for volatility (to be able to upgrade separately)
 function install-volatility-env() {
     echo "install-volatility-env" >> "$LOG" 2>&1
     # shellcheck disable=SC2102

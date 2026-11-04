@@ -14,7 +14,7 @@ sudo touch "$LOG"
 if [[ -e ~/remnux-tools/bin/common.sh ]]; then
     . ~/remnux-tools/bin/common.sh
 else
-    echo "Cant find common.sh."
+    echo "Can't find common.sh."
     exit 1
 fi
 
