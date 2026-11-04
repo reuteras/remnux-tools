@@ -19,7 +19,7 @@ set smartcase                   " ignore case if search pattern is all lowercase
 
 set wildignore=*.o,*.obj,*.bak,*.exe
 
-set updatecount=0               " number of characters before writting to swap
+set updatecount=0               " number of characters before writing to swap
 set nobackup                    " do not keep backup files, it's 70's style cluttering
 set noswapfile                  " do not write annoying intermediate swap files,
                                 "    who did ever restore from swap files

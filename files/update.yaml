@@ -1,5 +1,5 @@
 ---
 # Configuration with disable filters.
-# # - Overrided by --disable-conf
+# # - Overridden by --disable-conf
 # # - Default: /etc/suricata/disable.conf
 disable-conf: /etc/suricata/disable.conf

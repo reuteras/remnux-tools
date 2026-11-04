@@ -14,6 +14,6 @@ sudo suricata-update update-sources > /dev/null 2>&1
 sudo sudo suricata-update > /dev/null 2>&1
 sudo systemctl start suricata.service
 sleep 1 && sudo systemctl restart suricata.service
-echo "Run 'sudo systemctl start arkimecapture.service' to start caputure service."
+echo "Run 'sudo systemctl start arkimecapture.service' to start capture service."
 sudo systemctl start arkimeviewer.service
 #/opt/google/chrome/chrome http://127.0.0.1:8005 > /dev/null 2>&1 &
