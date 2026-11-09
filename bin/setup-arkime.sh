@@ -43,8 +43,6 @@ create-cases-not-mounted
 
 install-google-chrome
 
-turn-off-sound
-
 # Install aliases for arkime. This way we can update them without
 # affecting .bash_aliases.
 cp ~/remnux-tools/.arkime_aliases ~/.remnux-tools_aliases
