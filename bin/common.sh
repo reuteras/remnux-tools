@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARKIME_VERSION="6.9.1"
+ARKIME_VERSION="6.9.2"
 
 # REMnux installer (https://docs.remnux.org/install-distro/install-from-scratch).
 # Tracked by .github/workflows/remnux-installer.yml - review the diff of
