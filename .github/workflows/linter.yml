@@ -13,13 +13,15 @@ on:
 
 permissions:
   contents: read
-  statuses: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or
 # in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
+    permissions:
+      contents: read
+      statuses: write
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -47,3 +49,23 @@ jobs:
           VALIDATE_YAML_PRETTIER: false
           # Upstream REMnux installer, kept byte-identical for checksum tracking
           FILTER_REGEX_EXCLUDE: files/remnux-installer
+
+  # The required check (ruleset required-checks) that Dependabot auto-merge
+  # waits for; see dev-docs docs/github.md.
+  checks-passed:
+    name: Checks passed
+    if: always()
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Check job results
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              echo "A job ended with: $result"
+              exit 1
+            fi
+          done
