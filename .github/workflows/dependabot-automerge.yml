@@ -1,0 +1,35 @@
+---
+# Template from dev-docs: copy to .github/workflows/dependabot-automerge.yml.
+# Turns on auto-merge for Dependabot PRs that update GitHub Actions,
+# pre-commit hooks or the uv dev group (package-dev-deps). GitHub merges once
+# the required checks pass. Before adding it, the repo needs the required
+# check "Checks passed" and allow_auto_merge / delete_branch_on_merge; see
+# docs/github.md.
+name: Dependabot auto-merge
+
+"on":
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  automerge:
+    name: Enable auto-merge
+    runs-on: ubuntu-latest
+    # Branch names are dependabot/<ecosystem>/<group>-<hash>; the groups come
+    # from templates/github/dependabot.yml.
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' && (
+      startsWith(github.head_ref, 'dependabot/github_actions/') ||
+      startsWith(github.head_ref, 'dependabot/pre_commit/') ||
+      startsWith(github.head_ref, 'dependabot/uv/package-dev-deps-'))
+    permissions:
+      contents: write # the merge itself
+      pull-requests: write # enabling auto-merge on the PR
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "$PR_URL"
